@@ -46,4 +46,4 @@ Then you can now visit [http://localhost:8080/](http://localhost:8080/) in your 
 ### Code style
 
 We are using the [Google Java Style](https://google.github.io/styleguide/javaguide.html) enforced by the Maven
-(checkstyle)[https://maven.apache.org/plugins/maven-checkstyle-plugin/] plugin
+[checkstyle](https://maven.apache.org/plugins/maven-checkstyle-plugin/) plugin
