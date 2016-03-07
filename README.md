@@ -9,8 +9,7 @@ This application is written using the [Dropwizard](http://www.dropwizard.io/) Ja
 
 ### Prerequisites
 
-In order to run the tool locally you'll need the following installed on your machine, alternatively you can provision a virtual machine
-using Vagrant [here](#vagrant).
+In order to run the tool locally you'll need the following installed on your machine:
 
 - [Java](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Git](https://git-scm.com/downloads)
@@ -20,9 +19,9 @@ using Vagrant [here](#vagrant).
 Run the following from the command line to download the repository and change into the directory:
 
 ```
-git clone git@github.com:companieshouse/extractives-service.git
+git clone git@github.com:AaronWitter/formsapiservice.git
 
-cd extractives-service
+cd formsapiservice
 ```
 
 
