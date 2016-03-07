@@ -41,5 +41,3 @@ java -jar target/formsapiservice-1.0-SNAPSHOT.jar server configuration.yml
 
 ```
 Then you can now visit [http://localhost:8080/](http://localhost:8080/) in your browser
-
-```
