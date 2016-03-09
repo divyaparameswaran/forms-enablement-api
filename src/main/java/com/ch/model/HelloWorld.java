@@ -16,7 +16,8 @@ public class HelloWorld {
   @JsonProperty
   private String greeting;
 
-  public HelloWorld(){
+  public HelloWorld() {
+    // Deliberately empty constructor. (Not having a comment here is a PMD violation.)
   }
 
   public String getGreeting() {

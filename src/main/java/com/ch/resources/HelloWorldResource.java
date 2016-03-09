@@ -3,6 +3,7 @@ package com.ch.resources;
 import com.ch.model.HelloWorld;
 
 import javax.ws.rs.Consumes;
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 public class HelloWorldResource {
 
   @GET
+  @PermitAll
   public String getMessage() {
     return "Give me JSON, and I'll spit out XML.";
   }
