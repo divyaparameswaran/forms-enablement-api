@@ -8,20 +8,18 @@
   <packaging>jar</packaging>
 
   <name>formsapiservice</name>
-  <url>http://maven.apache.org</url>
-
+  <url>https://www.gov.uk/government/organisations/companies-house</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <dropwizard.version>0.9.1</dropwizard.version>
+    <jersey.version>2.22.2</jersey.version>
     <junit.version>4.12</junit.version>
     <mainClass>com.ch.application.FormsServiceApplication</mainClass>
   </properties>
 
   <dependencies>
-
-    <!-- Test -->
 
     <dependency>
       <groupId>junit</groupId>
@@ -30,16 +28,41 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Test -->
-
     <dependency>
       <groupId>io.dropwizard</groupId>
       <artifactId>dropwizard-core</artifactId>
       <version>${dropwizard.version}</version>
     </dependency>
 
-  </dependencies>
+    <dependency>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-auth</artifactId>
+      <version>${dropwizard.version}</version>
+    </dependency>
 
+    <dependency>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-testing</artifactId>
+      <version>${dropwizard.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+      <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+      <version>${jersey.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+  </dependencies>
 
   <build>
     <plugins>
@@ -117,7 +140,7 @@
         <version>2.18.1</version>
         <configuration>
           <includes>
-            <include>**/*TestSuite.java</include>
+            <include>**/*Test.java</include>
           </includes>
         </configuration>
       </plugin>
@@ -149,7 +172,6 @@
           </execution>
         </executions>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
@@ -175,4 +197,3 @@
     </plugins>
   </build>
 </project>
-
