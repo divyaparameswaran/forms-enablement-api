@@ -1,4 +1,4 @@
-package com.ch.auth;
+package com.ch.model;
 
 import io.dropwizard.auth.PrincipalImpl;
 

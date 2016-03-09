@@ -1,10 +1,10 @@
 package com.ch.application;
 
 import com.ch.auth.FormsApiAuthenticator;
-import com.ch.auth.FormsApiUser;
 import com.ch.configuration.FormsServiceConfiguration;
-import com.ch.health.TemplateHealthCheck;
-import com.ch.resources.HelloWorldResource;
+import com.ch.model.FormsApiUser;
+import com.ch.resources.FormSubmissionResource;
+import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
@@ -30,25 +30,23 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
   @Override
   public void initialize(Bootstrap<FormsServiceConfiguration> bootstrap) {
-    // nothing to do yet
+    bootstrap.addBundle(new TemplateConfigBundle());
   }
 
   @Override
   public void run(FormsServiceConfiguration configuration, Environment environment) {
-    // Basic HTTP authentication. Note that we don't have an authoriser here, just an authenticator.
     BasicCredentialAuthFilter authFilter = new BasicCredentialAuthFilter.Builder<FormsApiUser>()
-            .setAuthenticator(new FormsApiAuthenticator())
-            .setRealm(getName())
-            .buildAuthFilter();
+        .setAuthenticator(new FormsApiAuthenticator(configuration))
+        .setRealm(getName())
+        .buildAuthFilter();
 
     AuthDynamicFeature feature = new AuthDynamicFeature(authFilter);
     environment.jersey().register(feature);
 
     // Resources
-    environment.jersey().register(new HelloWorldResource());
-
+    environment.jersey().register(new FormSubmissionResource());
     // Health checks
-    environment.healthChecks().register("template", new TemplateHealthCheck(configuration.getTemplate()));
+    //TODO healthchecks
   }
 
 }

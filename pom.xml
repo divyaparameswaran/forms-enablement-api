@@ -20,11 +20,40 @@
   </properties>
 
   <dependencies>
+    <!-- Test -->
 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>1.10.19</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-testing</artifactId>
+      <version>${dropwizard.version}</version>
+    </dependency>
+
+    <!-- Test -->
+
+    <dependency>
+      <groupId>info.cukes</groupId>
+      <artifactId>cucumber-junit</artifactId>
+      <version>1.2.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>info.cukes</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>1.2.2</version>
       <scope>test</scope>
     </dependency>
 
@@ -42,8 +71,14 @@
 
     <dependency>
       <groupId>io.dropwizard</groupId>
-      <artifactId>dropwizard-testing</artifactId>
+      <artifactId>dropwizard-client</artifactId>
       <version>${dropwizard.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>de.thomaskrille</groupId>
+      <artifactId>dropwizard-template-config</artifactId>
+      <version>1.1.0</version>
     </dependency>
 
     <dependency>

@@ -9,29 +9,17 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by Aaron.Witter on 07/03/2016.
  */
 public class FormsServiceConfiguration extends Configuration {
-  @NotEmpty
-  private String template;
-
-  @NotEmpty
-  private String defaultName = "Stranger";
+  @JsonProperty
+  private SalesforceConfiguration salesforceConfiguration;
 
   @JsonProperty
-  public String getTemplate() {
-    return template;
+  private  CompaniesHouseConfiguration companiesHouseConfiguration;
+
+  public SalesforceConfiguration getSalesforceConfiguration() {
+    return salesforceConfiguration;
   }
 
-  @JsonProperty
-  public void setTemplate(String template) {
-    this.template = template;
-  }
-
-  @JsonProperty
-  public String getDefaultName() {
-    return defaultName;
-  }
-
-  @JsonProperty
-  public void setDefaultName(String name) {
-    this.defaultName = name;
+  public CompaniesHouseConfiguration getCompaniesHouseConfiguration() {
+    return companiesHouseConfiguration;
   }
 }
