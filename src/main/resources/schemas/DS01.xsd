@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:annotation>
+        <xs:documentation>For DS01 type=DS01 id=5500 imageVersion=v1.0</xs:documentation>
+    </xs:annotation>
+    <xs:element name="form">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="filingDetails"/>
+                <xs:element ref="corporateBody"/>
+                <xs:element ref="dissolution" minOccurs="0"/>
+                <xs:element ref="image"/>
+                <xs:element ref="attachments" minOccurs="0"/>
+            </xs:all>
+            <xs:attribute name="type" type="xs:string"/>
+            <xs:attribute name="version" type="xs:double" use="optional"/>
+            <xs:attribute name="imageVersion" type="xs:string" use="optional"/>
+            <xs:attribute name="id" type="xs:long" use="optional"/>
+            <xs:attribute name="groupId" type="xs:long" use="optional"/>
+            <xs:attribute name="debugRule" type="xs:string" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="filingDetails">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="method"/>
+                <xs:element ref="feeStatus" minOccurs="0"/>
+                <xs:element ref="receiptDate"/>
+                <xs:element ref="presenterDocumentReference"
+                            minOccurs="0"/>
+                <xs:element ref="barcode"/>
+                <xs:element name="signDate" type="xs:date"/>
+                <xs:element ref="authentication" minOccurs="0"/>
+                <xs:element ref="authoriser" minOccurs="0"/>
+                <xs:element ref="contactDetails" minOccurs="0"/>
+                <xs:element ref="presenterDetails" minOccurs="0"/>
+                <xs:element ref="payment" minOccurs="0"/>
+                <xs:element ref="welshDocument" minOccurs="0"/>
+                <xs:element ref="commsLanguage" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    <xs:annotation>
+        <xs:documentation>elements inside filingDetails</xs:documentation>
+    </xs:annotation>
+    <xs:element name="method">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="web"/>
+                <xs:enumeration value="enablement"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="authentication">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="code" type="xs:string"/>
+                <xs:element name="status" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="authoriser" type="xs:string"/>
+    <xs:element name="feeStatus">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="paid"/>
+                <xs:enumeration value="prepaid"/>
+                <xs:enumeration value="unpaid"/>
+                <xs:enumeration value="none"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="receiptDate" type="xs:date"/>
+    <xs:element name="presenterDocumentReference" type="xs:string"/>
+    <xs:element name="barcode" type="xs:string"/>
+    <xs:element name="welshDocument" type="xs:boolean"/>
+    <xs:element name="commsLanguage">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="en"/>
+                <xs:enumeration value="cy"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="paymentMethod">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="account"/>
+                <xs:enumeration value="creditcard"/>
+                <xs:enumeration value="prepaid"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="accountNumber" type="xs:string"/>
+    <xs:element name="cardNumber" type="xs:string"/>
+    <xs:element name="referenceNumber" type="xs:string"/>
+    <xs:element name="payment">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="paymentMethod" minOccurs="0"/>
+                <xs:element ref="accountNumber" minOccurs="0"/>
+                <xs:element ref="cardNumber" minOccurs="0"/>
+                <xs:element ref="referenceNumber" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="presenterAccountNumber" type="xs:string"/>
+    <xs:element name="presenterEmailOut" type="xs:string"/>
+    <xs:element name="presenterEmailIn" type="xs:string"/>
+    <xs:element name="presenterName" type="xs:string"/>
+    <xs:element name="presenterContactName" type="xs:string"/>
+    <xs:element name="presenterAddressLine1" type="xs:string"/>
+    <xs:element name="presenterAddressLine2" type="xs:string"/>
+    <xs:element name="presenterAddressPostTown" type="xs:string"/>
+    <xs:element name="presenterAddressCounty" type="xs:string"/>
+    <xs:element name="presenterAddressPostCode" type="xs:string"/>
+    <xs:element name="presenterAddressCountry" type="xs:string"/>
+    <xs:element name="presenterDetails">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="presenterName" minOccurs="0"/>
+                <xs:element ref="presenterAccountNumber" minOccurs="0"/>
+                <xs:element ref="presenterEmailIn" minOccurs="0"/>
+                <xs:element ref="presenterEmailOut" minOccurs="0"/>
+                <xs:element ref="presenterAddressLine1" minOccurs="0"/>
+                <xs:element ref="presenterAddressLine2" minOccurs="0"/>
+                <xs:element ref="presenterAddressPostTown" minOccurs="0"/>
+                <xs:element ref="presenterAddressCounty" minOccurs="0"/>
+                <xs:element ref="presenterAddressCountry" minOccurs="0"/>
+                <xs:element ref="presenterAddressPostCode" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="dissolution">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="address" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    <xs:annotation>
+        <xs:documentation>elements for corporate bodies (companies)</xs:documentation>
+    </xs:annotation>
+    <xs:element name="corporateBody">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="incorporationNumber" type="xs:string"/>
+                <xs:element name="corporateBodyName" type="xs:string"/>
+                <xs:element ref="officers" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:annotation>
+        <xs:documentation>elements for officers</xs:documentation>
+    </xs:annotation>
+    <xs:element name="officers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="officer" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="forename" type="xs:string"/>
+    <xs:element name="middlenames" type="xs:string"/>
+    <xs:element name="surname" type="xs:string"/>
+    <xs:element name="personName">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="forename" minOccurs="0"/>
+                <xs:element ref="middlenames" minOccurs="0"/>
+                <xs:element ref="surname" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="birthDate" type="xs:date"/>
+    <xs:element name="officer">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="personName" minOccurs="0"/>
+                <xs:element ref="birthDate" minOccurs="0"/>
+                <xs:element ref="personalAuthentication" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    <xs:annotation>
+        <xs:documentation>elements for addresses.</xs:documentation>
+    </xs:annotation>
+    <xs:element name="careOf">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="0"/>
+                <xs:maxLength value="100"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="careOfCompany">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="0"/>
+                <xs:maxLength value="100"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="poBox">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="0"/>
+                <xs:maxLength value="10"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="houseNameNum">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="0"/>
+                <xs:maxLength value="50"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="street">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="0"/>
+                <xs:maxLength value="50"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="area">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="0"/>
+                <xs:maxLength value="50"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="postTown">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="0"/>
+                <xs:maxLength value="50"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="region">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="0"/>
+                <xs:maxLength value="50"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="country">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="0"/>
+                <xs:maxLength value="50"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="postCode">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="0"/>
+                <xs:maxLength value="15"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="address">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="careOf" minOccurs="0"/>
+                <xs:element ref="poBox" minOccurs="0"/>
+                <xs:element ref="careOfCompany" minOccurs="0"/>
+                <xs:element ref="houseNameNum" minOccurs="0"/>
+                <xs:element ref="street" minOccurs="0"/>
+                <xs:element ref="area" minOccurs="0"/>
+                <xs:element ref="postTown" minOccurs="0"/>
+                <xs:element ref="region" minOccurs="0"/>
+                <xs:element ref="country" minOccurs="0"/>
+                <xs:element ref="postCode" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="dxNumber" type="xs:string"/>
+    <xs:element name="dxExchange" type="xs:string"/>
+    <xs:element name="contactName" type="xs:string"/>
+    <xs:element name="phoneNumber" type="xs:string"/>
+    <xs:element name="email" type="xs:string"/>
+    <xs:element name="contactDetails">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="contactName" minOccurs="0"/>
+                <xs:element ref="email" minOccurs="0"/>
+                <xs:element ref="address" minOccurs="0"/>
+                <xs:element ref="phoneNumber" minOccurs="0"/>
+                <xs:element ref="dxNumber" minOccurs="0"/>
+                <xs:element ref="dxExchange" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:annotation>
+        <xs:documentation>The PDF as captured by Salesforce. The mimeType will be application/pdf</xs:documentation>
+    </xs:annotation>
+    <xs:element name="image">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="data" type="xs:string"/>
+                <xs:element name="mimeType" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:annotation>
+        <xs:documentation>Only needed for DS01 if CICS53 is to be captured as well</xs:documentation>
+    </xs:annotation>
+    <xs:element name="attachments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="attachment" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="attachment">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="data" type="xs:string"/>
+                <xs:element name="mimeType" type="xs:string"/>
+                <xs:element name="category" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:annotation>
+        <xs:documentation>fields for officer personal authentication. These are not used in CHIPS but may be required in XML by business</xs:documentation>
+    </xs:annotation>
+    <xs:element name="authenticationItem" type="xs:string" />
+    <xs:element name="authenticationData" type="xs:string" />
+    <xs:element name="authenticationStatus" type="xs:string" />
+    <xs:element name="personalAuthenticationCode" type="xs:string" />
+    <xs:element name="authenticationPair">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="authenticationItem" minOccurs="0" />
+                <xs:element ref="authenticationData" minOccurs="0" />
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="personalAuthentication">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="authenticationStatus" minOccurs="0" />
+                <xs:element ref="authenticationPair" minOccurs="0"
+                            maxOccurs="3" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

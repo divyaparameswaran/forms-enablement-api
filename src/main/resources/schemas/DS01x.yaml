@@ -1,0 +1,582 @@
+schema: 
+ annotation: 
+  - 
+   documentation: 
+    __text: "For DS01 type=DS01 id=5500 imageVersion=v1.0"
+    toString: 
+  - 
+   documentation: 
+    __text: "elements inside filingDetails"
+    toString: 
+  - 
+   documentation: 
+    __text: "elements for corporate bodies (companies)"
+    toString: 
+  - 
+   documentation: 
+    __text: "elements for officers"
+    toString: 
+  - 
+   documentation: 
+    __text: "elements for addresses."
+    toString: 
+  - 
+   documentation: 
+    __text: "The PDF as captured by Salesforce. The mimeType will be application/pdf"
+    toString: 
+  - 
+   documentation: 
+    __text: "Only needed for DS01 if CICS53 is to be captured as well"
+    toString: 
+  - 
+   documentation: 
+    __text: "fields for officer personal authentication. These are not used in CHIPS but may be required in XML by business"
+    toString: 
+ element: 
+  - 
+   complexType: 
+    all: 
+     element: 
+      - 
+   _ref: filingDetails
+      - 
+   _ref: corporateBody
+      - 
+   _ref: dissolution
+       _minOccurs: 0
+      - 
+   _ref: image
+      - 
+   _ref: attachments
+       _minOccurs: 0
+    attribute: 
+     - 
+   _name: type
+      _type: "xs:string"
+     - 
+   _name: version
+      _type: "xs:double"
+      _use: optional
+     - 
+   _name: imageVersion
+      _type: "xs:string"
+      _use: optional
+     - 
+   _name: id
+      _type: "xs:long"
+      _use: optional
+     - 
+   _name: groupId
+      _type: "xs:long"
+      _use: optional
+     - 
+   _name: debugRule
+      _type: "xs:string"
+      _use: optional
+   _name: form
+  - 
+   complexType: 
+    all: 
+     element: 
+      - 
+   _ref: method
+      - 
+   _ref: feeStatus
+       _minOccurs: 0
+      - 
+   _ref: receiptDate
+      - 
+   _ref: presenterDocumentReference
+       _minOccurs: 0
+      - 
+   _ref: barcode
+      - 
+   _name: signDate
+       _type: "xs:date"
+      - 
+   _ref: authentication
+       _minOccurs: 0
+      - 
+   _ref: authoriser
+       _minOccurs: 0
+      - 
+   _ref: contactDetails
+       _minOccurs: 0
+      - 
+   _ref: presenterDetails
+       _minOccurs: 0
+      - 
+   _ref: payment
+       _minOccurs: 0
+      - 
+   _ref: welshDocument
+       _minOccurs: 0
+      - 
+   _ref: commsLanguage
+       _minOccurs: 0
+   _name: filingDetails
+  - 
+   simpleType: 
+    restriction: 
+     enumeration: 
+      - 
+   _value: web
+      - 
+   _value: enablement
+     _base: "xs:string"
+   _name: method
+  - 
+   complexType: 
+    sequence: 
+     element: 
+      - 
+   _name: code
+       _type: "xs:string"
+      - 
+   _name: status
+       _type: "xs:string"
+   _name: authentication
+  - 
+   _name: authoriser
+   _type: "xs:string"
+  - 
+   simpleType: 
+    restriction: 
+     enumeration: 
+      - 
+   _value: paid
+      - 
+   _value: prepaid
+      - 
+   _value: unpaid
+      - 
+   _value: none
+     _base: "xs:string"
+   _name: feeStatus
+  - 
+   _name: receiptDate
+   _type: "xs:date"
+  - 
+   _name: presenterDocumentReference
+   _type: "xs:string"
+  - 
+   _name: barcode
+   _type: "xs:string"
+  - 
+   _name: welshDocument
+   _type: "xs:boolean"
+  - 
+   simpleType: 
+    restriction: 
+     enumeration: 
+      - 
+   _value: en
+      - 
+   _value: cy
+     _base: "xs:string"
+   _name: commsLanguage
+  - 
+   simpleType: 
+    restriction: 
+     enumeration: 
+      - 
+   _value: account
+      - 
+   _value: creditcard
+      - 
+   _value: prepaid
+     _base: "xs:string"
+   _name: paymentMethod
+  - 
+   _name: accountNumber
+   _type: "xs:string"
+  - 
+   _name: cardNumber
+   _type: "xs:string"
+  - 
+   _name: referenceNumber
+   _type: "xs:string"
+  - 
+   complexType: 
+    all: 
+     element: 
+      - 
+   _ref: paymentMethod
+       _minOccurs: 0
+      - 
+   _ref: accountNumber
+       _minOccurs: 0
+      - 
+   _ref: cardNumber
+       _minOccurs: 0
+      - 
+   _ref: referenceNumber
+       _minOccurs: 0
+   _name: payment
+  - 
+   _name: presenterAccountNumber
+   _type: "xs:string"
+  - 
+   _name: presenterEmailOut
+   _type: "xs:string"
+  - 
+   _name: presenterEmailIn
+   _type: "xs:string"
+  - 
+   _name: presenterName
+   _type: "xs:string"
+  - 
+   _name: presenterContactName
+   _type: "xs:string"
+  - 
+   _name: presenterAddressLine1
+   _type: "xs:string"
+  - 
+   _name: presenterAddressLine2
+   _type: "xs:string"
+  - 
+   _name: presenterAddressPostTown
+   _type: "xs:string"
+  - 
+   _name: presenterAddressCounty
+   _type: "xs:string"
+  - 
+   _name: presenterAddressPostCode
+   _type: "xs:string"
+  - 
+   _name: presenterAddressCountry
+   _type: "xs:string"
+  - 
+   complexType: 
+    all: 
+     element: 
+      - 
+   _ref: presenterName
+       _minOccurs: 0
+      - 
+   _ref: presenterAccountNumber
+       _minOccurs: 0
+      - 
+   _ref: presenterEmailIn
+       _minOccurs: 0
+      - 
+   _ref: presenterEmailOut
+       _minOccurs: 0
+      - 
+   _ref: presenterAddressLine1
+       _minOccurs: 0
+      - 
+   _ref: presenterAddressLine2
+       _minOccurs: 0
+      - 
+   _ref: presenterAddressPostTown
+       _minOccurs: 0
+      - 
+   _ref: presenterAddressCounty
+       _minOccurs: 0
+      - 
+   _ref: presenterAddressCountry
+       _minOccurs: 0
+      - 
+   _ref: presenterAddressPostCode
+       _minOccurs: 0
+   _name: presenterDetails
+  - 
+   complexType: 
+    all: 
+     element: 
+      _ref: address
+      _minOccurs: 0
+   _name: dissolution
+  - 
+   complexType: 
+    sequence: 
+     element: 
+      - 
+   _name: incorporationNumber
+       _type: "xs:string"
+      - 
+   _name: corporateBodyName
+       _type: "xs:string"
+      - 
+   _ref: officers
+       _minOccurs: 0
+   _name: corporateBody
+  - 
+   complexType: 
+    sequence: 
+     element: 
+      _ref: officer
+      _maxOccurs: unbounded
+   _name: officers
+  - 
+   _name: forename
+   _type: "xs:string"
+  - 
+   _name: middlenames
+   _type: "xs:string"
+  - 
+   _name: surname
+   _type: "xs:string"
+  - 
+   complexType: 
+    all: 
+     element: 
+      - 
+   _ref: forename
+       _minOccurs: 0
+      - 
+   _ref: middlenames
+       _minOccurs: 0
+      - 
+   _ref: surname
+       _minOccurs: 0
+   _name: personName
+  - 
+   _name: birthDate
+   _type: "xs:date"
+  - 
+   complexType: 
+    all: 
+     element: 
+      - 
+   _ref: personName
+       _minOccurs: 0
+      - 
+   _ref: birthDate
+       _minOccurs: 0
+      - 
+   _ref: personalAuthentication
+       _minOccurs: 0
+   _name: officer
+  - 
+   simpleType: 
+    restriction: 
+     minLength: 
+      _value: 0
+     maxLength: 
+      _value: 100
+     _base: "xs:string"
+   _name: careOf
+  - 
+   simpleType: 
+    restriction: 
+     minLength: 
+      _value: 0
+     maxLength: 
+      _value: 100
+     _base: "xs:string"
+   _name: careOfCompany
+  - 
+   simpleType: 
+    restriction: 
+     minLength: 
+      _value: 0
+     maxLength: 
+      _value: 10
+     _base: "xs:string"
+   _name: poBox
+  - 
+   simpleType: 
+    restriction: 
+     minLength: 
+      _value: 0
+     maxLength: 
+      _value: 50
+     _base: "xs:string"
+   _name: houseNameNum
+  - 
+   simpleType: 
+    restriction: 
+     minLength: 
+      _value: 0
+     maxLength: 
+      _value: 50
+     _base: "xs:string"
+   _name: street
+  - 
+   simpleType: 
+    restriction: 
+     minLength: 
+      _value: 0
+     maxLength: 
+      _value: 50
+     _base: "xs:string"
+   _name: area
+  - 
+   simpleType: 
+    restriction: 
+     minLength: 
+      _value: 0
+     maxLength: 
+      _value: 50
+     _base: "xs:string"
+   _name: postTown
+  - 
+   simpleType: 
+    restriction: 
+     minLength: 
+      _value: 0
+     maxLength: 
+      _value: 50
+     _base: "xs:string"
+   _name: region
+  - 
+   simpleType: 
+    restriction: 
+     minLength: 
+      _value: 0
+     maxLength: 
+      _value: 50
+     _base: "xs:string"
+   _name: country
+  - 
+   simpleType: 
+    restriction: 
+     minLength: 
+      _value: 0
+     maxLength: 
+      _value: 15
+     _base: "xs:string"
+   _name: postCode
+  - 
+   complexType: 
+    all: 
+     element: 
+      - 
+   _ref: careOf
+       _minOccurs: 0
+      - 
+   _ref: poBox
+       _minOccurs: 0
+      - 
+   _ref: careOfCompany
+       _minOccurs: 0
+      - 
+   _ref: houseNameNum
+       _minOccurs: 0
+      - 
+   _ref: street
+       _minOccurs: 0
+      - 
+   _ref: area
+       _minOccurs: 0
+      - 
+   _ref: postTown
+       _minOccurs: 0
+      - 
+   _ref: region
+       _minOccurs: 0
+      - 
+   _ref: country
+       _minOccurs: 0
+      - 
+   _ref: postCode
+       _minOccurs: 0
+   _name: address
+  - 
+   _name: dxNumber
+   _type: "xs:string"
+  - 
+   _name: dxExchange
+   _type: "xs:string"
+  - 
+   _name: contactName
+   _type: "xs:string"
+  - 
+   _name: phoneNumber
+   _type: "xs:string"
+  - 
+   _name: email
+   _type: "xs:string"
+  - 
+   complexType: 
+    all: 
+     element: 
+      - 
+   _ref: contactName
+       _minOccurs: 0
+      - 
+   _ref: email
+       _minOccurs: 0
+      - 
+   _ref: address
+       _minOccurs: 0
+      - 
+   _ref: phoneNumber
+       _minOccurs: 0
+      - 
+   _ref: dxNumber
+       _minOccurs: 0
+      - 
+   _ref: dxExchange
+       _minOccurs: 0
+   _name: contactDetails
+  - 
+   complexType: 
+    sequence: 
+     element: 
+      - 
+   _name: data
+       _type: "xs:string"
+      - 
+   _name: mimeType
+       _type: "xs:string"
+   _name: image
+  - 
+   complexType: 
+    sequence: 
+     element: 
+      _ref: attachment
+      _minOccurs: 1
+   _name: attachments
+  - 
+   complexType: 
+    sequence: 
+     element: 
+      - 
+   _name: data
+       _type: "xs:string"
+      - 
+   _name: mimeType
+       _type: "xs:string"
+      - 
+   _name: category
+       _type: "xs:string"
+   _name: attachment
+  - 
+   _name: authenticationItem
+   _type: "xs:string"
+  - 
+   _name: authenticationData
+   _type: "xs:string"
+  - 
+   _name: authenticationStatus
+   _type: "xs:string"
+  - 
+   _name: personalAuthenticationCode
+   _type: "xs:string"
+  - 
+   complexType: 
+    all: 
+     element: 
+      - 
+   _ref: authenticationItem
+       _minOccurs: 0
+      - 
+   _ref: authenticationData
+       _minOccurs: 0
+   _name: authenticationPair
+  - 
+   complexType: 
+    sequence: 
+     element: 
+      - 
+   _ref: authenticationStatus
+       _minOccurs: 0
+      - 
+   _ref: authenticationPair
+       _minOccurs: 0
+       _maxOccurs: 3
+   _name: personalAuthentication
+ "_xmlns:xs": "http://www.w3.org/2001/XMLSchema"
