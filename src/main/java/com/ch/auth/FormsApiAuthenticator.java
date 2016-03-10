@@ -24,7 +24,6 @@ public class FormsApiAuthenticator implements Authenticator<BasicCredentials, Fo
    */
   @Override
   public Optional<FormsApiUser> authenticate(BasicCredentials credentials) throws AuthenticationException {
-    // TODO: Get password from an environment variable.
     String username = credentials.getUsername();
     String secret = credentials.getPassword();
 

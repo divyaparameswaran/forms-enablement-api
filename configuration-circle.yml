@@ -1,0 +1,24 @@
+server:
+  type: simple
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 8080
+
+salesforceConfiguration:
+  name: Salesforce
+  secret: ${env.SALESFORCE_API_KEY!"ABC123"}
+  apiGetUrl: ${env.SALESFORCE_API_URL!"www.example.com/submit"}
+
+companiesHouseConfiguration:
+  name: CHIPS
+  secret: ${env.CHIPS_API_KEY!"ABC321"}
+  apiGetUrl: ${env.CHIPS_API_URL!"www.example.com/response"}
+
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: DEBUG
