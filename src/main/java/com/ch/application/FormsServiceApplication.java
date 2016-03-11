@@ -5,10 +5,12 @@ import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.model.FormsApiUser;
 import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HomeResource;
+import com.ch.resources.MultiPartResource;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
+import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.glassfish.jersey.filter.LoggingFilter;
@@ -35,6 +37,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
   @Override
   public void initialize(Bootstrap<FormsServiceConfiguration> bootstrap) {
     bootstrap.addBundle(new TemplateConfigBundle());
+    bootstrap.addBundle(new MultiPartBundle());
   }
 
   @Override
@@ -49,6 +52,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
     // Resources
     environment.jersey().register(new FormSubmissionResource());
+    environment.jersey().register(new MultiPartResource());
     environment.jersey().register(new HomeResource());
 
     // Health checks
