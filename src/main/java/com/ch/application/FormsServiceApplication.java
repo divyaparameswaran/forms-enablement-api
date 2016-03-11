@@ -11,6 +11,9 @@ import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.glassfish.jersey.filter.LoggingFilter;
+
+import java.util.logging.Logger;
 
 /**
  * Created by Aaron.Witter on 07/03/2016.
@@ -49,6 +52,13 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new HomeResource());
 
     // Health checks
+
+    //Logging filter for input and output
+    environment.jersey().register(new LoggingFilter(
+        Logger.getLogger(LoggingFilter.class.getName()),
+        true)
+    );
+
     //TODO healthchecks
   }
 
