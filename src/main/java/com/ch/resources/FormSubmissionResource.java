@@ -3,8 +3,9 @@ package com.ch.resources;
 import com.ch.model.HelloWorld;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.dropwizard.auth.Auth;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -20,7 +21,7 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class FormSubmissionResource {
 
-  Logger log = LoggerFactory.getLogger(FormSubmissionResource.class);
+  private static final Logger log = LogManager.getLogger(FormSubmissionResource.class);
 
   @GET
   public String getMessage(@Auth String message) {
