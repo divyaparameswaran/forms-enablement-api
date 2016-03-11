@@ -15,9 +15,3 @@ companiesHouseConfiguration:
   name: CHIPS
   secret: ${env.CHIPS_API_KEY!"ABC321"}
   apiGetUrl: ${env.CHIPS_API_URL!"www.example.com/response"}
-
-# Logging settings.
-logging:
-
-  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
-  level: DEBUG

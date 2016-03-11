@@ -1,9 +1,12 @@
 package com.ch.resources;
 
 import com.ch.model.HelloWorld;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.dropwizard.auth.Auth;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
-import javax.annotation.security.PermitAll;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,8 +21,9 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class FormSubmissionResource {
 
+  private static final Logger log = LogManager.getLogger(FormSubmissionResource.class);
+
   @GET
-  @PermitAll
   public String getMessage(@Auth String message) {
     return "hello world";
   }
@@ -27,7 +31,8 @@ public class FormSubmissionResource {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_XML)
-  public HelloWorld getXml(@Auth HelloWorld xml) {
-    return xml;
+  public HelloWorld getXml(@Auth HelloWorld xml1) throws JsonProcessingException {
+    log.info("JSON from Salesforce " + xml1);
+    return xml1;
   }
 }

@@ -1,7 +1,6 @@
 package com.ch.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.validator.constraints.Length;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,5 +26,10 @@ public class HelloWorld {
   @XmlElement(name = "Greeting")
   public void setGreeting(String greeting) {
     this.greeting = greeting;
+  }
+
+  @Override
+  public String toString() {
+    return "ClassPojo [notes = " + greeting + "]";
   }
 }
