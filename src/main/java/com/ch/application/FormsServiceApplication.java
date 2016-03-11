@@ -4,6 +4,7 @@ import com.ch.auth.FormsApiAuthenticator;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.model.FormsApiUser;
 import com.ch.resources.FormSubmissionResource;
+import com.ch.resources.HomeResource;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
@@ -45,6 +46,8 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
     // Resources
     environment.jersey().register(new FormSubmissionResource());
+    environment.jersey().register(new HomeResource());
+
     // Health checks
     //TODO healthchecks
   }
