@@ -14,6 +14,7 @@ import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import java.util.logging.Logger;
 
@@ -56,6 +57,9 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new HomeResource());
 
     // Health checks
+
+    environment.jersey().register(MultiPartFeature.class);
+
 
     //Logging filter for input and output
     environment.jersey().register(new LoggingFilter(

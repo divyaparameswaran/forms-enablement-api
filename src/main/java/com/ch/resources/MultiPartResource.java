@@ -1,5 +1,6 @@
 package com.ch.resources;
 
+import io.dropwizard.auth.Auth;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -12,6 +13,7 @@ import java.io.InputStream;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -30,7 +32,7 @@ public class MultiPartResource {
    */
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public Response postForm(
+  public Response postForm(@Auth
       @FormDataParam("form") String form,
       @FormDataParam("file") InputStream file,
       @FormDataParam("file") FormDataContentDisposition fileDisposition) {
