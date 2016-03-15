@@ -2,8 +2,10 @@ package com.ch.application;
 
 import com.ch.auth.FormsApiAuthenticator;
 import com.ch.configuration.FormsServiceConfiguration;
+import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
 import com.ch.resources.FormSubmissionResource;
+import com.ch.resources.HealthcheckResource;
 import com.ch.resources.HomeResource;
 import com.ch.resources.MultiPartResource;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
@@ -43,6 +45,8 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
   @Override
   public void run(FormsServiceConfiguration configuration, Environment environment) {
+
+    // Authentication Filter for resources
     BasicCredentialAuthFilter authFilter = new BasicCredentialAuthFilter.Builder<FormsApiUser>()
         .setAuthenticator(new FormsApiAuthenticator(configuration))
         .setRealm(getName())
@@ -55,19 +59,21 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new FormSubmissionResource());
     environment.jersey().register(new MultiPartResource());
     environment.jersey().register(new HomeResource());
+    environment.jersey().register(new HealthcheckResource());
 
-    // Health checks
-
+    // MultiPart
     environment.jersey().register(MultiPartFeature.class);
 
+    // Health checks
+    final AppHealthCheck healthCheck =
+        new AppHealthCheck();
+    environment.healthChecks().register("AppHealthCheck", healthCheck);
 
     //Logging filter for input and output
     environment.jersey().register(new LoggingFilter(
         Logger.getLogger(LoggingFilter.class.getName()),
         true)
     );
-
-    //TODO healthchecks
   }
 
 }

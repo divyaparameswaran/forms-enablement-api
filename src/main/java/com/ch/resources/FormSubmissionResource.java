@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
  * Created by Aaron.Witter on 07/03/2016.
  */
 @Path("/upload")
-@Produces(MediaType.APPLICATION_JSON)
 public class FormSubmissionResource {
 
   private static final Logger log = LogManager.getLogger(FormSubmissionResource.class);
