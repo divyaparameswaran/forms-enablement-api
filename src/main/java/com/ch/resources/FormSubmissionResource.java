@@ -1,6 +1,6 @@
 package com.ch.resources;
 
-import com.ch.factory.JsonToXmlConverter;
+import com.ch.conversion.JsonToXmlConverter;
 import com.ch.model.HelloWorld;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.dropwizard.auth.Auth;
