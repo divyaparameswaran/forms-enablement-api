@@ -1,5 +1,6 @@
 package com.ch.resources;
 
+import com.ch.factory.JsonToXmlConverter;
 import io.dropwizard.auth.Auth;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -37,9 +38,8 @@ public class MultiPartResource {
       @FormDataParam("file") InputStream file,
       @FormDataParam("file") FormDataContentDisposition fileDisposition) {
 
-    // json to xml
-    JSONObject json = new JSONObject(form);
-    String xml = XML.toString(json);
+    JsonToXmlConverter converter = JsonToXmlConverter.getInstance();
+    String xml = converter.toXML(form);
 
     // create multi-part
     // xml and file name
