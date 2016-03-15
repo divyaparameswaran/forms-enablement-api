@@ -15,6 +15,7 @@ import org.json.JSONException;
 import java.io.InputStream;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -28,6 +29,11 @@ import javax.ws.rs.core.Response;
 public class FormSubmissionResource {
 
   private static final Logger log = LogManager.getLogger(FormSubmissionResource.class);
+
+  @GET
+  public String getMessage(@Auth String message) {
+    return "hello world";
+  }
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -47,10 +53,10 @@ public class FormSubmissionResource {
    */
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public Response submit(
-      @FormDataParam("form") String form,
-      @FormDataParam("file") InputStream file,
-      @FormDataParam("file") FormDataContentDisposition fileDisposition) throws JSONException {
+  public Response submit(@Auth
+                         @FormDataParam("form") String form,
+                         @FormDataParam("file") InputStream file,
+                         @FormDataParam("file") FormDataContentDisposition fileDisposition) throws JSONException {
 
     log.info("JSON from Salesforce: " + form);
     log.info("File from Salesforce: " + fileDisposition.getFileName());

@@ -30,7 +30,7 @@ public class FormsApiAuthenticatorTest {
     Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test client1");
 
     final Response response = client.target(
-        String.format("http://localhost:%d/upload", RULE.getLocalPort()))
+        String.format("http://localhost:%d/submission", RULE.getLocalPort()))
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get();
 
@@ -42,7 +42,7 @@ public class FormsApiAuthenticatorTest {
     Client client2 = new JerseyClientBuilder(RULE.getEnvironment()).build("test client2");
 
     final Response response = client2.target(
-        String.format("http://localhost:%d/upload", RULE.getLocalPort()))
+        String.format("http://localhost:%d/submission", RULE.getLocalPort()))
         .request(MediaType.APPLICATION_JSON_TYPE)
         .header("Authorization", "Basic WRONG")
         .get();
@@ -59,7 +59,7 @@ public class FormsApiAuthenticatorTest {
         + ":" + RULE.getConfiguration().getSalesforceConfiguration().getSecret());
 
     final Response response = client3.target(
-        String.format("http://localhost:%d/upload", RULE.getLocalPort()))
+        String.format("http://localhost:%d/submission", RULE.getLocalPort()))
         .request(MediaType.APPLICATION_JSON_TYPE)
         .header("Authorization", "Basic " + encode)
         .get();
@@ -75,7 +75,7 @@ public class FormsApiAuthenticatorTest {
         + ":" + RULE.getConfiguration().getCompaniesHouseConfiguration().getSecret());
 
     final Response response = client4.target(
-        String.format("http://localhost:%d/upload", RULE.getLocalPort()))
+        String.format("http://localhost:%d/submission", RULE.getLocalPort()))
         .request(MediaType.APPLICATION_JSON_TYPE)
         .header("Authorization", "Basic " + encode)
         .get();
