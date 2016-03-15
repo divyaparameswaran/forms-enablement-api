@@ -9,6 +9,6 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/response")
 @Produces(MediaType.APPLICATION_JSON)
-public class FormOutcomeResource {
+public class FormResponseResource {
 
 }
