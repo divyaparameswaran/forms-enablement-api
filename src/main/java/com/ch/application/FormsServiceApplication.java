@@ -4,6 +4,7 @@ import com.ch.auth.FormsApiAuthenticator;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
+import com.ch.resources.ChipsStubResource;
 import com.ch.resources.FormResponseResource;
 import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HealthcheckResource;
@@ -12,6 +13,8 @@ import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
+import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.client.JerseyClientConfiguration;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -19,6 +22,8 @@ import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import java.util.logging.Logger;
+
+import javax.ws.rs.client.Client;
 
 /**
  * Created by Aaron.Witter on 07/03/2016.
@@ -55,8 +60,18 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     AuthDynamicFeature feature = new AuthDynamicFeature(authFilter);
     environment.jersey().register(feature);
 
+    // Jersey Client
+    JerseyClientConfiguration jerseyConfiguration = new JerseyClientConfiguration();
+    // TODO: unsure if this is needed anymore, needs testing
+    jerseyConfiguration.setChunkedEncodingEnabled(false);
+    final Client client = new JerseyClientBuilder(environment)
+        .using(jerseyConfiguration)
+        .withProvider(MultiPartFeature.class)
+        .build(getName());
+
     // Resources
-    environment.jersey().register(new FormSubmissionResource());
+    environment.jersey().register(new ChipsStubResource());
+    environment.jersey().register(new FormSubmissionResource(client, configuration.getCompaniesHouseConfiguration()));
     environment.jersey().register(new FormResponseResource());
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());

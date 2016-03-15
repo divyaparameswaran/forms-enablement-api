@@ -4,15 +4,15 @@ server:
   adminContextPath: /admin
   connector:
     type: http
-    port: 8080
+    port: 8000
 
 salesforceConfiguration:
   name: Salesforce
   secret: ${env.SALESFORCE_API_KEY!"ABC123"}
-  apiGetUrl: ${env.SALESFORCE_API_URL!"www.example.com/submit"}
+  apiUrl: ${env.SALESFORCE_API_URL!"www.example.com/submit"}
 
 companiesHouseConfiguration:
   name: CHIPS
   secret: ${env.CHIPS_API_KEY!"ABC321"}
-  apiGetUrl: ${env.CHIPS_API_URL!"www.example.com/response"}
+  apiUrl: ${env.CHIPS_API_URL!"http://localhost:8000/chips"}
 
