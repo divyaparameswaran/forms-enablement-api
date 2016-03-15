@@ -10,6 +10,8 @@ import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 import org.json.JSONException;
 
 import java.io.InputStream;
@@ -63,11 +65,9 @@ public class FormSubmissionResource {
     String xml = JsonToXmlConverter.getInstance().toXML(form);
     log.info("Produced XML: " + xml);
 
-    // create multi-part
-    // xml and file name
     MultiPart multiPartEntity = new MultiPart()
-        .bodyPart(new BodyPart(MediaType.TEXT_PLAIN_TYPE).entity(fileDisposition.getFileName()))
-        .bodyPart(new BodyPart(MediaType.APPLICATION_XML_TYPE).entity(xml));
+        .bodyPart(new StreamDataBodyPart("file", file, fileDisposition.getFileName()))
+        .bodyPart(new BodyPart("form", MediaType.APPLICATION_XML_TYPE).entity(xml));
 
     return Response.ok().entity(multiPartEntity).type(MediaType.MULTIPART_FORM_DATA_TYPE).build();
   }
