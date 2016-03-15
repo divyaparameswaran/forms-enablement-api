@@ -1,5 +1,6 @@
 package com.ch.factory;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
 
@@ -17,7 +18,7 @@ public final class JsonToXmlConverter {
     return instance;
   }
 
-  public String toXML(String json) {
+  public String toXML(String json) throws JSONException {
     JSONObject jsonObj = new JSONObject(json);
     return XML.toString(jsonObj);
   }
