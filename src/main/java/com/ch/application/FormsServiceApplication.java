@@ -4,10 +4,10 @@ import com.ch.auth.FormsApiAuthenticator;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
+import com.ch.resources.FormResponseResource;
 import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HealthcheckResource;
 import com.ch.resources.HomeResource;
-import com.ch.resources.MultiPartResource;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
@@ -57,7 +57,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
     // Resources
     environment.jersey().register(new FormSubmissionResource());
-    environment.jersey().register(new MultiPartResource());
+    environment.jersey().register(new FormResponseResource());
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
 
