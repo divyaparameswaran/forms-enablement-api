@@ -13,7 +13,7 @@ public class SalesforceConfiguration {
 
   @JsonProperty
   @NotEmpty
-  private String apiGetUrl;
+  private String apiUrl;
 
   @JsonProperty
   @NotEmpty
@@ -23,8 +23,8 @@ public class SalesforceConfiguration {
     return secret;
   }
 
-  public String getApiGetUrl() {
-    return apiGetUrl;
+  public String getApiUrl() {
+    return apiUrl;
   }
 
   public String getName() {
