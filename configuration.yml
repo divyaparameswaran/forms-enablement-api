@@ -14,5 +14,5 @@ salesforceConfiguration:
 companiesHouseConfiguration:
   name: CHIPS
   secret: ${env.CHIPS_API_KEY!"ABC321"}
-  apiUrl: ${env.CHIPS_API_URL!"http://localhost:8080/chips"}
+  apiUrl: ${env.CHIPS_API_URL!"https://fishandchips.herokuapp.com/chips"}
 
