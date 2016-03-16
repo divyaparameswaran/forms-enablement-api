@@ -4,7 +4,7 @@ server:
   adminContextPath: /admin
   connector:
     type: http
-    port: 8000
+    port: 8080
 
 salesforceConfiguration:
   name: Salesforce

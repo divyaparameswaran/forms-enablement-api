@@ -2,10 +2,7 @@ package com.ch.resources;
 
 import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.conversion.JsonToXmlConverter;
-import com.ch.model.HelloWorld;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.dropwizard.auth.Auth;
-import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
@@ -21,7 +18,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
