@@ -73,8 +73,7 @@ public class FormSubmissionResource {
     // create multipart - file and xml
     MultiPart multiPart = getMultipartForm(file, xml);
 
-    // post to CHIPSgit stash
-    
+    // post to CHIPS
     // TODO: currently posting to ChipsStubResource, needs to point at real endpoint
     final WebTarget target = client.target(configuration.getApiUrl());
     // return response from CHIPS
@@ -86,11 +85,12 @@ public class FormSubmissionResource {
 
   /**
    * Creates multipart object - file and xml
-   * @param file  uploaded file
+   *
+   * @param file uploaded file
    * @param xml  converted xml
    * @return Multipart object.
    */
-  private MultiPart getMultipartForm(InputStream file, String xml){
+  private MultiPart getMultipartForm(InputStream file, String xml) {
     final MultiPart multiPart = new MultiPart()
         .bodyPart(new StreamDataBodyPart("file", file))
         .bodyPart(new FormDataBodyPart("form", xml, MediaType.APPLICATION_XML_TYPE));

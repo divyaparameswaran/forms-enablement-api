@@ -16,3 +16,6 @@ companiesHouseConfiguration:
   secret: ${env.CHIPS_API_KEY!"ABC321"}
   apiUrl: ${env.CHIPS_API_URL!"https://fishandchips.herokuapp.com/chips"}
 
+jerseyClient:
+  timeout: 5000ms
+  chunkedEncodingEnabled: false

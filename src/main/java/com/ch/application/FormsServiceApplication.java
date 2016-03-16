@@ -61,11 +61,8 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(feature);
 
     // Jersey Client
-    JerseyClientConfiguration jerseyConfiguration = new JerseyClientConfiguration();
-    // TODO: unsure if this is needed anymore, needs testing
-    jerseyConfiguration.setChunkedEncodingEnabled(false);
     final Client client = new JerseyClientBuilder(environment)
-        .using(jerseyConfiguration)
+        .using(configuration.getJerseyClientConfiguration())
         .withProvider(MultiPartFeature.class)
         .build(getName());
 

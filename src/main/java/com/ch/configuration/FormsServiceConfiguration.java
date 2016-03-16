@@ -18,11 +18,21 @@ public class FormsServiceConfiguration extends Configuration {
   @JsonProperty
   private  CompaniesHouseConfiguration companiesHouseConfiguration;
 
+  @Valid
+  @NotNull
+  @JsonProperty
+  private final JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
+
   public SalesforceConfiguration getSalesforceConfiguration() {
     return salesforceConfiguration;
   }
 
   public CompaniesHouseConfiguration getCompaniesHouseConfiguration() {
     return companiesHouseConfiguration;
+  }
+
+  @JsonProperty("jerseyClient")
+  public JerseyClientConfiguration getJerseyClientConfiguration() {
+    return jerseyClient;
   }
 }
