@@ -59,9 +59,6 @@ public class FormSubmissionResource {
                          @FormDataParam("file") InputStream file,
                          @FormDataParam("file") FormDataContentDisposition fileDisposition) throws JSONException {
 
-    // TODO: not sure this is needed
-    // stop the input stream being closed
-    // CloseShieldInputStream shieldInputStream = new CloseShieldInputStream(file);
 
     // convert json to xml
     // TODO: log in JsonToXmlConverter?
@@ -74,7 +71,7 @@ public class FormSubmissionResource {
     MultiPart multiPart = getMultipartForm(file, xml);
 
     // post to CHIPS
-    // TODO: currently posting to ChipsStubResource, needs to point at real endpoint
+    // TODO: currently posting to Chips Stub, needs to point at real endpoint
     final WebTarget target = client.target(configuration.getApiUrl());
     // return response from CHIPS
     Response response = target.request(MediaType.MULTIPART_FORM_DATA_TYPE)
