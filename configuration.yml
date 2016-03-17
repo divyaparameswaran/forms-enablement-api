@@ -6,6 +6,9 @@ server:
     type: http
     port: 8080
 
+logging:
+  level: DEBUG
+
 salesforceConfiguration:
   name: Salesforce
   secret: ${env.SALESFORCE_API_KEY!"ABC123"}
