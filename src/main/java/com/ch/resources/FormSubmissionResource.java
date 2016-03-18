@@ -1,7 +1,10 @@
 package com.ch.resources;
 
+import com.ch.application.FormsServiceApplication;
 import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.model.FormsJson;
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -31,6 +34,8 @@ import javax.ws.rs.core.Response;
 public class FormSubmissionResource {
 
   private static final Logger log = LogManager.getLogger(FormSubmissionResource.class);
+  private static final Timer timer = FormsServiceApplication.registry.timer("FormSubmissionResource");
+
   private final Client client;
   private final CompaniesHouseConfiguration configuration;
 
@@ -58,27 +63,31 @@ public class FormSubmissionResource {
                          @FormDataParam("form") String form,
                          @FormDataParam("file") InputStream file,
                          @FormDataParam("file") FormDataContentDisposition fileDisposition) throws JSONException {
+    final Timer.Context context = timer.time();
+    try {
+      // convert json to xml
+      // TODO: log in JsonToXmlConverter?
+      log.info("JSON from Salesforce: " + form);
+      log.info("File from Salesforce: " + fileDisposition.getFileName());
+      FormsJson formsJson = new FormsJson(form);
+      String xml = formsJson.toXML();
+      log.info("Produced XML: " + xml);
 
+      // create multipart - file and xml
+      MultiPart multiPart = getMultipartForm(file, xml);
 
-    // convert json to xml
-    // TODO: log in JsonToXmlConverter?
-    log.info("JSON from Salesforce: " + form);
-    log.info("File from Salesforce: " + fileDisposition.getFileName());
-    FormsJson formsJson = new FormsJson(form);
-    String xml = formsJson.toXML();
-    log.info("Produced XML: " + xml);
+      // post to CHIPS
+      // TODO: currently posting to Chips Stub, needs to point at real endpoint
+      final WebTarget target = client.target(configuration.getApiUrl());
+      // return response from CHIPS
+      Response response = target.request(MediaType.MULTIPART_FORM_DATA_TYPE)
+          .post(Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE));
+      log.info("Response from CHIPS: " + response.toString());
+      return response;
 
-    // create multipart - file and xml
-    MultiPart multiPart = getMultipartForm(file, xml);
-
-    // post to CHIPS
-    // TODO: currently posting to Chips Stub, needs to point at real endpoint
-    final WebTarget target = client.target(configuration.getApiUrl());
-    // return response from CHIPS
-    Response response = target.request(MediaType.MULTIPART_FORM_DATA_TYPE)
-        .post(Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE));
-    log.info("Response from CHIPS: " + response.toString());
-    return response;
+    } finally {
+      context.stop();
+    }
   }
 
   /**
@@ -93,6 +102,5 @@ public class FormSubmissionResource {
         .bodyPart(new StreamDataBodyPart("file", file))
         .bodyPart(new FormDataBodyPart("form", xml, MediaType.APPLICATION_XML_TYPE));
     return multiPart;
-
   }
 }

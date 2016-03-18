@@ -10,18 +10,21 @@ import com.ch.resources.FormResponseResource;
 import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HealthcheckResource;
 import com.ch.resources.HomeResource;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Slf4jReporter;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.client.JerseyClientBuilder;
-import io.dropwizard.client.JerseyClientConfiguration;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import javax.ws.rs.client.Client;
@@ -33,6 +36,7 @@ import javax.ws.rs.client.Client;
 public class FormsServiceApplication extends Application<FormsServiceConfiguration> {
 
   public static final String NAME = "Forms API Service";
+  public static final MetricRegistry registry = new MetricRegistry();
 
   public static void main(String[] args) throws Exception {
     new FormsServiceApplication().run(args);
@@ -61,6 +65,9 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     AuthDynamicFeature feature = new AuthDynamicFeature(authFilter);
     environment.jersey().register(feature);
 
+    // MultiPart
+    environment.jersey().register(MultiPartFeature.class);
+
     // Jersey Client
     final Client client = new JerseyClientBuilder(environment)
         .using(configuration.getJerseyClientConfiguration())
@@ -75,9 +82,6 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
 
-    // MultiPart
-    environment.jersey().register(MultiPartFeature.class);
-
     // Health checks
     final AppHealthCheck healthCheck =
         new AppHealthCheck();
@@ -88,6 +92,19 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         Logger.getLogger(LoggingFilter.class.getName()),
         true)
     );
+
+    // Metrics
+    startReporting();
   }
 
+  private void startReporting() {
+    Slf4jReporter reporter = Slf4jReporter.forRegistry(registry)
+        .outputTo(LoggerFactory.getLogger(FormsServiceApplication.class))
+        .convertRatesTo(TimeUnit.SECONDS)
+        .convertDurationsTo(TimeUnit.MILLISECONDS)
+        .build();
+    // report metrics to log every hour
+    // TODO: confirm how often to log
+    reporter.start(1, TimeUnit.HOURS);
+  }
 }
