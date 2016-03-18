@@ -65,9 +65,6 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     AuthDynamicFeature feature = new AuthDynamicFeature(authFilter);
     environment.jersey().register(feature);
 
-    // MultiPart
-    environment.jersey().register(MultiPartFeature.class);
-
     // Jersey Client
     final Client client = new JerseyClientBuilder(environment)
         .using(configuration.getJerseyClientConfiguration())
