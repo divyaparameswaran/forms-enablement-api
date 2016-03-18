@@ -1,14 +1,11 @@
 package com.ch.resources;
 
-import com.ch.conversion.JsonToXmlConverter;
+import com.ch.model.FormsJson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -19,11 +16,18 @@ public class ConversionResource {
 
   private static final Logger log = LogManager.getLogger(FormSubmissionResource.class);
 
+  /**
+   * Resource to test posting JSON and receive XML.
+   * @param json json to convert
+   * @return xml
+   */
   @POST
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public Response convert(@FormDataParam("form") String form) {
-    log.info("JSON received: " + form);
-    String xml = JsonToXmlConverter.getInstance().toXML(form);
+  public Response convert(String json) {
+    log.info("JSON received: " + json);
+    FormsJson form = new FormsJson(json);
+    String converted = form.getConvertedString();
+    log.info("Converted JSON: " + converted);
+    String xml = form.toXML();
     log.info("Produced XML: " + xml);
     return Response.ok().entity(xml).build();
   }

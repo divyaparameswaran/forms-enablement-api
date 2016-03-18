@@ -1,8 +1,8 @@
 package com.ch.conversion;
 
+import com.ch.model.FormsJson;
 import org.json.JSONException;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -13,20 +13,14 @@ import org.apache.commons.io.FileUtils;
 /**
  * Created by elliott.jenkins on 15/03/2016.
  */
-public class JsonToXmlConverterTest {
-
-    private JsonToXmlConverter converter;
-
-    @Before
-    public void setup() {
-        converter = JsonToXmlConverter.getInstance();
-    }
+public class FormsJsonToXmlTest {
 
     @Test
     public void convertsValidJsonToXml() throws IOException {
         String path = "src/test/test_json/valid.json";
         String valid = getJSONFromFile(path);
-        String result = converter.toXML(valid);
+        FormsJson form = new FormsJson(valid);
+        String result = form.toXML();
         Assert.assertNotNull(result);
     }
 
@@ -34,13 +28,15 @@ public class JsonToXmlConverterTest {
     public void throwsJSONExceptionWithInvalidJson() throws IOException {
         String path = "src/test/test_json/invalid.json";
         String invalid = getJSONFromFile(path);
-        converter.toXML(invalid);
+        FormsJson form = new FormsJson(invalid);
+        form.toXML();
     }
 
     @Test(expected=JSONException.class)
     public void throwsJSONExceptionWhenInputNotJson() {
         String input = "abc";
-        converter.toXML(input);
+        FormsJson form = new FormsJson(input);
+        form.toXML();
     }
 
     private String getJSONFromFile(String path) throws IOException {

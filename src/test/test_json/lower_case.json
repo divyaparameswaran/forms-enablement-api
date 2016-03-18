@@ -1,0 +1,43 @@
+{
+  "string": "hello",
+  "number": 123,
+  "boolean": true,
+  "array": [
+    { "array_string": "hello array string" },
+    { "array_number": 123 },
+    { "array_boolean": false }
+  ],
+  "nested": {
+    "level_1": {
+      "level_2": {
+        "level_3": {
+          "nested_string": "hello nested"
+        }
+      }
+    }
+  },
+  "array_nested": [
+    {
+      "nested": {
+        "level_1": {
+          "level_2": {
+            "level_3": {
+              "nested_string": "hello array nested 1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "nested": {
+        "level_1": {
+          "level_2": {
+            "level_3": {
+              "nested_string": "hello array nested 2"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
