@@ -5,6 +5,7 @@ import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
 import com.ch.resources.ChipsStubResource;
+import com.ch.resources.ConversionResource;
 import com.ch.resources.FormResponseResource;
 import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HealthcheckResource;
@@ -67,6 +68,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         .build(getName());
 
     // Resources
+    environment.jersey().register(new ConversionResource());
     environment.jersey().register(new ChipsStubResource());
     environment.jersey().register(new FormSubmissionResource(client, configuration.getCompaniesHouseConfiguration()));
     environment.jersey().register(new FormResponseResource());

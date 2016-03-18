@@ -1,7 +1,7 @@
 package com.ch.resources;
 
 import com.ch.configuration.CompaniesHouseConfiguration;
-import com.ch.conversion.JsonToXmlConverter;
+import com.ch.model.FormsJson;
 import io.dropwizard.auth.Auth;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -64,7 +64,8 @@ public class FormSubmissionResource {
     // TODO: log in JsonToXmlConverter?
     log.info("JSON from Salesforce: " + form);
     log.info("File from Salesforce: " + fileDisposition.getFileName());
-    String xml = JsonToXmlConverter.getInstance().toXML(form);
+    FormsJson formsJson = new FormsJson(form);
+    String xml = formsJson.toXML();
     log.info("Produced XML: " + xml);
 
     // create multipart - file and xml
