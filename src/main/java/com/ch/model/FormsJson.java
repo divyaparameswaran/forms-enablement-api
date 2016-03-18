@@ -14,23 +14,23 @@ import java.util.Locale;
 public class FormsJson {
   private final JSONObject jsonObject;
 
+  /**
+   * Model to manipulate JSON.
+   * @param jsonString input json
+   * @throws JSONException if input jsonString isn't valid json
+   */
   public FormsJson(String jsonString) throws JSONException {
     this.jsonObject = new JSONObject(jsonString);
+    // transform string properties to uppercase
+    parentUpperCase(jsonObject);
   }
 
   public String getConvertedString() {
-    convert();
     return jsonObject.toString();
   }
 
   public String toXML() {
-    convert();
     return XML.toString(jsonObject);
-  }
-
-  private void convert() {
-    // transform string properties to uppercase
-    parentUpperCase(jsonObject);
   }
 
   private void parentUpperCase(JSONObject parent) {
