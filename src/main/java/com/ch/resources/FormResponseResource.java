@@ -1,5 +1,8 @@
 package com.ch.resources;
 
+import com.ch.application.FormsServiceApplication;
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -15,6 +18,7 @@ import javax.ws.rs.core.Response;
 public class FormResponseResource {
 
   private static final Logger log = LogManager.getLogger(FormResponseResource.class);
+  private static final Timer timer = FormsServiceApplication.registry.timer("FormResponseResource");
 
   /**
    * Resource to post response from CHIPS to Salesforce.
@@ -25,8 +29,15 @@ public class FormResponseResource {
   @POST
   public Response submit(@Auth
                          String json) {
-    log.info("Received JSON: " + json);
-    // TODO: forward JSON to a salesforce endpoint
-    return Response.ok().build();
+    final Timer.Context context = timer.time();
+    try {
+      log.info("Received JSON: " + json);
+      // TODO: forward JSON to a salesforce endpoint
+      return Response.ok().build();
+
+    } finally {
+      context.stop();
+    }
+
   }
 }

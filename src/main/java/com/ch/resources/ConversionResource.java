@@ -1,6 +1,9 @@
 package com.ch.resources;
 
+import com.ch.application.FormsServiceApplication;
 import com.ch.model.FormsJson;
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.Timer;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -15,6 +18,7 @@ import javax.ws.rs.core.Response;
 public class ConversionResource {
 
   private static final Logger log = LogManager.getLogger(FormSubmissionResource.class);
+  private static final Timer timer = FormsServiceApplication.registry.timer("ConversionResource");
 
   /**
    * Resource to test posting JSON and receive XML.
@@ -23,12 +27,18 @@ public class ConversionResource {
    */
   @POST
   public Response convert(String json) {
-    log.info("JSON received: " + json);
-    FormsJson form = new FormsJson(json);
-    String converted = form.getConvertedString();
-    log.info("Converted JSON: " + converted);
-    String xml = form.toXML();
-    log.info("Produced XML: " + xml);
-    return Response.ok().entity(xml).build();
+    final Timer.Context context = timer.time();
+    try {
+      log.info("JSON received: " + json);
+      FormsJson form = new FormsJson(json);
+      String converted = form.getConvertedString();
+      log.info("Converted JSON: " + converted);
+      String xml = form.toXML();
+      log.info("Produced XML: " + xml);
+      return Response.ok().entity(xml).build();
+
+    } finally {
+      context.stop();
+    }
   }
 }
