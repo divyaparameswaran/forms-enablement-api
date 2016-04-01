@@ -33,6 +33,13 @@ public final class XmlHelper {
     return instance;
   }
 
+  /**
+   * Create an xml document from a string.
+   *
+   * @param xml xml string
+   * @return xml document
+   * @throws Exception error parsing string to document
+   */
   public Document createDocumentFromString(String xml) throws Exception {
     // create dom from xml string
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
