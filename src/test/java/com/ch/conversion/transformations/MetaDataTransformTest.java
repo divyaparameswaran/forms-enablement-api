@@ -11,11 +11,10 @@ import java.io.IOException;
  */
 public class MetaDataTransformTest {
 
-  MetaDataTransform transform;
+  ITransformConfig config;
 
   @Before
   public void setUp() throws IOException {
-    // config
-    ITransformConfig config = new TestTransformationConfig();
+    config = new TestTransformationConfig();
   }
 }
