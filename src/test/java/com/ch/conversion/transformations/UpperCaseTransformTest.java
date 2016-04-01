@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * Created by elliott.jenkins on 31/03/2016.
  */
-public class UpperCaseTransformTest {
+public class UpperCaseTransformTest extends TestHelper {
 
   UpperCaseTransform transform;
 
@@ -23,8 +23,7 @@ public class UpperCaseTransformTest {
 
   @Test
   public void convertToUpperCase() throws IOException {
-    String input_path = "src/test/test_json/lower_case.json";
-    String input = TestHelper.getStringFromFile(input_path);
+    String input = TestHelper.getStringFromFile(LOWERCASE_JSON_PATH);
 
     JSONObject json = new JSONObject(input);
     transform.parentUpperCase(json);

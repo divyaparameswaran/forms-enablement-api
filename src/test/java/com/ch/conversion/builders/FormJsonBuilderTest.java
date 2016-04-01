@@ -50,7 +50,7 @@ public class FormJsonBuilderTest extends TestHelper{
     // valid package data
     String package_string = getStringFromFile(PACKAGE_JSON_PATH);
     // valid form data
-    String form_string = getStringFromFile(FORM_PATH);
+    String form_string = getStringFromFile(FORM_JSON_PATH);
     // builder
     return new FormJsonBuilder(config, package_string, form_string);
   }

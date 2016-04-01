@@ -54,7 +54,7 @@ public class FormXmlBuilderTest extends TestHelper{
     String meta_string = getStringFromFile(META_PATH);
     JSONObject meta_json = new JSONObject(meta_string);
     // valid form data
-    String form_string = getStringFromFile(FORM_PATH);
+    String form_string = getStringFromFile(FORM_JSON_PATH);
     JSONObject form_json = new JSONObject(form_string);
     // builder
     return new FormXmlBuilder(config, package_json, meta_json, form_json);

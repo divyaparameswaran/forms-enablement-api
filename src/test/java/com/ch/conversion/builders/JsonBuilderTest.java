@@ -58,7 +58,7 @@ public class JsonBuilderTest extends TestHelper {
     // valid package data
     String package_string = getStringFromFile(PACKAGE_JSON_PATH);
     // valid forms
-    String valid = getStringFromFile(FORM_PATH);
+    String valid = getStringFromFile(FORM_JSON_PATH);
     List<String> valid_forms = new ArrayList<>();
     for (int i = 0; i < 5; i++) {
       valid_forms.add(valid);
