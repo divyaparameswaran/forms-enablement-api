@@ -18,7 +18,7 @@ public class FormXmlBuilderTest {
 
   ITransformConfig config;
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
     config = new TestTransformationConfig();
   }
 
