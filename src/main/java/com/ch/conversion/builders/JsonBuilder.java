@@ -2,10 +2,14 @@ package com.ch.conversion.builders;
 
 
 import com.ch.conversion.config.ITransformConfig;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by elliott.jenkins on 31/03/2016.
@@ -15,6 +19,40 @@ public class JsonBuilder {
   private final ITransformConfig config;
   private final String packageJson;
   private final List<String> formsJson;
+
+  /**
+   * Convert FormDataMultiPart.
+   *
+   * @param config json and xml
+   * @param parts  the form parts
+   */
+  public JsonBuilder(ITransformConfig config, FormDataMultiPart parts) throws Exception {
+    this.config = config;
+    // parts
+    FormDataBodyPart pack = null;
+    List<FormDataBodyPart> forms = new ArrayList<>();
+    // loop parts
+    Map<String, List<FormDataBodyPart>> all = parts.getFields();
+    for (Map.Entry<String, List<FormDataBodyPart>> entry : all.entrySet()) {
+      // should only be one body part per entry
+      FormDataBodyPart body = entry.getValue().get(0);
+      if (body.getName().equals(config.getPackageMultiPartName())) {
+        pack = body;
+      } else {
+        forms.add(body);
+      }
+    }
+    // check we have the parts
+    if (pack == null || forms.isEmpty()) {
+      throw new Exception("Missing required part");
+    }
+    // get content
+    this.packageJson = pack.getValue();
+    this.formsJson = new ArrayList<>();
+    for (FormDataBodyPart form : forms) {
+      this.formsJson.add(form.getValue());
+    }
+  }
 
   /**
    * Builder to create the json object for multiple forms.

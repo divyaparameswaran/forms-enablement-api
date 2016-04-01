@@ -5,6 +5,10 @@ package com.ch.conversion.config;
  */
 public class TransformConfig implements ITransformConfig {
 
+  public String getPackageMultiPartName() {
+    return "packagemetadata";
+  }
+
   public String getMetaPropertyNameIn() {
     return "metadata";
   }

@@ -4,6 +4,9 @@ package com.ch.conversion.config;
  * Created by elliott.jenkins on 31/03/2016.
  */
 public class TestTransformationConfig implements ITransformConfig {
+
+  public String getPackageMultiPartName() { return "packagemetadata"; }
+
   public String getMetaPropertyNameIn() {
     return "metadata";
   }

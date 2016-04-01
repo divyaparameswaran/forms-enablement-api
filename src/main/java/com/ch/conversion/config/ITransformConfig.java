@@ -5,6 +5,8 @@ package com.ch.conversion.config;
  */
 public interface ITransformConfig {
 
+  String getPackageMultiPartName();
+
   String getMetaPropertyNameIn();
 
   String getFormPropertyNameIn();
