@@ -11,7 +11,7 @@ import org.w3c.dom.Document;
 /**
  * Created by elliott.jenkins on 31/03/2016.
  */
-public class XmlHelperTest {
+public class XmlHelperTest extends TestHelper {
 
   XmlHelper helper;
 
@@ -22,8 +22,7 @@ public class XmlHelperTest {
 
   @Test
   public void createDocumentFromString() throws Exception {
-    String xml_path = "src/test/resources/example.xml";
-    String xml_string = TestHelper.getStringFromFile(xml_path);
+    String xml_string = TestHelper.getStringFromFile(EXAMPLE_XML_PATH);
     Document xml = helper.createDocumentFromString(xml_string);
     Assert.assertNotNull(xml);
   }
@@ -31,12 +30,10 @@ public class XmlHelperTest {
   @Test
   public void addJsonPropertyToXml() throws Exception {
     // xml
-    String xml_path = "src/test/resources/example.xml";
-    Document xml = createDocumentFromPath(xml_path);
+    Document xml = createDocumentFromPath(EXAMPLE_XML_PATH);
 
     // json
-    String json_path = "src/test/resources/example.json";
-    String json_string = TestHelper.getStringFromFile(json_path);
+    String json_string = TestHelper.getStringFromFile(EXAMPLE_JSON_PATH);
     JSONObject json = new JSONObject(json_string);
 
     // where to add element
@@ -55,8 +52,7 @@ public class XmlHelperTest {
 
   @Test
   public void createAttributeFromJson() throws Exception {
-    String json_path = "src/test/resources/example.json";
-    String json_string = TestHelper.getStringFromFile(json_path);
+    String json_string = TestHelper.getStringFromFile(EXAMPLE_JSON_PATH);
     JSONObject json = new JSONObject(json_string);
     String json_property = "new_child";
     String attribute_name = "new_attribute";
@@ -67,8 +63,7 @@ public class XmlHelperTest {
 
   @Test
   public void getStringFromDocument() throws Exception {
-    String xml_path = "src/test/resources/example.xml";
-    Document xml = createDocumentFromPath(xml_path);
+    Document xml = createDocumentFromPath(EXAMPLE_XML_PATH);
     String output = helper.getStringFromDocument(xml);
     Assert.assertNotNull(output);
   }

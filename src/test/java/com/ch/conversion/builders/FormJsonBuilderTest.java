@@ -14,7 +14,7 @@ import org.junit.Test;
 /**
  * Created by elliott.jenkins on 31/03/2016.
  */
-public class FormJsonBuilderTest {
+public class FormJsonBuilderTest extends TestHelper{
 
   ITransformConfig config;
 
@@ -25,8 +25,7 @@ public class FormJsonBuilderTest {
 
   @Test(expected = JSONException.class)
   public void throwsJSONExceptionWithInvalidJson() throws Exception {
-    String path = "src/test/test_json/invalid.json";
-    String invalid = TestHelper.getStringFromFile(path);
+    String invalid = getStringFromFile(INVALID_JSON_PATH);
     FormJsonBuilder builder = new FormJsonBuilder(config, invalid, invalid);
     builder.getJson();
   }
@@ -34,8 +33,7 @@ public class FormJsonBuilderTest {
   // TODO: is this the desired behaviour?
   @Test(expected = JSONException.class)
   public void throwsJSONExceptionWithValidJsonMissingRequiredData() throws Exception {
-    String path = "src/test/test_json/valid.json";
-    String valid = TestHelper.getStringFromFile(path);
+    String valid = getStringFromFile(VALID_JSON_PATH);
     FormJsonBuilder builder = new FormJsonBuilder(config, valid, valid);
     builder.getJson();
   }
@@ -50,11 +48,9 @@ public class FormJsonBuilderTest {
 
   private FormJsonBuilder getValidFormJsonBuilder() throws Exception {
     // valid package data
-    String package_path = "src/test/resources/package.json";
-    String package_string = TestHelper.getStringFromFile(package_path);
+    String package_string = getStringFromFile(PACKAGE_JSON_PATH);
     // valid form data
-    String form_path = "src/test/resources/form_all.json";
-    String form_string = TestHelper.getStringFromFile(form_path);
+    String form_string = getStringFromFile(FORM_PATH);
     // builder
     return new FormJsonBuilder(config, package_string, form_string);
   }
