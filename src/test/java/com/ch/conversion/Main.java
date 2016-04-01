@@ -37,7 +37,7 @@ public class Main {
     // multiple forms
     List<String> formsJson = new ArrayList<String>();
     for (int i = 0; i < 5; i++) {
-      String formJsonPath = "src/test/resources/form.json";
+      String formJsonPath = "src/test/resources/form_all.json";
       String formJson = getJSONFromFile(formJsonPath);
       System.out.println("- form json " + i + " -");
       System.out.println(formJson);
