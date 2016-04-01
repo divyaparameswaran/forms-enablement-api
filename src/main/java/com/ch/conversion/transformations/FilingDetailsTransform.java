@@ -5,12 +5,6 @@ import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.helpers.XmlHelper;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-
-import java.io.StringReader;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Created by elliott.jenkins on 31/03/2016.

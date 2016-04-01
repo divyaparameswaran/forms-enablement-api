@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-import java.io.IOException;
-
 /**
  * Created by elliott.jenkins on 31/03/2016.
  */
