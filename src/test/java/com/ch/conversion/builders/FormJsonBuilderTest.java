@@ -17,12 +17,13 @@ import org.junit.Test;
 public class FormJsonBuilderTest {
 
   ITransformConfig config;
+
   @Before
   public void setUp() {
     config = new TestTransformationConfig();
   }
 
-  @Test(expected=JSONException.class)
+  @Test(expected = JSONException.class)
   public void throwsJSONExceptionWithInvalidJson() throws Exception {
     String path = "src/test/test_json/invalid.json";
     String invalid = TestHelper.getStringFromFile(path);
@@ -31,7 +32,7 @@ public class FormJsonBuilderTest {
   }
 
   // TODO: is this the desired behaviour?
-  @Test(expected=JSONException.class)
+  @Test(expected = JSONException.class)
   public void throwsJSONExceptionWithValidJsonMissingRequiredData() throws Exception {
     String path = "src/test/test_json/valid.json";
     String valid = TestHelper.getStringFromFile(path);

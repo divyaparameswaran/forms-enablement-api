@@ -9,20 +9,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 /**
  * Created by elliott.jenkins on 31/03/2016.
  */
 public class FormXmlBuilderTest {
 
   ITransformConfig config;
+
   @Before
   public void setUp() {
     config = new TestTransformationConfig();
   }
 
-  @Test(expected=JSONException.class)
+  @Test(expected = JSONException.class)
   public void throwsJSONExceptionWithInvalidJson() throws Exception {
     String path = "src/test/test_json/invalid.json";
     String invalid = TestHelper.getStringFromFile(path);
@@ -32,7 +31,7 @@ public class FormXmlBuilderTest {
   }
 
   // TODO: is this the desired behaviour?
-  @Test(expected=NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void throwsNullPointerWithValidJsonMissingRequiredData() throws Exception {
     String path = "src/test/test_json/valid.json";
     String valid = TestHelper.getStringFromFile(path);

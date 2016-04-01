@@ -1,7 +1,5 @@
 package com.ch.conversion.transformations;
 
-import com.ch.conversion.config.ITransformConfig;
-import com.ch.conversion.config.TestTransformationConfig;
 import com.ch.helpers.TestHelper;
 import org.hamcrest.CoreMatchers;
 import org.json.JSONObject;

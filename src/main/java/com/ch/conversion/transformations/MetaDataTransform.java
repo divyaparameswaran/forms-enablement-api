@@ -20,8 +20,8 @@ public class MetaDataTransform {
    * Apply transforms to meta data.
    *
    * @param config json and xml
-   * @param xml xml to transform
-   * @param meta form meta data
+   * @param xml    xml to transform
+   * @param meta   form meta data
    */
   public MetaDataTransform(ITransformConfig config, String xml, JSONObject meta) {
     this.config = config;

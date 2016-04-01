@@ -4,7 +4,6 @@ import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TestTransformationConfig;
 import com.ch.helpers.TestHelper;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,17 +18,18 @@ import java.util.List;
 public class JsonBuilderTest {
 
   ITransformConfig config;
+
   @Before
   public void setUp() throws IOException {
     config = new TestTransformationConfig();
   }
 
-  @Test(expected=JSONException.class)
+  @Test(expected = JSONException.class)
   public void throwsJSONExceptionWithInvalidJson() throws Exception {
     String path = "src/test/test_json/invalid.json";
     String invalid = TestHelper.getStringFromFile(path);
     List<String> invalid_forms = new ArrayList<>();
-    for(int i = 0; i < 5; i++){
+    for (int i = 0; i < 5; i++) {
       invalid_forms.add(invalid);
     }
     JsonBuilder builder = new JsonBuilder(config, invalid, invalid_forms);
@@ -37,12 +37,12 @@ public class JsonBuilderTest {
   }
 
   // TODO: is this the desired behaviour?
-  @Test(expected=JSONException.class)
+  @Test(expected = JSONException.class)
   public void throwsJSONExceptionWithValidJsonMissingRequiredData() throws Exception {
     String path = "src/test/test_json/valid.json";
     String valid = TestHelper.getStringFromFile(path);
     List<String> valid_json_forms = new ArrayList<>();
-    for(int i = 0; i < 5; i++){
+    for (int i = 0; i < 5; i++) {
       valid_json_forms.add(valid);
     }
     JsonBuilder builder = new JsonBuilder(config, valid, valid_json_forms);
@@ -65,7 +65,7 @@ public class JsonBuilderTest {
     String form_path = "src/test/resources/form_all.json";
     String valid = TestHelper.getStringFromFile(form_path);
     List<String> valid_forms = new ArrayList<>();
-    for(int i = 0; i < 5; i++){
+    for (int i = 0; i < 5; i++) {
       valid_forms.add(valid);
     }
     // builder

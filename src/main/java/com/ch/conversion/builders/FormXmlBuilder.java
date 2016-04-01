@@ -24,9 +24,9 @@ public class FormXmlBuilder {
    * Builder to create the encoded xml of a form.
    *
    * @param config json and xml
-   * @param pack package data
-   * @param meta form meta data
-   * @param form form data
+   * @param pack   package data
+   * @param meta   form meta data
+   * @param form   form data
    */
   public FormXmlBuilder(ITransformConfig config, JSONObject pack, JSONObject meta, JSONObject form) {
     this.config = config;

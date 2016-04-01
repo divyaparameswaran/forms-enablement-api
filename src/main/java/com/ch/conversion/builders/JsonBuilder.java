@@ -19,9 +19,9 @@ public class JsonBuilder {
   /**
    * Builder to create the json object for multiple forms.
    *
-   * @param config json and xml
+   * @param config      json and xml
    * @param packageJson package data
-   * @param formsJson list of forms json (untransformed)
+   * @param formsJson   list of forms json (untransformed)
    */
   public JsonBuilder(ITransformConfig config, String packageJson, List<String> formsJson) {
     this.config = config;

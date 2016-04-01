@@ -5,7 +5,6 @@ import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.helpers.XmlHelper;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.io.StringReader;
@@ -22,7 +21,7 @@ public class FilingDetailsTransform {
   private final XmlHelper helper;
 
   private final Document xml;
-  private final NodeList nodes;
+  private final String xmlLocation;
 
   private final JSONObject pack;
   private final JSONObject meta;
@@ -31,26 +30,20 @@ public class FilingDetailsTransform {
    * Apply transforms to filing details.
    *
    * @param config json and xml
-   * @param xml xml to add to
-   * @param pack package data
-   * @param meta form meta data
+   * @param xml    xml to add to
+   * @param pack   package data
+   * @param meta   form meta data
    * @throws Exception error
    */
   public FilingDetailsTransform(ITransformConfig config, String xml, JSONObject pack, JSONObject meta) throws Exception {
     this.config = config;
     this.pack = pack;
     this.meta = meta;
-
-    // create dom from xml string
-    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    DocumentBuilder db = dbf.newDocumentBuilder();
-    this.xml = db.parse(new InputSource(new StringReader(xml)));
-
-    // ensure filingDetails element is present
-    nodes = this.xml.getElementsByTagName(config.getFilingDetailsPropertyNameIn());
-
-    // Xml Helper
     helper = XmlHelper.getInstance();
+    // add elements to filing details element
+    xmlLocation = config.getFilingDetailsPropertyNameIn();
+
+    this.xml = helper.createDocumentFromString(xml);
   }
 
   /**
@@ -61,11 +54,20 @@ public class FilingDetailsTransform {
    */
   public String getXml() throws Exception {
     // 1. submission number
-    helper.addElement(xml, nodes, meta, config.getSubmissionNumberPropertyNameIn(), config.getSubmissionNumberElementNameOut());
+    helper.addJsonValueAsElementToXml(xml, meta, xmlLocation,
+        config.getSubmissionNumberPropertyNameIn(),
+        config.getSubmissionNumberElementNameOut());
+
     // 2. package identifier
-    helper.addElement(xml, nodes, pack, config.getPackageIdentifierPropertyNameIn(), config.getPackageIdentifierElementNameOut());
+    helper.addJsonValueAsElementToXml(xml, pack, xmlLocation,
+        config.getPackageIdentifierPropertyNameIn(),
+        config.getPackageIdentifierElementNameOut());
+
     // 3. package count
-    helper.addElement(xml, nodes, pack, config.getPackageCountPropertyNameIn(), config.getPackageCountElementNameOut());
+    helper.addJsonValueAsElementToXml(xml, pack, xmlLocation,
+        config.getPackageCountPropertyNameIn(),
+        config.getPackageCountElementNameOut());
+
     return helper.getStringFromDocument(xml);
   }
 }

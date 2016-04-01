@@ -20,9 +20,9 @@ public class FormJsonBuilder {
   /**
    * Builder to convert one form into the required json object.
    *
-   * @param config json and xml
+   * @param config      json and xml
    * @param packageJson package data json
-   * @param formJson form data json
+   * @param formJson    form data json
    */
   public FormJsonBuilder(ITransformConfig config, String packageJson, String formJson) {
     this.config = config;

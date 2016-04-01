@@ -7,9 +7,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.InputSource;
 
+import java.io.StringReader;
 import java.io.StringWriter;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -29,16 +33,26 @@ public final class XmlHelper {
     return instance;
   }
 
+  public Document createDocumentFromString(String xml) throws Exception {
+    // create dom from xml string
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    return db.parse(new InputSource(new StringReader(xml)));
+  }
+
   /**
    * Add a json property as an element to an xml document.
    *
-   * @param xml xml document
-   * @param nodes where to add
-   * @param json json object to get property from
+   * @param xml          xml document
+   * @param xmlLocation  where to add element
+   * @param json         json object to get property from
    * @param propertyName json property to add
-   * @param elementName name of the xml element
+   * @param elementName  name of the xml element to add
    */
-  public void addElement(Document xml, NodeList nodes, JSONObject json, String propertyName, String elementName) {
+  public void addJsonValueAsElementToXml(Document xml, JSONObject json, String xmlLocation, String propertyName, String
+      elementName) {
+    // get where to add element
+    NodeList nodes = xml.getElementsByTagName(xmlLocation);
     try {
       // get value from json
       Object value = json.get(propertyName);
@@ -54,9 +68,9 @@ public final class XmlHelper {
   /**
    * Insert xml element into document.
    *
-   * @param xml xml document
-   * @param nodes where to insert
-   * @param elementName xml element name
+   * @param xml          xml document
+   * @param nodes        where to insert
+   * @param elementName  xml element name
    * @param elementValue xml element value
    */
   public void insert(Document xml, NodeList nodes, String elementName, Object elementValue) {
@@ -74,12 +88,12 @@ public final class XmlHelper {
   /**
    * Create the string for an xml attribute for a json property.
    *
-   * @param json json
-   * @param propertyName json property
+   * @param json          json
+   * @param propertyName  json property
    * @param attributeName xml attribute name
    * @return xml attribute string
    */
-  public String createAttribute(JSONObject json, String propertyName, Object attributeName) {
+  public String createAttribute(JSONObject json, String propertyName, String attributeName) {
     // e.g. attributeName='value'
     // if value is null: attributeName=''
     StringBuilder builder = new StringBuilder();
