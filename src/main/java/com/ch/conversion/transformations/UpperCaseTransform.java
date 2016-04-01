@@ -11,9 +11,23 @@ import java.util.Locale;
  */
 
 // TODO: to be refactored
-public class UpperCaseTransform {
+public final class UpperCaseTransform {
 
-  public static void parentUpperCase(JSONObject parent) {
+  private static UpperCaseTransform instance = new UpperCaseTransform();
+
+  private UpperCaseTransform() {
+  }
+
+  public static UpperCaseTransform getInstance() {
+    return instance;
+  }
+
+  /**
+   * Convert to string json properties to upper case.
+   *
+   * @param parent root json object
+   */
+  public void parentUpperCase(JSONObject parent) {
     Iterator<String> keys = parent.keys();
     while (keys.hasNext()) {
       String key = keys.next();
@@ -22,7 +36,7 @@ public class UpperCaseTransform {
     }
   }
 
-  public static void childUpperCase(String key, JSONObject parent, Object child) {
+  private void childUpperCase(String key, JSONObject parent, Object child) {
     if (child instanceof JSONObject) {
       JSONObject childJsonObject = ((JSONObject) child);
       parentUpperCase(childJsonObject);

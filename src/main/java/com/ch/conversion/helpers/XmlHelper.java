@@ -18,7 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 /**
  * Created by elliott.jenkins on 31/03/2016.
  */
-public class XmlHelper {
+public final class XmlHelper {
 
   private static XmlHelper instance = new XmlHelper();
 
@@ -29,6 +29,15 @@ public class XmlHelper {
     return instance;
   }
 
+  /**
+   * Add a json property as an element to an xml document.
+   *
+   * @param xml xml document
+   * @param nodes where to add
+   * @param json json object to get property from
+   * @param propertyName json property to add
+   * @param elementName name of the xml element
+   */
   public void addElement(Document xml, NodeList nodes, JSONObject json, String propertyName, String elementName) {
     try {
       // get value from json
@@ -42,6 +51,14 @@ public class XmlHelper {
     }
   }
 
+  /**
+   * Insert xml element into document.
+   *
+   * @param xml xml document
+   * @param nodes where to insert
+   * @param elementName xml element name
+   * @param elementValue xml element value
+   */
   public void insert(Document xml, NodeList nodes, String elementName, Object elementValue) {
     // create xml element e.g. <name>value</name>
     Element element = xml.createElement(elementName);
@@ -54,6 +71,14 @@ public class XmlHelper {
     node.appendChild(element);
   }
 
+  /**
+   * Create the string for an xml attribute for a json property.
+   *
+   * @param json json
+   * @param propertyName json property
+   * @param attributeName xml attribute name
+   * @return xml attribute string
+   */
   public String createAttribute(JSONObject json, String propertyName, Object attributeName) {
     // e.g. attributeName='value'
     // if value is null: attributeName=''
@@ -81,6 +106,13 @@ public class XmlHelper {
     }
   }
 
+  /**
+   * Convert an xml document into a string.
+   *
+   * @param doc xml document
+   * @return string representation
+   * @throws Exception error
+   */
   public String getStringFromDocument(Document doc) throws Exception {
     DOMSource domSource = new DOMSource(doc);
     StringWriter writer = new StringWriter();

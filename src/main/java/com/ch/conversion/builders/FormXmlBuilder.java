@@ -15,11 +15,19 @@ import org.json.XML;
  */
 public class FormXmlBuilder {
 
-  private ITransformConfig config;
-  private JSONObject pack;
-  private JSONObject meta;
-  private JSONObject form;
+  private final ITransformConfig config;
+  private final JSONObject pack;
+  private final JSONObject meta;
+  private final JSONObject form;
 
+  /**
+   * Builder to create the encoded xml of a form.
+   *
+   * @param config json and xml
+   * @param pack package data
+   * @param meta form meta data
+   * @param form form data
+   */
   public FormXmlBuilder(ITransformConfig config, JSONObject pack, JSONObject meta, JSONObject form) {
     this.config = config;
     this.pack = pack;
@@ -27,9 +35,15 @@ public class FormXmlBuilder {
     this.form = form;
   }
 
+  /**
+   * Get the encoded xml.
+   *
+   * @return base64 encoded xml
+   * @throws Exception error
+   */
   public String getXML() throws Exception {
     // 1. convert form data strings to upper case in the json
-    toUpperCase();
+    UpperCaseTransform.getInstance().parentUpperCase(form);
 
     // 2. convert the form json straight to xml
     String xml = toXml();
@@ -42,10 +56,6 @@ public class FormXmlBuilder {
 
     // 5. base64 encode
     return encode(filingDetailsXml);
-  }
-
-  private void toUpperCase() {
-    UpperCaseTransform.parentUpperCase(form);
   }
 
   private String toXml() {

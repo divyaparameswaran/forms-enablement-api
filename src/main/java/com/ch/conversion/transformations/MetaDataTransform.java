@@ -10,12 +10,19 @@ import org.json.JSONObject;
  */
 public class MetaDataTransform {
 
-  private ITransformConfig config;
-  private XmlHelper helper;
+  private final ITransformConfig config;
+  private final XmlHelper helper;
 
-  private String xml;
-  private JSONObject meta;
+  private final String xml;
+  private final JSONObject meta;
 
+  /**
+   * Apply transforms to meta data.
+   *
+   * @param config json and xml
+   * @param xml xml to transform
+   * @param meta form meta data
+   */
   public MetaDataTransform(ITransformConfig config, String xml, JSONObject meta) {
     this.config = config;
     this.xml = xml;
@@ -24,6 +31,11 @@ public class MetaDataTransform {
     helper = XmlHelper.getInstance();
   }
 
+  /**
+   * Add xml root and and meta data.
+   *
+   * @return xml
+   */
   public String getXml() {
     StringBuilder builder = new StringBuilder();
     builder

@@ -11,12 +11,19 @@ import org.json.JSONObject;
  */
 public class FormJsonBuilder {
 
-  private ITransformConfig config;
-  private JSONObject pack;
-  private JSONObject meta;
-  private JSONObject form;
-  private JSONArray attachments;
+  private final ITransformConfig config;
+  private final JSONObject pack;
+  private final JSONObject meta;
+  private final JSONObject form;
+  private final JSONArray attachments;
 
+  /**
+   * Builder to convert one form into the required json object.
+   *
+   * @param config json and xml
+   * @param packageJson package data json
+   * @param formJson form data json
+   */
   public FormJsonBuilder(ITransformConfig config, String packageJson, String formJson) {
     this.config = config;
     // package json object
@@ -28,6 +35,12 @@ public class FormJsonBuilder {
     this.attachments = form.getJSONArray(config.getAttachmentsPropertyNameIn());
   }
 
+  /**
+   * Get the json object for a single form.
+   *
+   * @return transformed json
+   * @throws Exception error
+   */
   public JSONObject getJson() throws Exception {
     // 1. create empty json object
     JSONObject output = new JSONObject();

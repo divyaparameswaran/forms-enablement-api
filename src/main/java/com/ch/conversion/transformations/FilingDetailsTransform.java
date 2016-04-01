@@ -18,15 +18,24 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class FilingDetailsTransform {
 
-  private ITransformConfig config;
-  private XmlHelper helper;
+  private final ITransformConfig config;
+  private final XmlHelper helper;
 
-  private Document xml;
-  private NodeList nodes;
+  private final Document xml;
+  private final NodeList nodes;
 
-  private JSONObject pack;
-  private JSONObject meta;
+  private final JSONObject pack;
+  private final JSONObject meta;
 
+  /**
+   * Apply transforms to filing details.
+   *
+   * @param config json and xml
+   * @param xml xml to add to
+   * @param pack package data
+   * @param meta form meta data
+   * @throws Exception error
+   */
   public FilingDetailsTransform(ITransformConfig config, String xml, JSONObject pack, JSONObject meta) throws Exception {
     this.config = config;
     this.pack = pack;
@@ -44,6 +53,12 @@ public class FilingDetailsTransform {
     helper = XmlHelper.getInstance();
   }
 
+  /**
+   * Add required elements to filing details.
+   *
+   * @return xml
+   * @throws Exception error
+   */
   public String getXml() throws Exception {
     // 1. submission number
     helper.addElement(xml, nodes, meta, config.getSubmissionNumberPropertyNameIn(), config.getSubmissionNumberElementNameOut());

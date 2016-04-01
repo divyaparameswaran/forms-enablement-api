@@ -12,16 +12,29 @@ import java.util.List;
  */
 public class JsonBuilder {
 
-  private ITransformConfig config;
-  private String packageJson;
-  private List<String> formsJson;
+  private final ITransformConfig config;
+  private final String packageJson;
+  private final List<String> formsJson;
 
+  /**
+   * Builder to create the json object for multiple forms.
+   *
+   * @param config json and xml
+   * @param packageJson package data
+   * @param formsJson list of forms json (untransformed)
+   */
   public JsonBuilder(ITransformConfig config, String packageJson, List<String> formsJson) {
     this.config = config;
     this.packageJson = packageJson;
     this.formsJson = formsJson;
   }
 
+  /**
+   * Get the json object for multiple forms.
+   *
+   * @return json
+   * @throws Exception error
+   */
   public String getJson() throws Exception {
     // 1. create root JSON object
     JSONObject root = new JSONObject();
