@@ -13,7 +13,7 @@ import org.junit.Test;
 /**
  * Created by elliott.jenkins on 31/03/2016.
  */
-public class FilingDetailsTransformTest {
+public class FilingDetailsTransformTest extends TestHelper {
 
   ITransformConfig config;
 
@@ -25,17 +25,14 @@ public class FilingDetailsTransformTest {
   @Test
   public void addFilingDetailsToXml() throws Exception {
     // xml
-    String xml_path = "src/test/resources/form.xml";
-    String xml = TestHelper.getStringFromFile(xml_path);
+    String xml = TestHelper.getStringFromFile(FORM_XML_PATH);
 
     // package json
-    String package_path = "src/test/resources/package.json";
-    String package_string = TestHelper.getStringFromFile(package_path);
+    String package_string = TestHelper.getStringFromFile(PACKAGE_JSON_PATH);
     JSONObject package_json = new JSONObject(package_string);
 
     // meta json
-    String meta_path = "src/test/resources/meta.json";
-    String meta_string = TestHelper.getStringFromFile(meta_path);
+    String meta_string = TestHelper.getStringFromFile(META_PATH);
     JSONObject meta_json = new JSONObject(meta_string);
 
     FilingDetailsTransform transform = new FilingDetailsTransform(config, xml, package_json, meta_json);

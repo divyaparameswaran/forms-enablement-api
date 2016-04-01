@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by elliott.jenkins on 31/03/2016.
  */
-public class JsonBuilderTest {
+public class JsonBuilderTest extends TestHelper {
 
   ITransformConfig config;
 
@@ -25,8 +25,7 @@ public class JsonBuilderTest {
 
   @Test(expected = JSONException.class)
   public void throwsJSONExceptionWithInvalidJson() throws Exception {
-    String path = "src/test/test_json/invalid.json";
-    String invalid = TestHelper.getStringFromFile(path);
+    String invalid = getStringFromFile(INVALID_JSON_PATH);
     List<String> invalid_forms = new ArrayList<>();
     for (int i = 0; i < 5; i++) {
       invalid_forms.add(invalid);
@@ -38,8 +37,7 @@ public class JsonBuilderTest {
   // TODO: is this the desired behaviour?
   @Test(expected = JSONException.class)
   public void throwsJSONExceptionWithValidJsonMissingRequiredData() throws Exception {
-    String path = "src/test/test_json/valid.json";
-    String valid = TestHelper.getStringFromFile(path);
+    String valid = getStringFromFile(VALID_JSON_PATH);
     List<String> valid_json_forms = new ArrayList<>();
     for (int i = 0; i < 5; i++) {
       valid_json_forms.add(valid);
@@ -58,11 +56,9 @@ public class JsonBuilderTest {
 
   private JsonBuilder getValidJsonBuilder() throws Exception {
     // valid package data
-    String package_path = "src/test/resources/package.json";
-    String package_string = TestHelper.getStringFromFile(package_path);
+    String package_string = getStringFromFile(PACKAGE_JSON_PATH);
     // valid forms
-    String form_path = "src/test/resources/form_all.json";
-    String valid = TestHelper.getStringFromFile(form_path);
+    String valid = getStringFromFile(FORM_JSON_PATH);
     List<String> valid_forms = new ArrayList<>();
     for (int i = 0; i < 5; i++) {
       valid_forms.add(valid);
