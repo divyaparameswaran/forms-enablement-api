@@ -12,16 +12,14 @@ import javax.validation.constraints.NotNull;
  * Created by Aaron.Witter on 07/03/2016.
  */
 public class FormsServiceConfiguration extends Configuration {
-  @JsonProperty
-  private SalesforceConfiguration salesforceConfiguration;
-
-  @JsonProperty
-  private  CompaniesHouseConfiguration companiesHouseConfiguration;
-
   @Valid
   @NotNull
   @JsonProperty
   private final JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
+  @JsonProperty
+  private SalesforceConfiguration salesforceConfiguration;
+  @JsonProperty
+  private CompaniesHouseConfiguration companiesHouseConfiguration;
 
   public SalesforceConfiguration getSalesforceConfiguration() {
     return salesforceConfiguration;

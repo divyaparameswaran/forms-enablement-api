@@ -332,26 +332,28 @@
     </xs:element>
 
     <xs:annotation>
-        <xs:documentation>fields for officer personal authentication. These are not used in CHIPS but may be required in XML by business</xs:documentation>
+        <xs:documentation>fields for officer personal authentication. These are not used in CHIPS but may be required in XML by
+            business
+        </xs:documentation>
     </xs:annotation>
-    <xs:element name="authenticationItem" type="xs:string" />
-    <xs:element name="authenticationData" type="xs:string" />
-    <xs:element name="authenticationStatus" type="xs:string" />
-    <xs:element name="personalAuthenticationCode" type="xs:string" />
+    <xs:element name="authenticationItem" type="xs:string"/>
+    <xs:element name="authenticationData" type="xs:string"/>
+    <xs:element name="authenticationStatus" type="xs:string"/>
+    <xs:element name="personalAuthenticationCode" type="xs:string"/>
     <xs:element name="authenticationPair">
         <xs:complexType>
             <xs:all>
-                <xs:element ref="authenticationItem" minOccurs="0" />
-                <xs:element ref="authenticationData" minOccurs="0" />
+                <xs:element ref="authenticationItem" minOccurs="0"/>
+                <xs:element ref="authenticationData" minOccurs="0"/>
             </xs:all>
         </xs:complexType>
     </xs:element>
     <xs:element name="personalAuthentication">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="authenticationStatus" minOccurs="0" />
+                <xs:element ref="authenticationStatus" minOccurs="0"/>
                 <xs:element ref="authenticationPair" minOccurs="0"
-                            maxOccurs="3" />
+                            maxOccurs="3"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

@@ -3,9 +3,15 @@
   "number": 123,
   "boolean": true,
   "array": [
-    { "array_string": "hello array string" },
-    { "array_number": 123 },
-    { "array_boolean": false }
+    {
+      "array_string": "hello array string"
+    },
+    {
+      "array_number": 123
+    },
+    {
+      "array_boolean": false
+    }
   ],
   "nested": {
     "level_1": {

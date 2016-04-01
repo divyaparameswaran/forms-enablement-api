@@ -2,7 +2,6 @@ package com.ch.resources;
 
 import com.ch.application.FormsServiceApplication;
 import com.ch.configuration.CompaniesHouseConfiguration;
-import com.ch.model.FormsJson;
 import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
 import org.apache.log4j.LogManager;
@@ -10,12 +9,7 @@ import org.apache.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.MultiPart;
-import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 import org.json.JSONException;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.Base64;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -52,8 +46,8 @@ public class FormSubmissionResource {
   /**
    * Resource to test posting a multi-part form to dropwizard.
    *
-   * @param form            salesforce form json
-   * @param file            pdf
+   * @param form salesforce form json
+   * @param file pdf
    * @return multi-part with xml and file name of file
    */
   @POST
@@ -63,18 +57,11 @@ public class FormSubmissionResource {
                          @FormDataParam("file") String file) throws JSONException {
     final Timer.Context context = timer.time();
     try {
-      // convert json to xml
-      // TODO: log in JsonToXmlConverter?
-      log.info("JSON from Salesforce: " + form);
-//      log.info("File from Salesforce: " + fileDisposition.getFileName());
-      FormsJson formsJson = new FormsJson(form);
-      String xml = formsJson.toXML();
-      log.info("Produced XML: " + xml);
-
-      byte[] decoded = Base64.getMimeDecoder().decode(form);
+      // TODO: loop parts
+      String json = "abc";
 
       // create multipart - file and xml
-      MultiPart multiPart = getMultipartForm(new ByteArrayInputStream(decoded), xml);
+      MultiPart multiPart = getMultipartForm(json);
 
       // post to CHIPS
       // TODO: currently posting to Chips Stub, needs to point at real endpoint
@@ -91,16 +78,14 @@ public class FormSubmissionResource {
   }
 
   /**
-   * Creates multipart object - file and xml
+   * Creates multipart object - json
    *
-   * @param file uploaded file
-   * @param xml  converted xml
+   * @param json forms json
    * @return Multipart object.
    */
-  private MultiPart getMultipartForm(InputStream file, String xml) {
+  private MultiPart getMultipartForm(String json) {
     final MultiPart multiPart = new MultiPart()
-        .bodyPart(new StreamDataBodyPart("file", file))
-        .bodyPart(new FormDataBodyPart("form", xml, MediaType.APPLICATION_XML_TYPE));
+        .bodyPart(new FormDataBodyPart("forms", json, MediaType.APPLICATION_JSON_TYPE));
     return multiPart;
   }
 }
