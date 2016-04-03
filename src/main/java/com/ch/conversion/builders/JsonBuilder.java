@@ -28,6 +28,7 @@ public class JsonBuilder {
    */
   public JsonBuilder(ITransformConfig config, FormDataMultiPart parts) throws Exception {
     this.config = config;
+    // TODO: look at moving handling the FormDataMultiPart to another class
     // parts
     FormDataBodyPart pack = null;
     List<FormDataBodyPart> forms = new ArrayList<>();
@@ -44,13 +45,13 @@ public class JsonBuilder {
     }
     // check we have the parts
     if (pack == null || forms.isEmpty()) {
-      throw new Exception("Missing required part");
+      throw new Exception("Missing required valid FormDataBodyPart");
     }
     // get content
-    this.packageJson = pack.getValue();
+    this.packageJson = (String)pack.getEntity();
     this.formsJson = new ArrayList<>();
     for (FormDataBodyPart form : forms) {
-      this.formsJson.add(form.getValue());
+      this.formsJson.add((String)form.getEntity());
     }
   }
 

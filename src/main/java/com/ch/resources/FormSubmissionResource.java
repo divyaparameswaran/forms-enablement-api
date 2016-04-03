@@ -62,25 +62,25 @@ public class FormSubmissionResource {
                          FormDataMultiPart multi) {
     final Timer.Context context = timer.time();
     try {
-
+      // convert input to json
       ITransformConfig config = new TransformConfig();
       JsonBuilder builder = new JsonBuilder(config, multi);
       String output = builder.getJson();
-
-      return Response.ok(output).build();
+      log.info("Transformation output: " + output);
 
       // post to CHIPS
-      // TODO: currently posting to Chips Stub, needs to point at real endpoint
-      // final WebTarget target = client.target(configuration.getApiUrl());
-      //
+      // TODO: link to real api endpoint
+      final WebTarget target = client.target(configuration.getApiUrl());
+      final MultiPart multiPart = getMultipartForm(output);
+      Response response = target.request(MediaType.MULTIPART_FORM_DATA_TYPE)
+                                 .post(Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE));
+      log.info("Response from CHIPS: " + response.toString());
+
       // return response from CHIPS
-      // Response response = target.request(MediaType.MULTIPART_FORM_DATA_TYPE)
-      //                           .post(Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE));
-      // log.info("Response from CHIPS: " + response.toString());
-      // return response;
+      return response;
 
     } catch (Exception ex) {
-      // handle when an error occurred
+      // TODO: handle when an error occurred
       return Response.ok(ex.toString()).build();
 
     } finally {
