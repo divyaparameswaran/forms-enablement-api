@@ -2,14 +2,19 @@ package com.ch.conversion.builders;
 
 
 import com.ch.conversion.config.ITransformConfig;
+import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.ws.rs.core.MediaType;
 
 /**
  * Created by elliott.jenkins on 31/03/2016.
@@ -47,11 +52,11 @@ public class JsonBuilder {
     if (pack == null || forms.isEmpty()) {
       throw new Exception("Missing required valid FormDataBodyPart");
     }
-    // get content
-    this.packageJson = (String)pack.getEntity();
+
+    this.packageJson = handleFormDataBodyPart(pack);
     this.formsJson = new ArrayList<>();
     for (FormDataBodyPart form : forms) {
-      this.formsJson.add((String)form.getEntity());
+      this.formsJson.add(handleFormDataBodyPart(form));
     }
   }
 
@@ -91,5 +96,18 @@ public class JsonBuilder {
     // 4. add array to root
     root.put(config.getFormsPropertyNameOut(), array);
     return root.toString();
+  }
+
+  private String handleFormDataBodyPart(FormDataBodyPart part) throws Exception {
+    MediaType type = part.getMediaType();
+    if (type == MediaType.TEXT_PLAIN_TYPE) {
+      return part.getValue();
+
+    } else if (type == MediaType.APPLICATION_JSON_TYPE) {
+      return part.getEntity().toString();
+
+    } else {
+      throw new Exception("Invalid media type for " + part.getName());
+    }
   }
 }
