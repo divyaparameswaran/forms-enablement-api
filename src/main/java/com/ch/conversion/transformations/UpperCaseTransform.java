@@ -1,39 +1,33 @@
-package com.ch.model;
+package com.ch.conversion.transformations;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.XML;
 
 import java.util.Iterator;
 import java.util.Locale;
 
 /**
- * Created by elliott.jenkins on 18/03/2016.
+ * Created by elliott.jenkins on 30/03/2016.
  */
-public class FormsJson {
-  private final JSONObject jsonObject;
+
+// TODO: to be refactored
+public final class UpperCaseTransform {
+
+  private static UpperCaseTransform instance = new UpperCaseTransform();
+
+  private UpperCaseTransform() {
+  }
+
+  public static UpperCaseTransform getInstance() {
+    return instance;
+  }
 
   /**
-   * Model to manipulate JSON.
-   * @param jsonString input json
-   * @throws JSONException if input jsonString isn't valid json
+   * Convert to string json properties to upper case.
+   *
+   * @param parent root json object
    */
-  public FormsJson(String jsonString) throws JSONException {
-    this.jsonObject = new JSONObject(jsonString);
-    // transform string properties to uppercase
-    parentUpperCase(jsonObject);
-  }
-
-  public String getConvertedString() {
-    return jsonObject.toString();
-  }
-
-  public String toXML() {
-    return XML.toString(jsonObject);
-  }
-
-  private void parentUpperCase(JSONObject parent) {
+  public void parentUpperCase(JSONObject parent) {
     Iterator<String> keys = parent.keys();
     while (keys.hasNext()) {
       String key = keys.next();

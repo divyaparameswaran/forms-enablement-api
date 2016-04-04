@@ -1,7 +1,6 @@
 package com.ch.resources;
 
 import com.ch.application.FormsServiceApplication;
-import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
 import org.apache.log4j.LogManager;
@@ -28,7 +27,7 @@ public class FormResponseResource {
    */
   @POST
   public Response submit(@Auth
-                         String json) {
+                             String json) {
     final Timer.Context context = timer.time();
     try {
       log.info("Received JSON: " + json);
@@ -38,6 +37,5 @@ public class FormResponseResource {
     } finally {
       context.stop();
     }
-
   }
 }
