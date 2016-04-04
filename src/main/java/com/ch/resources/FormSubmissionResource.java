@@ -59,7 +59,7 @@ public class FormSubmissionResource {
    */
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
-  @Produces(MediaType.MULTIPART_FORM_DATA)
+  @Produces(MediaType.APPLICATION_JSON)
   public Response submit(@Auth
                          FormDataMultiPart multi) {
     final Timer.Context context = timer.time();
