@@ -35,7 +35,7 @@ public class ManualElementsTransform {
    * @throws Exception error
    */
   public String getXml() throws Exception {
-    // 1. add method
+    // 1. add method to filingDetails
     addMethodElement();
     // return xml
     return helper.getStringFromDocument(xml);
@@ -43,7 +43,7 @@ public class ManualElementsTransform {
 
   private void addMethodElement() {
     // <method>enablement</method>
-    String location = config.getRootElementNameOut();
+    String location = config.getFilingDetailsPropertyNameIn();
     String elementName = "method";
     String elementValue = "enablement";
     helper.addElementToXml(xml, location, elementName, elementValue);
