@@ -12,6 +12,7 @@ import org.glassfish.jersey.media.multipart.MultiPart;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -43,6 +44,7 @@ public class FormResponseResource {
    */
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   public Response submit(@Auth
                          String json) {
     final Timer.Context context = timer.time();
@@ -51,11 +53,7 @@ public class FormResponseResource {
 
       // post to Salesforce
       final WebTarget target = client.target(configuration.getApiUrl());
-      // TODO: send as multipart?
-      MultiPart multiPart = new MultiPart()
-          .bodyPart(new FormDataBodyPart("response", json, MediaType.APPLICATION_JSON_TYPE));
-      Response response = target.request(MediaType.MULTIPART_FORM_DATA_TYPE)
-          .post(Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE));
+      Response response = target.request().post(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE));
       log.info("Response from Salesforce: " + response.toString());
 
       // return response from Salesforce

@@ -42,7 +42,7 @@ public class BarcodeResource {
     // return response from CHIPS
     Response response = target.request().post(Entity.entity(dateReceived, MediaType.APPLICATION_JSON_TYPE));
 
-    //TODO format of response to be confirmed by SF dev
+    // TODO: format of response to be confirmed by SF dev
     return response;
   }
 }
