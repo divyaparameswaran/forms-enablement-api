@@ -40,7 +40,7 @@ public class BarcodeResource {
     // post to CHIPS
     final WebTarget target = client.target(configuration.getBarcodeServiceUrl());
     // return response from CHIPS
-    Response response = target.request().post(Entity.entity(dateReceived, MediaType.APPLICATION_JSON_TYPE));
+    Response response = target.request().post(Entity.json(dateReceived));
 
     // TODO: format of response to be confirmed by SF dev
     return response;

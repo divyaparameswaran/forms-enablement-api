@@ -39,21 +39,21 @@ public class FormResponseResource {
   /**
    * Resource to post response from CHIPS to Salesforce.
    *
-   * @param json JSON to forward to Salesforce
+   * @param verdict JSON to forward to Salesforce
    * @return What to return to CHIPS to be confirmed
    */
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response submit(@Auth
-                         String json) {
+                         String verdict) {
     final Timer.Context context = timer.time();
     try {
-      log.info("Received JSON: " + json);
+      log.info("Received JSON: " + verdict);
 
       // post to Salesforce
       final WebTarget target = client.target(configuration.getApiUrl());
-      Response response = target.request().post(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE));
+      Response response = target.request().post(Entity.json(verdict));
       log.info("Response from Salesforce: " + response.toString());
 
       // return response from Salesforce
