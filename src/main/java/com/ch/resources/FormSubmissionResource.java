@@ -22,6 +22,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -58,6 +59,7 @@ public class FormSubmissionResource {
    */
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
+  @Produces(MediaType.MULTIPART_FORM_DATA)
   public Response submit(@Auth
                          FormDataMultiPart multi) {
     final Timer.Context context = timer.time();
@@ -69,11 +71,8 @@ public class FormSubmissionResource {
       log.info("Transformation output: " + output);
 
       // post to CHIPS
-      // TODO: link to real api endpoint
       final WebTarget target = client.target(configuration.getApiUrl());
-      final MultiPart multiPart = getMultipartForm(output);
-      Response response = target.request(MediaType.MULTIPART_FORM_DATA_TYPE)
-                                 .post(Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE));
+      Response response = target.request().post(Entity.entity(output, MediaType.APPLICATION_JSON_TYPE));
       log.info("Response from CHIPS: " + response.toString());
 
       // return response from CHIPS
@@ -81,22 +80,10 @@ public class FormSubmissionResource {
 
     } catch (Exception ex) {
       // TODO: handle when an error occurred
-      return Response.ok(ex.toString()).build();
+      return Response.serverError().entity(Entity.entity(ex.toString(), MediaType.APPLICATION_JSON_TYPE)).build();
 
     } finally {
       context.stop();
     }
-  }
-
-  /**
-   * Creates multipart object - json
-   *
-   * @param json forms json
-   * @return Multipart object.
-   */
-  private MultiPart getMultipartForm(String json) {
-    final MultiPart multiPart = new MultiPart()
-        .bodyPart(new FormDataBodyPart("forms", json, MediaType.APPLICATION_JSON_TYPE));
-    return multiPart;
   }
 }
