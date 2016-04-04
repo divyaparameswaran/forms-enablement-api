@@ -28,10 +28,15 @@ public class BarcodeResource {
     this.configuration = configuration;
   }
 
+  /**
+   * Retireves unique barcode from CHIPS.
+   * @param dateReceived datereceived json object.
+   * @return response from chips.
+   */
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getBarcode(String dateReceived){
+  public Response getBarcode(String dateReceived) {
     // post to CHIPS
     final WebTarget target = client.target(configuration.getBarcodeServiceUrl());
     // return response from CHIPS
