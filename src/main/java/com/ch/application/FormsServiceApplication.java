@@ -4,6 +4,8 @@ import com.ch.auth.FormsApiAuthenticator;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
+
+import com.ch.resources.BarcodeResource;
 import com.ch.resources.FormResponseResource;
 import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HealthcheckResource;
@@ -74,6 +76,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new FormResponseResource(client, configuration.getSalesforceConfiguration()));
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
+    environment.jersey().register(new BarcodeResource(client, configuration.getCompaniesHouseConfiguration()));
 
     // Health checks
     final AppHealthCheck healthCheck =

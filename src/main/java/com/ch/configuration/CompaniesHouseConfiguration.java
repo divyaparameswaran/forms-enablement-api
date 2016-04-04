@@ -19,6 +19,10 @@ public class CompaniesHouseConfiguration {
   @NotEmpty
   private String name;
 
+  @JsonProperty
+  @NotEmpty
+  private String barcodeServiceUrl;
+
   public String getSecret() {
     return secret;
   }
@@ -29,5 +33,9 @@ public class CompaniesHouseConfiguration {
 
   public String getName() {
     return name;
+  }
+
+  public String getBarcodeServiceUrl() {
+    return barcodeServiceUrl;
   }
 }

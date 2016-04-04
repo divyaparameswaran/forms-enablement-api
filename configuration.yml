@@ -18,6 +18,7 @@ companiesHouseConfiguration:
   name: CHIPS
   secret: ${env.CHIPS_API_KEY!"ABC321"}
   apiUrl: ${env.CHIPS_API_URL!"https://fishandchips.herokuapp.com/chips"}
+  barcodeServiceUrl: ${env.CHIPS_BARCODE_SERVICE_URL!"https://fishandchips.herokuapp.com/chips/barcode"}
 
 jerseyClient:
   timeout: 5000ms
