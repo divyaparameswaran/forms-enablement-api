@@ -4,7 +4,7 @@ server:
   adminContextPath: /admin
   connector:
     type: http
-    port: 9110
+    port: 8080
 
 salesforceConfiguration:
   name: Salesforce
@@ -14,8 +14,16 @@ salesforceConfiguration:
 companiesHouseConfiguration:
   name: CHIPS
   secret: ${env.CHIPS_API_KEY!"ABC321"}
-  apiUrl: ${env.CHIPS_API_URL!"www.example.com/response"}
+  apiUrl: ${env.CHIPS_API_URL!"http://demo7117990.mockable.io/chips-restService/rest/efilingEnablement/postForm"}
+  barcodeServiceUrl: ${env.CHIPS_BARCODE_SERVICE_URL!"https://fishandchips.herokuapp.com/chips/barcode"}
 
 jerseyClient:
   timeout: 5000ms
   chunkedEncodingEnabled: false
+  gzipEnabled: false
+  gzipEnabledForRequests: false
+
+log4jConfiguration:
+  frequency: ${env.CH_LOG_FREQUENCY!"1"}
+  #Valid values are DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS
+  timeUnit: ${env.CH_LOG_TIME_UNIT!"HOURS"}
