@@ -53,9 +53,9 @@ public class FormSubmissionResource {
   }
 
   /**
-   * Resource to test posting a multi-part form to dropwizard.
+   * Resource to post forms from Salesforce to CHIPS.
    *
-   * @return multi-part with xml and file name of file
+   * @return json with response from CHIPS
    */
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)

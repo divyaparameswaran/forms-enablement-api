@@ -51,6 +51,21 @@ public class XmlHelperTest extends TestHelper {
   }
 
   @Test
+  public void addElementToXml() throws Exception {
+    // xml
+    Document xml = createDocumentFromPath(EXAMPLE_XML_PATH);
+    // element
+    String elementName = "test";
+    String elementValue = "value";
+    // location
+    String location = "root";
+    helper.addElementToXml(xml, location, elementName, elementValue);
+
+    String modified = helper.getStringFromDocument(xml);
+    Assert.assertThat(modified, CoreMatchers.containsString("<test>value</test>"));
+  }
+
+  @Test
   public void createAttributeFromJson() throws Exception {
     String json_string = TestHelper.getStringFromFile(EXAMPLE_JSON_PATH);
     JSONObject json = new JSONObject(json_string);

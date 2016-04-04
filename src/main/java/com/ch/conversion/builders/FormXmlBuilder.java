@@ -3,6 +3,7 @@ package com.ch.conversion.builders;
 
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.transformations.FilingDetailsTransform;
+import com.ch.conversion.transformations.ManualElementsTransform;
 import com.ch.conversion.transformations.MetaDataTransform;
 import com.ch.conversion.transformations.UpperCaseTransform;
 import org.apache.commons.codec.binary.Base64;
@@ -54,8 +55,11 @@ public class FormXmlBuilder {
     // 4. add extra filing details
     String filingDetailsXml = addFilingDetails(metaXml);
 
-    // 5. base64 encode
-    return encode(filingDetailsXml);
+    // 5. add any manual elements into the xml
+    String methodXml = addManualElements(filingDetailsXml);
+
+    // 6. base64 encode
+    return encode(methodXml);
   }
 
   private String toXml() {
@@ -69,6 +73,11 @@ public class FormXmlBuilder {
 
   private String addFilingDetails(String xml) throws Exception {
     FilingDetailsTransform transform = new FilingDetailsTransform(config, xml, pack, meta);
+    return transform.getXml();
+  }
+
+  private String addManualElements(String xml) throws Exception {
+    ManualElementsTransform transform = new ManualElementsTransform(config, xml);
     return transform.getXml();
   }
 
