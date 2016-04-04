@@ -8,7 +8,8 @@
   "formdata": {
     "filingDetails": {
       "barcode": "X53D3R3T",
-      "receiptDate": "2016-03-23"
+      "receiptDate": "2016-03-23",
+      "signDate": "2016-03-23"
     },
     "corporateBody": {
       "incorporationNumber": "01234567",
