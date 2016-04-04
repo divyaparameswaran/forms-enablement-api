@@ -28,14 +28,6 @@ public class FormResponseResource {
   private static final Logger log = LogManager.getLogger(FormResponseResource.class);
   private static final Timer timer = FormsServiceApplication.registry.timer("FormResponseResource");
 
-  private final Client client;
-  private final SalesforceConfiguration configuration;
-
-  public FormResponseResource(Client client, SalesforceConfiguration configuration) {
-    this.client = client;
-    this.configuration = configuration;
-  }
-
   /**
    * Resource to post response from CHIPS to Salesforce.
    *
@@ -50,14 +42,7 @@ public class FormResponseResource {
     final Timer.Context context = timer.time();
     try {
       log.info("Received JSON: " + verdict);
-
-      // post to Salesforce
-      final WebTarget target = client.target(configuration.getApiUrl());
-      Response response = target.request().post(Entity.json(verdict));
-      log.info("Response from Salesforce: " + response.toString());
-
-      // return response from Salesforce
-      return response;
+      return Response.ok().build();
 
     } catch (Exception ex) {
       // TODO: how to handle errors?
