@@ -90,17 +90,17 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     );
 
     // Metrics
-    startReporting();
+    startReporting(configuration);
   }
 
-  private void startReporting() {
+  private void startReporting(FormsServiceConfiguration configuration) {
     Slf4jReporter reporter = Slf4jReporter.forRegistry(registry)
         .outputTo(LoggerFactory.getLogger(FormsServiceApplication.class))
         .convertRatesTo(TimeUnit.SECONDS)
         .convertDurationsTo(TimeUnit.MILLISECONDS)
         .build();
     // report metrics to log every hour
-    // TODO: confirm how often to log
-    reporter.start(1, TimeUnit.HOURS);
+    reporter.start(configuration.getLog4jConfiguration().getFrequency(), TimeUnit.valueOf(configuration.getLog4jConfiguration()
+        .getTimeUnit().toUpperCase()));
   }
 }
