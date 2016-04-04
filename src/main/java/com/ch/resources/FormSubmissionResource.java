@@ -67,12 +67,12 @@ public class FormSubmissionResource {
       // convert input to json
       ITransformConfig config = new TransformConfig();
       JsonBuilder builder = new JsonBuilder(config, multi);
-      String output = builder.getJson();
-      log.info("Transformation output: " + output);
+      String forms = builder.getJson();
+      log.info("Transformation output: " + forms);
 
       // post to CHIPS
       final WebTarget target = client.target(configuration.getApiUrl());
-      Response response = target.request().post(Entity.entity(output, MediaType.APPLICATION_JSON_TYPE));
+      Response response = target.request().post(Entity.json(forms));
       log.info("Response from CHIPS: " + response.toString());
 
       // return response from CHIPS
@@ -80,7 +80,7 @@ public class FormSubmissionResource {
 
     } catch (Exception ex) {
       // TODO: handle when an error occurred
-      return Response.serverError().entity(Entity.entity(ex.toString(), MediaType.APPLICATION_JSON_TYPE)).build();
+      return Response.serverError().entity(Entity.text(ex.toString())).build();
 
     } finally {
       context.stop();
