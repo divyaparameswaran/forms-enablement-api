@@ -71,7 +71,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
     // Resources
     environment.jersey().register(new FormSubmissionResource(client, configuration.getCompaniesHouseConfiguration()));
-    environment.jersey().register(new FormResponseResource());
+    environment.jersey().register(new FormResponseResource(client, configuration.getSalesforceConfiguration()));
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
 
