@@ -6,9 +6,6 @@ server:
     type: http
     port: 8080
 
-logging:
-  level: DEBUG
-
 salesforceConfiguration:
   name: Salesforce
   secret: ${env.SALESFORCE_API_KEY!"ABC123"}
@@ -25,3 +22,9 @@ jerseyClient:
   chunkedEncodingEnabled: false
   gzipEnabled: false
   gzipEnabledForRequests: false
+
+log4jConfiguration:
+  frequency: ${env.CH_LOG_FREQUENCY!1}
+  #Valid values are DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS
+  timeUnit: ${env.CH_LOG_TIME_UNIT!"HOURS"}
+

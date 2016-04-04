@@ -1,6 +1,10 @@
 package com.ch.resources;
 
+import com.ch.application.FormsServiceApplication;
 import com.ch.configuration.CompaniesHouseConfiguration;
+import com.codahale.metrics.Timer;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -17,8 +21,8 @@ import javax.ws.rs.core.Response;
  */
 @Path("/barcode")
 public class BarcodeResource {
-//  private static final Logger log = LogManager.getLogger(BarcodeResource.class);
-//  private static final Timer timer = FormsServiceApplication.registry.timer("BarcodeResource");
+  private static final Logger log = LogManager.getLogger(BarcodeResource.class);
+  private static final Timer timer = FormsServiceApplication.registry.timer("BarcodeResource");
 
   private final Client client;
   private final CompaniesHouseConfiguration configuration;
@@ -37,12 +41,27 @@ public class BarcodeResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response getBarcode(String dateReceived) {
-    // post to CHIPS
+    final Timer.Context context = timer.time();
+
+    try {
+
+      log.info("Barcode request from Salesforce: " + dateReceived);
+
+      // post to CHIPS
     final WebTarget target = client.target(configuration.getBarcodeServiceUrl());
     // return response from CHIPS
     Response response = target.request().post(Entity.json(dateReceived));
 
-    // TODO: format of response to be confirmed by SF dev
-    return response;
+    log.info("Response from CHIPS " + response);
+
+      return response;
+
+  } catch (Exception ex) {
+    // TODO: handle when an error occurred
+    return Response.serverError().entity(Entity.text(ex.toString())).build();
+
+  } finally {
+    context.stop();
   }
+}
 }

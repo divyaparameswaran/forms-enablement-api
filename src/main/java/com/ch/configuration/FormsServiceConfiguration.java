@@ -21,6 +21,9 @@ public class FormsServiceConfiguration extends Configuration {
   @JsonProperty
   private CompaniesHouseConfiguration companiesHouseConfiguration;
 
+  @JsonProperty
+  private Log4jConfiguration log4jConfiguration;
+
   public SalesforceConfiguration getSalesforceConfiguration() {
     return salesforceConfiguration;
   }
@@ -32,5 +35,9 @@ public class FormsServiceConfiguration extends Configuration {
   @JsonProperty("jerseyClient")
   public JerseyClientConfiguration getJerseyClientConfiguration() {
     return jerseyClient;
+  }
+
+  public Log4jConfiguration getLog4jConfiguration() {
+    return log4jConfiguration;
   }
 }
