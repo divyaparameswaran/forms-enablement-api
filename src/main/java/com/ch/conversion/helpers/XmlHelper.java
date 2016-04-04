@@ -73,6 +73,20 @@ public final class XmlHelper {
   }
 
   /**
+   * Add an element with a value to xml document.
+   *
+   * @param xml          document
+   * @param xmlLocation  where to add element in xml
+   * @param elementName  name of element to add
+   * @param elementValue value of the element
+   */
+  public void addElementToXml(Document xml, String xmlLocation, String elementName, String elementValue) {
+    // get where to add element
+    NodeList nodes = xml.getElementsByTagName(xmlLocation);
+    insert(xml, nodes, elementName, elementValue);
+  }
+
+  /**
    * Insert xml element into document.
    *
    * @param xml          xml document
