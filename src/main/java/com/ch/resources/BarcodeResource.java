@@ -34,6 +34,7 @@ public class BarcodeResource {
 
   /**
    * Retireves unique barcode from CHIPS.
+   *
    * @param dateReceived datereceived json object.
    * @return response from chips.
    */
@@ -48,20 +49,20 @@ public class BarcodeResource {
       log.info("Barcode request from Salesforce: " + dateReceived);
 
       // post to CHIPS
-    final WebTarget target = client.target(configuration.getBarcodeServiceUrl());
-    // return response from CHIPS
-    Response response = target.request().post(Entity.json(dateReceived));
+      final WebTarget target = client.target(configuration.getBarcodeServiceUrl());
+      // return response from CHIPS
+      Response response = target.request().post(Entity.json(dateReceived));
 
-    log.info("Response from CHIPS " + response);
+      log.info("Response from CHIPS " + response);
 
       return response;
 
-  } catch (Exception ex) {
-    // TODO: handle when an error occurred
-    return Response.serverError().entity(Entity.text(ex.toString())).build();
+    } catch (Exception ex) {
+      // TODO: handle when an error occurred
+      return Response.serverError().entity(Entity.text(ex.toString())).build();
 
-  } finally {
-    context.stop();
+    } finally {
+      context.stop();
+    }
   }
-}
 }

@@ -24,7 +24,7 @@ jerseyClient:
   gzipEnabledForRequests: false
 
 log4jConfiguration:
-  frequency: ${env.CH_LOG_FREQUENCY!1}
+  frequency: ${env.CH_LOG_FREQUENCY!"1"}
   #Valid values are DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS
   timeUnit: ${env.CH_LOG_TIME_UNIT!"HOURS"}
 
