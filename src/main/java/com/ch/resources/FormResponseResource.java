@@ -46,7 +46,7 @@ public class FormResponseResource {
 
     } catch (Exception ex) {
       // TODO: how to handle errors?
-      return Response.ok(ex.toString()).build();
+      return Response.serverError().entity(Entity.text(ex.toString())).build();
 
     } finally {
       context.stop();
