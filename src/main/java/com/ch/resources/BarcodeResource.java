@@ -43,7 +43,7 @@ public class BarcodeResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response getBarcode(@Auth
-                             String dateReceived) {
+                                 String dateReceived) {
     final Timer.Context context = timer.time();
     try {
 

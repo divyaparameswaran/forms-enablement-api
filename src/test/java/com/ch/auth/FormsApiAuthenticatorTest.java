@@ -30,8 +30,8 @@ public class FormsApiAuthenticatorTest {
     Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test client1");
 
     final Response response = client.target(
-        String.format("http://localhost:%d/submission", RULE.getLocalPort()))
-        .request(MediaType.APPLICATION_JSON_TYPE)
+        String.format("http://localhost:%d/auth", RULE.getLocalPort()))
+        .request()
         .get();
 
     Assert.assertEquals("Wrong HTTP status code.", 401, response.getStatus());
@@ -42,8 +42,8 @@ public class FormsApiAuthenticatorTest {
     Client client2 = new JerseyClientBuilder(RULE.getEnvironment()).build("test client2");
 
     final Response response = client2.target(
-        String.format("http://localhost:%d/submission", RULE.getLocalPort()))
-        .request(MediaType.APPLICATION_JSON_TYPE)
+        String.format("http://localhost:%d/auth", RULE.getLocalPort()))
+        .request()
         .header("Authorization", "Basic WRONG")
         .get();
 
@@ -59,8 +59,8 @@ public class FormsApiAuthenticatorTest {
         + ":" + RULE.getConfiguration().getSalesforceConfiguration().getSecret());
 
     final Response response = client3.target(
-        String.format("http://localhost:%d/submission", RULE.getLocalPort()))
-        .request(MediaType.APPLICATION_JSON_TYPE)
+        String.format("http://localhost:%d/auth", RULE.getLocalPort()))
+        .request()
         .header("Authorization", "Basic " + encode)
         .get();
 
@@ -75,8 +75,8 @@ public class FormsApiAuthenticatorTest {
         + ":" + RULE.getConfiguration().getCompaniesHouseConfiguration().getSecret());
 
     final Response response = client4.target(
-        String.format("http://localhost:%d/submission", RULE.getLocalPort()))
-        .request(MediaType.APPLICATION_JSON_TYPE)
+        String.format("http://localhost:%d/auth", RULE.getLocalPort()))
+        .request()
         .header("Authorization", "Basic " + encode)
         .get();
 

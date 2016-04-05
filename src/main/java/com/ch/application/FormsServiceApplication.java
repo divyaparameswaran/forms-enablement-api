@@ -5,7 +5,6 @@ import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.exception.mapper.BarcodeNotFoundExceptionMapper;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
-
 import com.ch.resources.BarcodeResource;
 import com.ch.resources.FormResponseResource;
 import com.ch.resources.FormSubmissionResource;
