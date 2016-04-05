@@ -2,6 +2,7 @@ package com.ch.resources;
 
 import com.ch.application.FormsServiceApplication;
 import com.ch.configuration.CompaniesHouseConfiguration;
+import com.ch.exception.ConnectionException;
 import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
 import org.apache.log4j.LogManager;
@@ -54,13 +55,12 @@ public class BarcodeResource {
 
       // return response from CHIPS
       Response response = target.request().post(Entity.json(dateReceived));
+      if (response.getStatus() == 404) {
+        throw new ConnectionException(configuration.getBarcodeServiceUrl());
+      }
       log.info("Response from CHIPS " + response);
 
       return response;
-
-    } catch (Exception ex) {
-      // TODO: handle when an error occurred
-      return Response.serverError().entity(Entity.text(ex.toString())).build();
 
     } finally {
       context.stop();

@@ -3,6 +3,7 @@ package com.ch.conversion.builders;
 
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TestTransformationConfig;
+import com.ch.exception.MissingRequiredDataException;
 import com.ch.helpers.TestHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,15 +31,13 @@ public class FormJsonBuilderTest extends TestHelper{
     builder.getJson();
   }
 
-  // TODO: is this the desired behaviour?
-  @Test(expected = JSONException.class)
-  public void throwsJSONExceptionWithValidJsonMissingRequiredData() throws Exception {
+  @Test(expected = MissingRequiredDataException.class)
+  public void throwsMissingRequiredDataExceptionWithValidJsonMissingRequiredData() throws Exception {
     String valid = getStringFromFile(VALID_JSON_PATH);
     FormJsonBuilder builder = new FormJsonBuilder(config, valid, valid);
     builder.getJson();
   }
 
-  // TODO: what to assert?
   @Test
   public void createJSONObjectForValidJson() throws Exception {
     FormJsonBuilder builder = getValidFormJsonBuilder();

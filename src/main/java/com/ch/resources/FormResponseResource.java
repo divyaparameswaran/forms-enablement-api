@@ -10,7 +10,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -38,10 +37,6 @@ public class FormResponseResource {
     try {
       log.info("Received JSON: " + verdict);
       return Response.ok().build();
-
-    } catch (Exception ex) {
-      // TODO: how to handle errors?
-      return Response.serverError().entity(Entity.text(ex.toString())).build();
 
     } finally {
       context.stop();

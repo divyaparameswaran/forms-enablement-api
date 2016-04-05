@@ -2,6 +2,7 @@ package com.ch.conversion.builders;
 
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TestTransformationConfig;
+import com.ch.exception.MissingRequiredDataException;
 import com.ch.helpers.TestHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,24 +22,14 @@ public class FormXmlBuilderTest extends TestHelper{
     config = new TestTransformationConfig();
   }
 
-  @Test(expected = JSONException.class)
-  public void throwsJSONExceptionWithInvalidJson() throws Exception {
-    String invalid = getStringFromFile(INVALID_JSON_PATH);
-    JSONObject json = new JSONObject(invalid);
-    FormXmlBuilder builder = new FormXmlBuilder(config, json, json, json);
-    builder.getXML();
-  }
-
-  // TODO: is this the desired behaviour?
-  @Test(expected = NullPointerException.class)
-  public void throwsNullPointerWithValidJsonMissingRequiredData() throws Exception {
+  @Test(expected = MissingRequiredDataException.class)
+  public void throwsMissingRequiredDataExceptionWithValidJsonMissingRequiredData() throws Exception {
     String valid = getStringFromFile(VALID_JSON_PATH);
     JSONObject json = new JSONObject(valid);
     FormXmlBuilder builder = new FormXmlBuilder(config, json, json, json);
     builder.getXML();
   }
 
-  // TODO: what to assert?
   @Test
   public void createEncodedXmlForValidJson() throws Exception {
     FormXmlBuilder builder = getValidFormXmlBuilder();

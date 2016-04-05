@@ -72,7 +72,7 @@ public class XmlHelperTest extends TestHelper {
     String json_property = "new_child";
     String attribute_name = "new_attribute";
 
-    String attribute = helper.createAttribute(json, json_property, attribute_name);
+    String attribute = helper.createAttributeFromJson(json, json_property, attribute_name);
     Assert.assertEquals(" new_attribute='I should be added'", attribute);
   }
 

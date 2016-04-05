@@ -5,6 +5,7 @@ import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.conversion.builders.JsonBuilder;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
+import com.ch.exception.ConnectionException;
 import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
 import org.apache.log4j.LogManager;
@@ -59,14 +60,13 @@ public class FormSubmissionResource {
       // post to CHIPS
       final WebTarget target = client.target(configuration.getApiUrl());
       Response response = target.request().post(Entity.json(forms));
+      if (response.getStatus() == 404) {
+        throw new ConnectionException(configuration.getApiUrl());
+      }
       log.info("Response from CHIPS: " + response.toString());
 
       // return response from CHIPS
       return response;
-
-    } catch (Exception ex) {
-      // TODO: handle when an error occurred
-      return Response.serverError().entity(Entity.text(ex.toString())).build();
 
     } finally {
       context.stop();
