@@ -14,7 +14,7 @@ public class HomeResource {
 
   @GET
   public String getHome() {
-    return "Hello World 1";
+    return "Hello World";
   }
 
 }

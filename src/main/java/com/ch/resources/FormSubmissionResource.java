@@ -47,11 +47,6 @@ public class FormSubmissionResource {
     this.configuration = configuration;
   }
 
-  @GET
-  public String getMessage(@Auth String message) {
-    return "hello world";
-  }
-
   /**
    * Resource to post forms from Salesforce to CHIPS.
    *
