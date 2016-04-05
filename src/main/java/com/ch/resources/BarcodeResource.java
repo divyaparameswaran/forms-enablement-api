@@ -3,6 +3,7 @@ package com.ch.resources;
 import com.ch.application.FormsServiceApplication;
 import com.ch.configuration.CompaniesHouseConfiguration;
 import com.codahale.metrics.Timer;
+import io.dropwizard.auth.Auth;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -33,26 +34,26 @@ public class BarcodeResource {
   }
 
   /**
-   * Retireves unique barcode from CHIPS.
+   * Retrieves unique barcode from CHIPS.
    *
-   * @param dateReceived datereceived json object.
+   * @param dateReceived date received json object.
    * @return response from chips.
    */
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getBarcode(String dateReceived) {
+  public Response getBarcode(@Auth
+                             String dateReceived) {
     final Timer.Context context = timer.time();
-
     try {
 
       log.info("Barcode request from Salesforce: " + dateReceived);
 
       // post to CHIPS
       final WebTarget target = client.target(configuration.getBarcodeServiceUrl());
+
       // return response from CHIPS
       Response response = target.request().post(Entity.json(dateReceived));
-
       log.info("Response from CHIPS " + response);
 
       return response;
