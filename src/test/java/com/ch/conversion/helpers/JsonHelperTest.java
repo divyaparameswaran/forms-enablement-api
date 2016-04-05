@@ -24,14 +24,14 @@ public class JsonHelperTest {
   public void throwMissingRequiredDataExceptionWhenJsonDoesNotContainProperty() throws Exception {
     String json = TestHelper.getStringFromFile(FORM_JSON_PATH);
     JSONObject object = new JSONObject(json);
-    helper.getObjectFromJson(object, "not-valid");
+    helper.getObjectFromJson(object, "root", "not-valid");
   }
 
   @Test
   public void getJsonObjectByPropertyName() throws Exception {
     String json = TestHelper.getStringFromFile(FORM_JSON_PATH);
     JSONObject object = new JSONObject(json);
-    JSONObject result = helper.getObjectFromJson(object, "formdata");
+    JSONObject result = helper.getObjectFromJson(object, "root", "formdata");
     Assert.assertNotNull(result);
   }
 }

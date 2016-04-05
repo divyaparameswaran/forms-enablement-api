@@ -15,7 +15,7 @@ public class ContentTypeException extends WebApplicationException {
 
   @Override
   public String getMessage() {
-    return String.format("Incorrect content type specified. Should be one of text/plain and application/json. Sent: %s",
+    return String.format("Incorrect content type specified. Should be text/plain or application/json. Sent: %s",
         message);
   }
 }

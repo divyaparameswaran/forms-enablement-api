@@ -5,7 +5,9 @@ package com.ch.conversion.config;
  */
 public class TestTransformationConfig implements ITransformConfig {
 
-  public String getPackageMultiPartName() { return "packagemetadata"; }
+  public String getPackageMultiPartName() {
+    return "packagemetadata";
+  }
 
   public String getMetaPropertyNameIn() {
     return "metadata";

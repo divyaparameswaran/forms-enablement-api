@@ -62,7 +62,7 @@ public final class XmlHelper {
    * @param json         json object to get property from
    * @param propertyName json property to add
    * @param elementName  name of the xml element to add
-   * @throws XmlException error parsing xml
+   * @throws XmlException                 error parsing xml
    * @throws MissingRequiredDataException error getting property from json
    */
   public void addJsonValueAsElementToXml(Document xml, JSONObject json, String xmlLocation, String propertyName, String
@@ -136,9 +136,9 @@ public final class XmlHelper {
    * @param attributeName what to call the attribute
    * @return attribute string
    */
-  public String createAttributeFromJson(JSONObject json, String propertyName, String attributeName) {
+  public String createAttributeFromJson(JSONObject json, String parentName, String propertyName, String attributeName) {
     JsonHelper jsonHelper = JsonHelper.getInstance();
-    Object value = jsonHelper.getValueFromJson(json, propertyName);
+    Object value = jsonHelper.getValueFromJson(json, parentName, propertyName);
     return createAttribute(attributeName, value);
   }
 

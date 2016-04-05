@@ -30,7 +30,7 @@ public final class MultiPartHelper {
    * Create JsonBuilder input from a FormMultiPart.
    *
    * @param config transformation config
-   * @param parts multi parts
+   * @param parts  multi parts
    * @return FormsPackage
    */
   public FormsPackage getPackageFromMultiPart(ITransformConfig config, FormDataMultiPart parts) {

@@ -51,10 +51,12 @@ public class MetaDataTransform {
         .append("<" + config.getRootElementNameOut())
         // form type
         .append(helper.createAttributeFromJson(meta,
+            config.getMetaPropertyNameIn(),
             config.getFormTypePropertyNameIn(),
             config.getFormTypeAttributeNameOut()))
         // form version
         .append(helper.createAttributeFromJson(meta,
+            config.getMetaPropertyNameIn(),
             config.getFormVersionPropertyNameIn(),
             config.getFormVersionAttributeNameOut()))
         .append(">");

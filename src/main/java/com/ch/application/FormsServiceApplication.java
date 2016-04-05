@@ -1,11 +1,9 @@
 package com.ch.application;
 
 import com.ch.auth.FormsApiAuthenticator;
+import com.ch.client.ClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
-import com.ch.exception.mapper.ConnectionExceptionMapper;
-import com.ch.exception.mapper.ContentTypeExceptionMapper;
-import com.ch.exception.mapper.MissingRequiredDataExceptionMapper;
-import com.ch.exception.mapper.XmlExceptionMapper;
+import com.ch.exception.mapper.CustomExceptionMapper;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
 import com.ch.resources.BarcodeResource;
@@ -74,12 +72,14 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         .withProvider(MultiPartFeature.class)
         .build(getName());
 
+    final ClientHelper clientHelper = new ClientHelper(client);
+
     // Resources
-    environment.jersey().register(new FormSubmissionResource(client, configuration.getCompaniesHouseConfiguration()));
+    environment.jersey().register(new FormSubmissionResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
     environment.jersey().register(new FormResponseResource());
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
-    environment.jersey().register(new BarcodeResource(client, configuration.getCompaniesHouseConfiguration()));
+    environment.jersey().register(new BarcodeResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
 
     // Health Checks
     final AppHealthCheck healthCheck =
@@ -87,10 +87,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.healthChecks().register("AppHealthCheck", healthCheck);
 
     // Exception Mappers
-    environment.jersey().register(new ConnectionExceptionMapper());
-    environment.jersey().register(new ContentTypeExceptionMapper());
-    environment.jersey().register(new MissingRequiredDataExceptionMapper());
-    environment.jersey().register(new XmlExceptionMapper());
+    environment.jersey().register(new CustomExceptionMapper());
 
     // Logging filter for input and output
     environment.jersey().register(new LoggingFilter(

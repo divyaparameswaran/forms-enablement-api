@@ -33,9 +33,9 @@ public class FormJsonBuilder {
     this.pack = new JSONObject(packageJson);
     JSONObject form = new JSONObject(formJson);
 
-    this.meta = helper.getObjectFromJson(form, config.getMetaPropertyNameIn());
-    this.form = helper.getObjectFromJson(form, config.getFormPropertyNameIn());
-    this.attachments = helper.getArrayFromJson(form, config.getAttachmentsPropertyNameIn());
+    this.meta = helper.getObjectFromJson(form, "root object", config.getMetaPropertyNameIn());
+    this.form = helper.getObjectFromJson(form, "root object", config.getFormPropertyNameIn());
+    this.attachments = helper.getArrayFromJson(form, "root object", config.getAttachmentsPropertyNameIn());
   }
 
   /**
@@ -61,8 +61,8 @@ public class FormJsonBuilder {
   }
 
   private Object getFormBarcode() {
-    JSONObject details = helper.getObjectFromJson(form, config.getFilingDetailsPropertyNameIn());
-    return helper.getValueFromJson(details, config.getBarcodePropertyNameIn());
+    JSONObject details = helper.getObjectFromJson(form, "root object", config.getFilingDetailsPropertyNameIn());
+    return helper.getValueFromJson(details, config.getFilingDetailsPropertyNameIn(), config.getBarcodePropertyNameIn());
   }
 
   private String getFormXML() {

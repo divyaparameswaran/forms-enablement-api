@@ -15,7 +15,7 @@ import org.junit.Test;
 /**
  * Created by elliott.jenkins on 31/03/2016.
  */
-public class FormJsonBuilderTest extends TestHelper{
+public class FormJsonBuilderTest extends TestHelper {
 
   ITransformConfig config;
 

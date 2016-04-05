@@ -1,8 +1,8 @@
 package com.ch.resources;
 
 import com.ch.application.FormsServiceApplication;
+import com.ch.client.ClientHelper;
 import com.ch.configuration.CompaniesHouseConfiguration;
-import com.ch.exception.ConnectionException;
 import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
 import org.apache.log4j.LogManager;
@@ -12,9 +12,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -26,10 +23,10 @@ public class BarcodeResource {
   private static final Logger log = LogManager.getLogger(BarcodeResource.class);
   private static final Timer timer = FormsServiceApplication.registry.timer("BarcodeResource");
 
-  private final Client client;
+  private final ClientHelper client;
   private final CompaniesHouseConfiguration configuration;
 
-  public BarcodeResource(Client client, CompaniesHouseConfiguration configuration) {
+  public BarcodeResource(ClientHelper client, CompaniesHouseConfiguration configuration) {
     this.client = client;
     this.configuration = configuration;
   }
@@ -51,13 +48,7 @@ public class BarcodeResource {
       log.info("Barcode request from Salesforce: " + dateReceived);
 
       // post to CHIPS
-      final WebTarget target = client.target(configuration.getBarcodeServiceUrl());
-
-      // return response from CHIPS
-      Response response = target.request().post(Entity.json(dateReceived));
-      if (response.getStatus() == 404) {
-        throw new ConnectionException(configuration.getBarcodeServiceUrl());
-      }
+      Response response = client.postJson(configuration.getBarcodeServiceUrl(), dateReceived);
       log.info("Response from CHIPS " + response);
 
       return response;

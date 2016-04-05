@@ -2,6 +2,7 @@ package com.ch.conversion.helpers;
 
 import com.ch.exception.MissingRequiredDataException;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -20,51 +21,51 @@ public final class JsonHelper {
   /**
    * Get a value from a Json Object.
    *
-   * @param json json object
+   * @param json         json object
    * @param propertyName property to get
    * @return value of property
    * @throws MissingRequiredDataException property not in json object
    */
-  public Object getValueFromJson(JSONObject json, String propertyName) throws MissingRequiredDataException {
+  public Object getValueFromJson(JSONObject json, String parentName, String propertyName) throws MissingRequiredDataException {
     try {
       return json.get(propertyName);
 
-    } catch (Exception ex) {
-      throw new MissingRequiredDataException(ex, propertyName);
+    } catch (JSONException ex) {
+      throw new MissingRequiredDataException(ex, String.format("%s in %s", propertyName, parentName));
     }
   }
 
   /**
    * Get an object from a json object.
    *
-   * @param json json object
+   * @param json         json object
    * @param propertyName property name of the object
    * @return json object
    * @throws MissingRequiredDataException property not in json object
    */
-  public JSONObject getObjectFromJson(JSONObject json, String propertyName) throws MissingRequiredDataException {
+  public JSONObject getObjectFromJson(JSONObject json, String parentName, String propertyName) throws MissingRequiredDataException {
     try {
       return json.getJSONObject(propertyName);
 
-    } catch (Exception ex) {
-      throw new MissingRequiredDataException(ex, propertyName);
+    } catch (JSONException ex) {
+      throw new MissingRequiredDataException(ex, String.format("%s in %s", propertyName, parentName));
     }
   }
 
   /**
    * Get an array from a json object.
    *
-   * @param json json object
+   * @param json         json object
    * @param propertyName property name of object
    * @return json array
    * @throws MissingRequiredDataException property not in json object
    */
-  public JSONArray getArrayFromJson(JSONObject json, String propertyName) throws MissingRequiredDataException {
+  public JSONArray getArrayFromJson(JSONObject json, String parentName, String propertyName) throws MissingRequiredDataException {
     try {
       return json.getJSONArray(propertyName);
 
-    } catch (Exception ex) {
-      throw new MissingRequiredDataException(ex, propertyName);
+    } catch (JSONException ex) {
+      throw new MissingRequiredDataException(ex, String.format("%s in %s", propertyName, parentName));
     }
   }
 }
