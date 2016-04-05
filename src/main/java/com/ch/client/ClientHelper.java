@@ -21,7 +21,7 @@ public final class ClientHelper {
   /**
    * Send json to the desired url.
    *
-   * @param url destination
+   * @param url  destination
    * @param json json to send
    * @return response from url
    */
