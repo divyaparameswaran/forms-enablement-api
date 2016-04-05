@@ -2,6 +2,7 @@ package com.ch.conversion.builders;
 
 
 import com.ch.conversion.config.ITransformConfig;
+import com.ch.exception.BarcodeNotFoundException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,8 +64,7 @@ public class FormJsonBuilder {
       JSONObject details = form.getJSONObject(config.getFilingDetailsPropertyNameIn());
       return details.get(config.getBarcodePropertyNameIn());
     } catch (JSONException ex) {
-      // TODO: how to handle when barcode can't be found
-      return "N/A";
+      throw new BarcodeNotFoundException(ex);
     }
   }
 

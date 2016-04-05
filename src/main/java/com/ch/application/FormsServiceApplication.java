@@ -2,6 +2,7 @@ package com.ch.application;
 
 import com.ch.auth.FormsApiAuthenticator;
 import com.ch.configuration.FormsServiceConfiguration;
+import com.ch.exception.mapper.BarcodeNotFoundExceptionMapper;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
 
@@ -82,6 +83,9 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     final AppHealthCheck healthCheck =
         new AppHealthCheck();
     environment.healthChecks().register("AppHealthCheck", healthCheck);
+
+    //ExceptionMappers
+    environment.jersey().register(new BarcodeNotFoundExceptionMapper());
 
     //Logging filter for input and output
     environment.jersey().register(new LoggingFilter(
