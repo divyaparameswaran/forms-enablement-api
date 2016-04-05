@@ -8,14 +8,14 @@ server:
 
 salesforceConfiguration:
   name: Salesforce
-  secret: ${env.SALESFORCE_API_KEY!"ABC123"}
-  apiUrl: ${env.SALESFORCE_API_URL!"www.example.com/submit"}
+  secret: ${env.SALESFORCE_API_KEY}
+  apiUrl: ${env.SALESFORCE_API_URL}
 
 companiesHouseConfiguration:
   name: CHIPS
-  secret: ${env.CHIPS_API_KEY!"ABC321"}
-  apiUrl: ${env.CHIPS_API_URL!"http://demo7117990.mockable.io/chips-restService/rest/efilingEnablement/postForm"}
-  barcodeServiceUrl: ${env.CHIPS_BARCODE_SERVICE_URL!"https://fishandchips.herokuapp.com/chips/barcode"}
+  secret: ${env.CHIPS_API_KEY}
+  apiUrl: ${env.CHIPS_API_URL}
+  barcodeServiceUrl: ${env.CHIPS_BARCODE_SERVICE_URL}
 
 jerseyClient:
   timeout: 5000ms
@@ -25,6 +25,6 @@ jerseyClient:
 
 log4jConfiguration:
   frequency: ${env.CH_LOG_FREQUENCY!"1"}
-  #Valid values are DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS
+  # Valid values are DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS
   timeUnit: ${env.CH_LOG_TIME_UNIT!"HOURS"}
 
