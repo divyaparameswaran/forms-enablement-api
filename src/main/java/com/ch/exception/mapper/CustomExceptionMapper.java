@@ -1,5 +1,7 @@
 package com.ch.exception.mapper;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import javax.ws.rs.core.Response;
@@ -10,8 +12,11 @@ import javax.ws.rs.ext.ExceptionMapper;
  */
 public class CustomExceptionMapper implements ExceptionMapper<Exception> {
 
+  private static final Logger log = LogManager.getLogger(CustomExceptionMapper.class);
+
   @Override
   public Response toResponse(Exception ex) {
+    log.debug(ex.getMessage(), ex);
     return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
         .entity(getJsonError(ex.getMessage()))
         .build();

@@ -52,9 +52,9 @@ public final class MultiPartHelper {
     }
 
     if (packagePart == null) {
-      throw new MissingRequiredDataException("package meta data");
+      throw new MissingRequiredDataException(config.getPackageMultiPartName(), "multipart");
     } else if (formParts.isEmpty()) {
-      throw new MissingRequiredDataException("form json. No forms sent.");
+      throw new MissingRequiredDataException("forms", "multipart");
     }
 
     String packageMetaData = handleFormDataBodyPart(packagePart);

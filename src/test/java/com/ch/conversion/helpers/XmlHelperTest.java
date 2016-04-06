@@ -43,7 +43,7 @@ public class XmlHelperTest extends TestHelper {
     // what it should be called
     String element_to_add = "new_element";
     // add
-    helper.addJsonValueAsElementToXml(xml, json, xml_location, property_to_add, element_to_add);
+    helper.addJsonValueAsElementToXml(xml, json, xml_location, "root", property_to_add, element_to_add);
 
     // document should contain element with json property value
     String modified_xml = helper.getStringFromDocument(xml);

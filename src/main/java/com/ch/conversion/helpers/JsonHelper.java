@@ -31,7 +31,7 @@ public final class JsonHelper {
       return json.get(propertyName);
 
     } catch (JSONException ex) {
-      throw new MissingRequiredDataException(ex, String.format("%s in %s", propertyName, parentName));
+      throw new MissingRequiredDataException(ex, propertyName + " (Value)", parentName);
     }
   }
 
@@ -48,7 +48,7 @@ public final class JsonHelper {
       return json.getJSONObject(propertyName);
 
     } catch (JSONException ex) {
-      throw new MissingRequiredDataException(ex, String.format("%s in %s", propertyName, parentName));
+      throw new MissingRequiredDataException(ex, propertyName + " (Object)", parentName);
     }
   }
 
@@ -65,7 +65,7 @@ public final class JsonHelper {
       return json.getJSONArray(propertyName);
 
     } catch (JSONException ex) {
-      throw new MissingRequiredDataException(ex, String.format("%s in %s", propertyName, parentName));
+      throw new MissingRequiredDataException(ex, propertyName + " (Array)", parentName);
     }
   }
 }
