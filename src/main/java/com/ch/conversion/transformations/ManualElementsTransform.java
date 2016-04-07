@@ -22,7 +22,7 @@ public class ManualElementsTransform {
    * @param xml    xml to add to
    * @throws Exception error
    */
-  public ManualElementsTransform(ITransformConfig config, String xml) throws Exception {
+  public ManualElementsTransform(ITransformConfig config, String xml) {
     this.config = config;
     helper = XmlHelper.getInstance();
     this.xml = helper.createDocumentFromString(xml);
@@ -34,7 +34,7 @@ public class ManualElementsTransform {
    * @return xml
    * @throws Exception error
    */
-  public String getXml() throws Exception {
+  public String getXml() {
     // 1. add method to filingDetails
     addMethodElement();
     // return xml

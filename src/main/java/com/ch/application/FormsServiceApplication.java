@@ -1,8 +1,9 @@
 package com.ch.application;
 
 import com.ch.auth.FormsApiAuthenticator;
+import com.ch.client.ClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
-import com.ch.exception.mapper.BarcodeNotFoundExceptionMapper;
+import com.ch.exception.mapper.CustomExceptionMapper;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
 import com.ch.resources.BarcodeResource;
@@ -71,22 +72,24 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         .withProvider(MultiPartFeature.class)
         .build(getName());
 
+    final ClientHelper clientHelper = new ClientHelper(client);
+
     // Resources
-    environment.jersey().register(new FormSubmissionResource(client, configuration.getCompaniesHouseConfiguration()));
+    environment.jersey().register(new FormSubmissionResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
     environment.jersey().register(new FormResponseResource());
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
-    environment.jersey().register(new BarcodeResource(client, configuration.getCompaniesHouseConfiguration()));
+    environment.jersey().register(new BarcodeResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
 
-    // Health checks
+    // Health Checks
     final AppHealthCheck healthCheck =
         new AppHealthCheck();
     environment.healthChecks().register("AppHealthCheck", healthCheck);
 
-    //ExceptionMappers
-    environment.jersey().register(new BarcodeNotFoundExceptionMapper());
+    // Exception Mappers
+    environment.jersey().register(new CustomExceptionMapper());
 
-    //Logging filter for input and output
+    // Logging filter for input and output
     environment.jersey().register(new LoggingFilter(
         Logger.getLogger(LoggingFilter.class.getName()),
         true)

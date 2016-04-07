@@ -29,14 +29,13 @@ public class FilingDetailsTransform {
    * @param meta   form meta data
    * @throws Exception error
    */
-  public FilingDetailsTransform(ITransformConfig config, String xml, JSONObject pack, JSONObject meta) throws Exception {
+  public FilingDetailsTransform(ITransformConfig config, String xml, JSONObject pack, JSONObject meta) {
     this.config = config;
     this.pack = pack;
     this.meta = meta;
-    helper = XmlHelper.getInstance();
-    // add elements to filing details element
     xmlLocation = config.getFilingDetailsPropertyNameIn();
 
+    helper = XmlHelper.getInstance();
     this.xml = helper.createDocumentFromString(xml);
   }
 
@@ -46,19 +45,22 @@ public class FilingDetailsTransform {
    * @return xml
    * @throws Exception error
    */
-  public String getXml() throws Exception {
+  public String getXml() {
     // 1. submission number
     helper.addJsonValueAsElementToXml(xml, meta, xmlLocation,
+        config.getMetaPropertyNameIn(),
         config.getSubmissionNumberPropertyNameIn(),
         config.getSubmissionNumberElementNameOut());
 
     // 2. package identifier
     helper.addJsonValueAsElementToXml(xml, pack, xmlLocation,
+        config.getPackageMultiPartName(),
         config.getPackageIdentifierPropertyNameIn(),
         config.getPackageIdentifierElementNameOut());
 
     // 3. package count
     helper.addJsonValueAsElementToXml(xml, pack, xmlLocation,
+        config.getPackageMultiPartName(),
         config.getPackageCountPropertyNameIn(),
         config.getPackageCountElementNameOut());
 

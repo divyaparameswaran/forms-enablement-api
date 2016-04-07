@@ -40,9 +40,8 @@ public class FormXmlBuilder {
    * Get the encoded xml.
    *
    * @return base64 encoded xml
-   * @throws Exception error
    */
-  public String getXML() throws Exception {
+  public String getXML() {
     // 1. convert form data strings to upper case in the json
     UpperCaseTransform.getInstance().parentUpperCase(form);
 
@@ -71,12 +70,12 @@ public class FormXmlBuilder {
     return transform.getXml();
   }
 
-  private String addFilingDetails(String xml) throws Exception {
+  private String addFilingDetails(String xml) {
     FilingDetailsTransform transform = new FilingDetailsTransform(config, xml, pack, meta);
     return transform.getXml();
   }
 
-  private String addManualElements(String xml) throws Exception {
+  private String addManualElements(String xml) {
     ManualElementsTransform transform = new ManualElementsTransform(config, xml);
     return transform.getXml();
   }

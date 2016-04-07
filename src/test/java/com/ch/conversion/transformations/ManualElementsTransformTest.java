@@ -1,7 +1,6 @@
 package com.ch.conversion.transformations;
 
 import static com.ch.helpers.TestHelper.CONVERTED_FORM_XML_PATH;
-import static com.ch.helpers.TestHelper.FORM_XML_PATH;
 
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TestTransformationConfig;

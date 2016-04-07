@@ -1,7 +1,6 @@
 package com.ch.conversion.transformations;
 
 import com.ch.conversion.config.ITransformConfig;
-import com.ch.conversion.config.TestTransformationConfig;
 import com.ch.conversion.config.TransformConfig;
 import com.ch.helpers.TestHelper;
 import org.hamcrest.CoreMatchers;
@@ -9,8 +8,6 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 
 /**
  * Created by elliott.jenkins on 31/03/2016.

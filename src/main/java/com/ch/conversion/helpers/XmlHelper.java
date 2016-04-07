@@ -1,5 +1,7 @@
 package com.ch.conversion.helpers;
 
+import com.ch.exception.MissingRequiredDataException;
+import com.ch.exception.XmlException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -38,13 +40,18 @@ public final class XmlHelper {
    *
    * @param xml xml string
    * @return xml document
-   * @throws Exception error parsing string to document
+   * @throws XmlException error parsing string to document
    */
-  public Document createDocumentFromString(String xml) throws Exception {
-    // create dom from xml string
-    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    DocumentBuilder db = dbf.newDocumentBuilder();
-    return db.parse(new InputSource(new StringReader(xml)));
+  public Document createDocumentFromString(String xml) throws XmlException {
+    try {
+      // create dom from xml string
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = dbf.newDocumentBuilder();
+      return db.parse(new InputSource(new StringReader(xml)));
+
+    } catch (Exception ex) {
+      throw new XmlException(ex, ex.getMessage());
+    }
   }
 
   /**
@@ -55,20 +62,26 @@ public final class XmlHelper {
    * @param json         json object to get property from
    * @param propertyName json property to add
    * @param elementName  name of the xml element to add
+   * @throws XmlException                 error parsing xml
+   * @throws MissingRequiredDataException error getting property from json
    */
-  public void addJsonValueAsElementToXml(Document xml, JSONObject json, String xmlLocation, String propertyName, String
-      elementName) {
-    // get where to add element
-    NodeList nodes = xml.getElementsByTagName(xmlLocation);
+  public void addJsonValueAsElementToXml(Document xml, JSONObject json, String xmlLocation, String parentName, String propertyName,
+                                         String
+                                             elementName) throws XmlException, MissingRequiredDataException {
     try {
+      // get where to add element
+      NodeList nodes = xml.getElementsByTagName(xmlLocation);
+
       // get value from json
       Object value = json.get(propertyName);
       // insert element
       insert(xml, nodes, elementName, value);
+
     } catch (JSONException ex) {
-      // TODO: how to handle when propertyName can't be found
-      // create empty element
-      insert(xml, nodes, elementName, null);
+      throw new MissingRequiredDataException(ex, propertyName, parentName);
+
+    } catch (Exception ex) {
+      throw new XmlException(ex, ex.getMessage());
     }
   }
 
@@ -80,10 +93,15 @@ public final class XmlHelper {
    * @param elementName  name of element to add
    * @param elementValue value of the element
    */
-  public void addElementToXml(Document xml, String xmlLocation, String elementName, String elementValue) {
-    // get where to add element
-    NodeList nodes = xml.getElementsByTagName(xmlLocation);
-    insert(xml, nodes, elementName, elementValue);
+  public void addElementToXml(Document xml, String xmlLocation, String elementName, String elementValue) throws XmlException {
+    try {
+      // get where to add element
+      NodeList nodes = xml.getElementsByTagName(xmlLocation);
+      insert(xml, nodes, elementName, elementValue);
+
+    } catch (Exception ex) {
+      throw new XmlException(ex, ex.getMessage());
+    }
   }
 
   /**
@@ -94,27 +112,45 @@ public final class XmlHelper {
    * @param elementName  xml element name
    * @param elementValue xml element value
    */
-  public void insert(Document xml, NodeList nodes, String elementName, Object elementValue) {
-    // create xml element e.g. <name>value</name>
-    Element element = xml.createElement(elementName);
-    if (elementValue != null) {
-      Text text = xml.createTextNode(elementValue.toString());
-      element.appendChild(text);
+  public void insert(Document xml, NodeList nodes, String elementName, Object elementValue) throws XmlException {
+    try {
+      // create xml element e.g. <name>value</name>
+      Element element = xml.createElement(elementName);
+      if (elementValue != null) {
+        Text text = xml.createTextNode(elementValue.toString());
+        element.appendChild(text);
+      }
+      // append to nodes
+      Node node = nodes.item(0);
+      node.appendChild(element);
+
+    } catch (Exception ex) {
+      throw new XmlException(ex, ex.getMessage());
     }
-    // append to nodes
-    Node node = nodes.item(0);
-    node.appendChild(element);
   }
 
   /**
-   * Create the string for an xml attribute for a json property.
+   * Create an xml attribute from a json property value.
    *
-   * @param json          json
-   * @param propertyName  json property
-   * @param attributeName xml attribute name
+   * @param json          json object
+   * @param propertyName  json property containing value
+   * @param attributeName what to call the attribute
+   * @return attribute string
+   */
+  public String createAttributeFromJson(JSONObject json, String parentName, String propertyName, String attributeName) {
+    JsonHelper jsonHelper = JsonHelper.getInstance();
+    Object value = jsonHelper.getValueFromJson(json, parentName, propertyName);
+    return createAttribute(attributeName, value);
+  }
+
+  /**
+   * Create the string for an xml attribute.
+   *
+   * @param attributeName  xml attribute name
+   * @param attributeValue xml attribute value
    * @return xml attribute string
    */
-  public String createAttribute(JSONObject json, String propertyName, String attributeName) {
+  public String createAttribute(String attributeName, Object attributeValue) {
     // e.g. attributeName='value'
     // if value is null: attributeName=''
     StringBuilder builder = new StringBuilder();
@@ -124,21 +160,12 @@ public final class XmlHelper {
         .append("=")
         .append("'");
 
-    try {
-      // get property from json object
-      Object value = json.get(propertyName);
-      if (value != null && !value.toString().equals("null")) {
-        builder.append(value);
-      }
-      builder.append("'");
-      return builder.toString();
-
-    } catch (JSONException ex) {
-      // TODO: how to handle when value isn't present
-      // return empty attribute
-      builder.append("'");
-      return builder.toString();
+    if (attributeValue != null && !attributeValue.toString().equals("null")) {
+      builder.append(attributeValue);
     }
+
+    builder.append("'");
+    return builder.toString();
   }
 
   /**
@@ -146,15 +173,20 @@ public final class XmlHelper {
    *
    * @param doc xml document
    * @return string representation
-   * @throws Exception error
+   * @throws XmlException error parsing xml
    */
-  public String getStringFromDocument(Document doc) throws Exception {
-    DOMSource domSource = new DOMSource(doc);
-    StringWriter writer = new StringWriter();
-    StreamResult result = new StreamResult(writer);
-    TransformerFactory tf = TransformerFactory.newInstance();
-    Transformer transformer = tf.newTransformer();
-    transformer.transform(domSource, result);
-    return writer.toString();
+  public String getStringFromDocument(Document doc) throws XmlException {
+    try {
+      DOMSource domSource = new DOMSource(doc);
+      StringWriter writer = new StringWriter();
+      StreamResult result = new StreamResult(writer);
+      TransformerFactory tf = TransformerFactory.newInstance();
+      Transformer transformer = tf.newTransformer();
+      transformer.transform(domSource, result);
+      return writer.toString();
+
+    } catch (Exception ex) {
+      throw new XmlException(ex, ex.getMessage());
+    }
   }
 }

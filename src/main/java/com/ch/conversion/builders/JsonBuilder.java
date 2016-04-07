@@ -2,16 +2,13 @@ package com.ch.conversion.builders;
 
 
 import com.ch.conversion.config.ITransformConfig;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import com.ch.conversion.helpers.MultiPartHelper;
+import com.ch.model.FormsPackage;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.core.MediaType;
 
 /**
  * Created by elliott.jenkins on 31/03/2016.
@@ -19,8 +16,7 @@ import javax.ws.rs.core.MediaType;
 public class JsonBuilder {
 
   private final ITransformConfig config;
-  private final String packageJson;
-  private final List<String> formsJson;
+  private final FormsPackage formsPackage;
 
   /**
    * Convert FormDataMultiPart.
@@ -28,33 +24,10 @@ public class JsonBuilder {
    * @param config json and xml
    * @param parts  the form parts
    */
-  public JsonBuilder(ITransformConfig config, FormDataMultiPart parts) throws Exception {
+  public JsonBuilder(ITransformConfig config, FormDataMultiPart parts) {
     this.config = config;
-    // TODO: look at moving handling the FormDataMultiPart to another class
-    // parts
-    FormDataBodyPart pack = null;
-    List<FormDataBodyPart> forms = new ArrayList<>();
-    // loop parts
-    Map<String, List<FormDataBodyPart>> all = parts.getFields();
-    for (Map.Entry<String, List<FormDataBodyPart>> entry : all.entrySet()) {
-      // should only be one body part per entry
-      FormDataBodyPart body = entry.getValue().get(0);
-      if (body.getName().equals(config.getPackageMultiPartName())) {
-        pack = body;
-      } else {
-        forms.add(body);
-      }
-    }
-    // check we have the parts
-    if (pack == null || forms.isEmpty()) {
-      throw new Exception("Missing required valid FormDataBodyPart");
-    }
-
-    this.packageJson = handleFormDataBodyPart(pack);
-    this.formsJson = new ArrayList<>();
-    for (FormDataBodyPart form : forms) {
-      this.formsJson.add(handleFormDataBodyPart(form));
-    }
+    MultiPartHelper helper = MultiPartHelper.getInstance();
+    this.formsPackage = helper.getPackageFromMultiPart(config, parts);
   }
 
   /**
@@ -66,17 +39,15 @@ public class JsonBuilder {
    */
   public JsonBuilder(ITransformConfig config, String packageJson, List<String> formsJson) {
     this.config = config;
-    this.packageJson = packageJson;
-    this.formsJson = formsJson;
+    this.formsPackage = new FormsPackage(packageJson, formsJson);
   }
 
   /**
    * Get the json object for multiple forms.
    *
    * @return json
-   * @throws Exception error
    */
-  public String getJson() throws Exception {
+  public String getJson() {
     // 1. create root JSON object
     JSONObject root = new JSONObject();
 
@@ -84,8 +55,8 @@ public class JsonBuilder {
     JSONArray array = new JSONArray();
 
     // 3. loop forms and transform
-    for (String formJson : formsJson) {
-      FormJsonBuilder builder = new FormJsonBuilder(config, packageJson, formJson);
+    for (String formJson : formsPackage.getForms()) {
+      FormJsonBuilder builder = new FormJsonBuilder(config, formsPackage.getPackageMetaData(), formJson);
       JSONObject object = builder.getJson();
       array.put(object);
     }
@@ -93,18 +64,5 @@ public class JsonBuilder {
     // 4. add array to root
     root.put(config.getFormsPropertyNameOut(), array);
     return root.toString();
-  }
-
-  private String handleFormDataBodyPart(FormDataBodyPart part) throws Exception {
-    MediaType type = part.getMediaType();
-    if (type == MediaType.TEXT_PLAIN_TYPE) {
-      return part.getValue();
-
-    } else if (type == MediaType.APPLICATION_JSON_TYPE) {
-      return part.getEntity().toString();
-
-    } else {
-      throw new Exception("Invalid media type for " + part.getName());
-    }
   }
 }

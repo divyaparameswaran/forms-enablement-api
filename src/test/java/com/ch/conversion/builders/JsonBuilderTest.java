@@ -2,8 +2,8 @@ package com.ch.conversion.builders;
 
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TestTransformationConfig;
+import com.ch.exception.MissingRequiredDataException;
 import com.ch.helpers.TestHelper;
-import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.json.JSONException;
 import org.junit.Assert;
@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +40,8 @@ public class JsonBuilderTest extends TestHelper {
   }
 
   // TODO: is this the desired behaviour?
-  @Test(expected = JSONException.class)
-  public void throwsJSONExceptionWithValidJsonMissingRequiredData() throws Exception {
+  @Test(expected = MissingRequiredDataException.class)
+  public void throwsMissingRequiredDataExceptionWithValidJsonMissingRequiredData() throws Exception {
     String valid = getStringFromFile(VALID_JSON_PATH);
     List<String> valid_json_forms = new ArrayList<>();
     for (int i = 0; i < 5; i++) {

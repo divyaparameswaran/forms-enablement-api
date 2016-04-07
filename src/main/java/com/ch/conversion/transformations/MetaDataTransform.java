@@ -27,7 +27,6 @@ public class MetaDataTransform {
     this.config = config;
     this.xml = xml;
     this.meta = meta;
-
     helper = XmlHelper.getInstance();
   }
 
@@ -50,8 +49,16 @@ public class MetaDataTransform {
     StringBuilder builder = new StringBuilder();
     builder
         .append("<" + config.getRootElementNameOut())
-        .append(helper.createAttribute(meta, config.getFormTypePropertyNameIn(), config.getFormTypeAttributeNameOut()))
-        .append(helper.createAttribute(meta, config.getFormVersionPropertyNameIn(), config.getFormVersionAttributeNameOut()))
+        // form type
+        .append(helper.createAttributeFromJson(meta,
+            config.getMetaPropertyNameIn(),
+            config.getFormTypePropertyNameIn(),
+            config.getFormTypeAttributeNameOut()))
+        // form version
+        .append(helper.createAttributeFromJson(meta,
+            config.getMetaPropertyNameIn(),
+            config.getFormVersionPropertyNameIn(),
+            config.getFormVersionAttributeNameOut()))
         .append(">");
     return builder.toString();
   }
