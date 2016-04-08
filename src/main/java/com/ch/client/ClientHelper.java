@@ -1,7 +1,5 @@
 package com.ch.client;
 
-import com.ch.exception.ConnectionException;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -27,10 +25,6 @@ public final class ClientHelper {
    */
   public Response postJson(String url, String json) {
     final WebTarget target = client.target(url);
-    Response response = target.request().post(Entity.json(json));
-    if (response.getStatus() != 200) {
-      throw new ConnectionException(url);
-    }
-    return response;
+    return target.request().post(Entity.json(json));
   }
 }
