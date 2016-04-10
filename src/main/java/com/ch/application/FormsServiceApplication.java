@@ -4,6 +4,7 @@ import com.ch.auth.FormsApiAuthenticator;
 import com.ch.client.ClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.exception.mapper.CustomExceptionMapper;
+import com.ch.filters.RateLimitFilter;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
 import com.ch.resources.BarcodeResource;
@@ -26,9 +27,11 @@ import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.LoggerFactory;
 
+import java.util.EnumSet;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import javax.servlet.DispatcherType;
 import javax.ws.rs.client.Client;
 
 /**
@@ -96,6 +99,10 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         Logger.getLogger(LoggingFilter.class.getName()),
         true)
     );
+
+    //Filters
+    environment.servlets().addFilter("RateLimitFilter", new RateLimitFilter())
+        .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
     // Metrics
     startReporting(configuration);

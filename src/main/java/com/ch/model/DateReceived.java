@@ -9,7 +9,7 @@ public class DateReceived {
   private String datereceived;
 
   public DateReceived(){
-
+  // empty constructor required for jackson
   }
 
   @JsonProperty
