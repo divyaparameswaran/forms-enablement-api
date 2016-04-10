@@ -14,6 +14,7 @@ public class TestHelper {
   public static final String VALID_JSON_PATH = "src/test/test_json/valid.json";
   public static final String PACKAGE_JSON_PATH = "src/test/resources/package.json";
   public static final String FORM_JSON_PATH = "src/test/resources/form_all.json";
+  public static final String INVALID_FORM_JSON_PATH = "src/test/resources/invalid_form_all.json";
   public static final String FORM_XML_PATH = "src/test/resources/form.xml";
   public static final String CONVERTED_FORM_XML_PATH = "src/test/resources/converted_form.xml";
   public static final String META_PATH = "src/test/resources/meta.json";

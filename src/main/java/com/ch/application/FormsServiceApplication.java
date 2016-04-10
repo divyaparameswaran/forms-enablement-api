@@ -11,6 +11,7 @@ import com.ch.resources.FormResponseResource;
 import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HealthcheckResource;
 import com.ch.resources.HomeResource;
+import com.ch.resources.TestResource;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Slf4jReporter;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
@@ -80,6 +81,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
     environment.jersey().register(new BarcodeResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
+    environment.jersey().register(new TestResource());
 
     // Health Checks
     final AppHealthCheck healthCheck =
