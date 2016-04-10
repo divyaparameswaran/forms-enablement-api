@@ -72,10 +72,10 @@ public final class MultiPartHelper {
 
   private String handleFormDataBodyPart(FormDataBodyPart part) {
     MediaType type = part.getMediaType();
-    if (type == MediaType.TEXT_PLAIN_TYPE) {
+    if (type.equals(MediaType.TEXT_PLAIN_TYPE)) {
       return part.getValue();
 
-    } else if (type == MediaType.APPLICATION_JSON_TYPE) {
+    } else if (type.equals(MediaType.APPLICATION_JSON_TYPE)) {
       return part.getEntity().toString();
 
     } else {
