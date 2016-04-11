@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -24,12 +25,15 @@ public class TestHelper {
   public static final String LOWERCASE_JSON_PATH = "lower_case.json";
 
   public String getStringFromFile(String filename) throws IOException {
-    File file = new File("src/test/resources/" + filename);
-    if (file != null){
-      return FileUtils.readFileToString(file);
+
+    String fileAsString;
+    try {
+      File file = new File("src/test/resources/" + filename);
+      fileAsString =  FileUtils.readFileToString(file);
     }
-    else{
+    catch (FileNotFoundException ex){
       return IOUtils.toString(getClass().getClassLoader().getResourceAsStream(filename));
     }
+    return fileAsString;
   }
 }
