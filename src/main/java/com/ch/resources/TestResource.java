@@ -16,7 +16,6 @@ public class TestResource {
   @Path("/submission")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response getResponse(String forms) {
-    return Response.status(202).entity(" {\r\n    \"barcode\": \"X52S4WYM\",\r\n      \"presenterDocumentReference\": \"\",\r\n  "
-        + "    \"status\": 0\r\n  }").build();
+    return Response.status(202).entity(forms).build();
   }
 }

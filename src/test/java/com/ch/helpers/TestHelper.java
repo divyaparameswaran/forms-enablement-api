@@ -1,6 +1,7 @@
 package com.ch.helpers;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,20 +11,25 @@ import java.io.IOException;
  */
 public class TestHelper {
 
-  public static final String EXAMPLE_JSON_PATH = "src/test/test_forms/example.json";
-  public static final String INVALID_JSON_PATH = "src/test/test_json/invalid.json";
-  public static final String VALID_JSON_PATH = "src/test/test_json/valid.json";
-  public static final String PACKAGE_JSON_PATH = "src/test/test_forms/package.json";
-  public static final String FORM_JSON_PATH = "src/test/test_forms/form_all.json";
-  public static final String INVALID_FORM_JSON_PATH = "src/test/test_forms/invalid_form_all.json";
-  public static final String FORM_XML_PATH = "src/test/test_forms/form.xml";
-  public static final String CONVERTED_FORM_XML_PATH = "src/test/test_forms/converted_form.xml";
-  public static final String META_PATH = "src/test/test_forms/meta.json";
-  public static final String EXAMPLE_XML_PATH = "src/test/test_forms/example.xml";
-  public static final String LOWERCASE_JSON_PATH = "src/test/test_json/lower_case.json";
+  public static final String EXAMPLE_JSON_PATH = "example.json";
+  public static final String INVALID_JSON_PATH = "invalid.json";
+  public static final String VALID_JSON_PATH = "valid.json";
+  public static final String PACKAGE_JSON_PATH = "package.json";
+  public static final String FORM_JSON_PATH = "form_all.json";
+  public static final String INVALID_FORM_JSON_PATH = "invalid_form_all.json";
+  public static final String FORM_XML_PATH = "form.xml";
+  public static final String CONVERTED_FORM_XML_PATH = "converted_form.xml";
+  public static final String META_PATH = "meta.json";
+  public static final String EXAMPLE_XML_PATH = "example.xml";
+  public static final String LOWERCASE_JSON_PATH = "lower_case.json";
 
-  public static String getStringFromFile(String path) throws IOException {
-    File file = new File(path);
-    return FileUtils.readFileToString(file);
+  public String getStringFromFile(String filename) throws IOException {
+    File file = new File("src/test/resources/" + filename);
+    if (file != null){
+      return FileUtils.readFileToString(file);
+    }
+    else{
+      return IOUtils.toString(getClass().getClassLoader().getResourceAsStream(filename));
+    }
   }
 }

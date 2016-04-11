@@ -23,7 +23,7 @@ public class UpperCaseTransformTest extends TestHelper {
 
   @Test
   public void convertToUpperCase() throws IOException {
-    String input = TestHelper.getStringFromFile(LOWERCASE_JSON_PATH);
+    String input = getStringFromFile(LOWERCASE_JSON_PATH);
 
     JSONObject json = new JSONObject(input);
     transform.parentUpperCase(json);

@@ -13,7 +13,7 @@ import org.junit.Test;
 /**
  * Created by elliott.jenkins on 04/04/2016.
  */
-public class ManualElementsTransformTest {
+public class ManualElementsTransformTest extends TestHelper{
 
   ITransformConfig config;
 
@@ -25,7 +25,7 @@ public class ManualElementsTransformTest {
   @Test
   public void addManualElementsToXml() throws Exception {
     // xml
-    String xml = TestHelper.getStringFromFile(CONVERTED_FORM_XML_PATH);
+    String xml = getStringFromFile(CONVERTED_FORM_XML_PATH);
 
     // transform
     ManualElementsTransform transform = new ManualElementsTransform(config, xml);
