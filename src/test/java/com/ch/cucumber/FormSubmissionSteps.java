@@ -76,7 +76,6 @@ public class FormSubmissionSteps extends TestHelper {
         .request()
         .header("Authorization", "Basic " + encode)
         .post(Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE));
-
   }
 
   @Then("^then I should receive an error message from the API$")

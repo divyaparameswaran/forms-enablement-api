@@ -1,6 +1,5 @@
 package com.ch.conversion.helpers;
 
-import static com.ch.helpers.TestHelper.FORM_JSON_PATH;
 
 import com.ch.exception.MissingRequiredDataException;
 import com.ch.helpers.TestHelper;
@@ -12,7 +11,7 @@ import org.junit.Test;
 /**
  * Created by elliott.jenkins on 05/04/2016.
  */
-public class JsonHelperTest {
+public class JsonHelperTest extends TestHelper {
   JsonHelper helper;
 
   @Before
