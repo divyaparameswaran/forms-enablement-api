@@ -12,6 +12,7 @@ This application is written using the [Dropwizard](http://www.dropwizard.io/) Ja
 In order to run the tool locally you'll need the following installed on your machine:
 
 - [Java](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+- [Maven](https://maven.apache.org/download.cgi)
 - [Git](https://git-scm.com/downloads)
 
 ### Getting Started
