@@ -25,6 +25,10 @@ public class FormSubmissionSteps extends TestHelper {
   @Given("^I submit a valid form to the forms API using the correct credentials$")
   public void i_submit_a_valid_form_to_the_forms_API_using_the_correct_credentials() throws Throwable {
 
+    Client client1 = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
+        .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
+        .build("submission client 1");
+
     CompaniesHouseConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getCompaniesHouseConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
     String url = String.format("http://localhost:%d/submission", FormServiceTestSuiteIT.RULE.getLocalPort());
@@ -37,7 +41,7 @@ public class FormSubmissionSteps extends TestHelper {
     multiPart.field("form1", formdata, MediaType.TEXT_PLAIN_TYPE);
     multiPart.field("packagemetadata", packagemetadata, MediaType.TEXT_PLAIN_TYPE);
 
-    responseOne = client.target(url)
+    responseOne = client1.target(url)
         .register(MultiPartFeature.class)
         .request()
         .header("Authorization", "Basic " + encode)
@@ -52,6 +56,10 @@ public class FormSubmissionSteps extends TestHelper {
   @Given("^I submit a invalid form to the forms API using the correct credentials$")
   public void i_submit_a_invalid_form_to_the_forms_API_using_the_correct_credentials() throws Throwable {
 
+    Client client2 = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
+        .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
+        .build("response client 2");
+
     CompaniesHouseConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getCompaniesHouseConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
     String url = String.format("http://localhost:%d/submission", FormServiceTestSuiteIT.RULE.getLocalPort());
@@ -64,7 +72,7 @@ public class FormSubmissionSteps extends TestHelper {
     multiPart.field("form1", formdata, MediaType.TEXT_PLAIN_TYPE);
     multiPart.field("packagemetadata", packagemetadata, MediaType.TEXT_PLAIN_TYPE);
 
-    responseTwo = client.target(url)
+    responseTwo = client2.target(url)
         .register(MultiPartFeature.class)
         .request()
         .header("Authorization", "Basic " + encode)

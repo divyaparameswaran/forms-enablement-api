@@ -23,12 +23,16 @@ public class FormBarcodeSteps extends TestHelper {
   @Given("^I submit a valid date to the forms API using the correct credentials$")
   public void i_submit_a_valid_date_to_the_forms_API_using_the_correct_credentials() throws Throwable {
 
+    Client client1 = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
+        .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
+        .build("barcode client 1");
+
     CompaniesHouseConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getCompaniesHouseConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
     String url = String.format("http://localhost:%d/barcode", FormServiceTestSuiteIT.RULE.getLocalPort());
 
     String date = getStringFromFile(DATE_JSON_PATH);
-    responseOne = client.target(url)
+    responseOne = client1.target(url)
         .request()
         .header("Authorization", "Basic " + encode)
         .post(Entity.json(date));
@@ -42,13 +46,17 @@ public class FormBarcodeSteps extends TestHelper {
   @Given("^I submit an invalid media type to the barcode forms API using the correct credentials$")
   public void i_submit_an_invalid_media_type_to_the_barcode_forms_API_using_the_correct_credentials() throws Throwable {
 
+    Client client2 = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
+        .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
+        .build("barcode client 2");
+
     CompaniesHouseConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getCompaniesHouseConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
     String url = String.format("http://localhost:%d/barcode", FormServiceTestSuiteIT.RULE.getLocalPort());
 
     String date = getStringFromFile(DATE_JSON_PATH);
     // wrong media type
-    responseTwo = client.target(url)
+    responseTwo = client2.target(url)
         .request()
         .header("Authorization", "Basic " + encode)
         .post(Entity.text(date));

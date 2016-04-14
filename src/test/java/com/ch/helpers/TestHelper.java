@@ -30,10 +30,6 @@ public class TestHelper {
   public static final String DATE_JSON_PATH = "date.json";
   public static final String RESPONSE_JSON_PATH = "response.json";
 
-  public static final Client client = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
-      .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
-      .build("test client");
-
   public String getStringFromFile(String filename) throws IOException {
     String fileAsString;
     try {
