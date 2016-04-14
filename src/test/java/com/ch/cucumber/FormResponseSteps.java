@@ -64,6 +64,6 @@ public class FormResponseSteps extends TestHelper {
 
   @Then("^I should receive an invalid media type error from the response api$")
   public void i_should_receive_an_invalid_media_type_error_from_the_response_api() throws Throwable {
-    Assert.assertEquals("Correct HTTP status code.", 415, responseTwo.getStatus());
+    Assert.assertEquals("Correct HTTP status code.", 500, responseTwo.getStatus());
   }
 }

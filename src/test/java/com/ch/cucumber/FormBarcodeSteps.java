@@ -64,7 +64,7 @@ public class FormBarcodeSteps extends TestHelper {
 
   @Then("^I should receive an invalid media type error from the barcode api$")
   public void i_should_receive_an_invalid_media_type_error_from_the_barcode_api() throws Throwable {
-    Assert.assertEquals("Correct HTTP status code.", 415, responseTwo.getStatus());
+    Assert.assertEquals("Correct HTTP status code.", 500, responseTwo.getStatus());
   }
 }
 
