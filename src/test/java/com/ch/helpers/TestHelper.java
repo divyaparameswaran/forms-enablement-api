@@ -1,7 +1,5 @@
 package com.ch.helpers;
 
-import com.ch.cucumber.FormServiceTestSuiteIT;
-import io.dropwizard.client.JerseyClientBuilder;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -9,7 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.ws.rs.client.Client;
 
 /**
  * Created by elliott.jenkins on 01/04/2016.

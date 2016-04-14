@@ -6,7 +6,6 @@ import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.internal.util.Base64;
-import org.glassfish.jersey.test.spi.TestHelper;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
