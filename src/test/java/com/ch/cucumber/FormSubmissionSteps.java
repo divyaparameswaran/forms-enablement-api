@@ -58,7 +58,7 @@ public class FormSubmissionSteps extends TestHelper {
 
     Client client2 = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
         .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
-        .build("response client 2");
+        .build("submission client 2");
 
     CompaniesHouseConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getCompaniesHouseConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
