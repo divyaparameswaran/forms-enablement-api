@@ -15,7 +15,21 @@ public class TestResource {
   @POST
   @Path("/submission")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response getResponse(String forms) {
+  public Response postSubmission(String forms) {
     return Response.status(202).entity(forms).build();
+  }
+
+  @POST
+  @Path("/response")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response postResponse(String verdict) {
+    return Response.status(202).entity(verdict).build();
+  }
+
+  @POST
+  @Path("/barcode")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response postBarcode(String date) {
+    return Response.status(202).entity(date).build();
   }
 }

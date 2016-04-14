@@ -1,6 +1,8 @@
 package com.ch.resources;
 
 import com.ch.application.FormsServiceApplication;
+import com.ch.client.ClientHelper;
+import com.ch.configuration.SalesforceConfiguration;
 import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
 import org.apache.log4j.LogManager;
@@ -22,6 +24,14 @@ public class FormResponseResource {
   private static final Logger log = LogManager.getLogger(FormResponseResource.class);
   private static final Timer timer = FormsServiceApplication.registry.timer("FormResponseResource");
 
+  private final ClientHelper client;
+  private final SalesforceConfiguration configuration;
+
+  public FormResponseResource(ClientHelper client, SalesforceConfiguration configuration) {
+    this.client = client;
+    this.configuration = configuration;
+  }
+
   /**
    * Resource to post response from CHIPS to Salesforce.
    *
@@ -35,8 +45,13 @@ public class FormResponseResource {
                                    String verdict) {
     final Timer.Context context = timer.time();
     try {
-      log.info("Received JSON: " + verdict);
-      return Response.ok().build();
+      log.info("Verdict from CHIPS: " + verdict);
+
+      // post to Salesforce
+      Response response = client.postJson(configuration.getApiUrl(), verdict);
+      log.info("Response from Salesforce " + response);
+
+      return response;
 
     } finally {
       context.stop();

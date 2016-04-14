@@ -9,7 +9,7 @@ server:
 salesforceConfiguration:
   name: Salesforce
   secret: "password"
-  apiUrl: "https://fishandchips.herokuapp.com/chips/response"
+  apiUrl: "http://localhost:9000/test/response"
 
 companiesHouseConfiguration:
   name: CHIPS

@@ -14,8 +14,8 @@ public class MissingRequiredDataException extends WebApplicationException {
    * Exception thrown when required data is not present.
    *
    * @param exception error
-   * @param property property not found
-   * @param parent where it should be
+   * @param property  property not found
+   * @param parent    where it should be
    */
   public MissingRequiredDataException(Exception exception, String property, String parent) {
     super(exception);
@@ -27,7 +27,7 @@ public class MissingRequiredDataException extends WebApplicationException {
    * Exception thrown when required data is not present.
    *
    * @param property property not found
-   * @param parent where it should be
+   * @param parent   where it should be
    */
   public MissingRequiredDataException(String property, String parent) {
     this.property = property;

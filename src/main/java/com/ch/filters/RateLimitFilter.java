@@ -22,10 +22,11 @@ public class RateLimitFilter implements Filter {
 
   /**
    * Limits the rate of concurrent requests to the apps resources.
-   * @param servletRequest HttpServletRequest
+   *
+   * @param servletRequest  HttpServletRequest
    * @param servletResponse HttpServletResponse
-   * @param chain FilterChain
-   * @throws IOException class of exceptions produced by failed or interrupted I/O operations
+   * @param chain           FilterChain
+   * @throws IOException      class of exceptions produced by failed or interrupted I/O operations
    * @throws ServletException general exception a servlet can throw when it encounters difficulty
    */
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)

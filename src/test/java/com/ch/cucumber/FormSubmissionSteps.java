@@ -1,5 +1,6 @@
 package com.ch.cucumber;
 
+import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.helpers.TestHelper;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -24,12 +25,13 @@ public class FormSubmissionSteps extends TestHelper {
   @Given("^I submit a valid form to the forms API using the correct credentials$")
   public void i_submit_a_valid_form_to_the_forms_API_using_the_correct_credentials() throws Throwable {
 
-    Client client3 = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
+    Client client = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
         .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
-        .build("test client3");
+        .build("submission client 1");
 
-    String encode = Base64.encodeAsString(FormServiceTestSuiteIT.RULE.getConfiguration().getSalesforceConfiguration().getName()
-        + ":" + FormServiceTestSuiteIT.RULE.getConfiguration().getSalesforceConfiguration().getSecret());
+    CompaniesHouseConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getCompaniesHouseConfiguration();
+    String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
+    String url = String.format("http://localhost:%d/submission", FormServiceTestSuiteIT.RULE.getLocalPort());
 
     FormDataMultiPart multiPart = new FormDataMultiPart();
 
@@ -39,8 +41,7 @@ public class FormSubmissionSteps extends TestHelper {
     multiPart.field("form1", formdata, MediaType.TEXT_PLAIN_TYPE);
     multiPart.field("packagemetadata", packagemetadata, MediaType.TEXT_PLAIN_TYPE);
 
-    responseOne = client3.target(
-        String.format("http://localhost:%d/submission", FormServiceTestSuiteIT.RULE.getLocalPort()))
+    responseOne = client.target(url)
         .register(MultiPartFeature.class)
         .request()
         .header("Authorization", "Basic " + encode)
@@ -55,12 +56,13 @@ public class FormSubmissionSteps extends TestHelper {
   @Given("^I submit a invalid form to the forms API using the correct credentials$")
   public void i_submit_a_invalid_form_to_the_forms_API_using_the_correct_credentials() throws Throwable {
 
-    Client client4 = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
+    Client client = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
         .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
-        .build("test client4");
+        .build("response client 2");
 
-    String encode = Base64.encodeAsString(FormServiceTestSuiteIT.RULE.getConfiguration().getSalesforceConfiguration().getName()
-        + ":" + FormServiceTestSuiteIT.RULE.getConfiguration().getSalesforceConfiguration().getSecret());
+    CompaniesHouseConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getCompaniesHouseConfiguration();
+    String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
+    String url = String.format("http://localhost:%d/submission", FormServiceTestSuiteIT.RULE.getLocalPort());
 
     FormDataMultiPart multiPart = new FormDataMultiPart();
 
@@ -70,8 +72,7 @@ public class FormSubmissionSteps extends TestHelper {
     multiPart.field("form1", formdata, MediaType.TEXT_PLAIN_TYPE);
     multiPart.field("packagemetadata", packagemetadata, MediaType.TEXT_PLAIN_TYPE);
 
-    responseTwo = client4.target(
-        String.format("http://localhost:%d/submission", FormServiceTestSuiteIT.RULE.getLocalPort()))
+    responseTwo = client.target(url)
         .register(MultiPartFeature.class)
         .request()
         .header("Authorization", "Basic " + encode)
