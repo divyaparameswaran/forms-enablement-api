@@ -4,6 +4,7 @@ import com.ch.auth.FormsApiAuthenticator;
 import com.ch.client.ClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.exception.mapper.CustomExceptionMapper;
+import com.ch.filters.RateLimitFilter;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
 import com.ch.resources.BarcodeResource;
@@ -11,6 +12,7 @@ import com.ch.resources.FormResponseResource;
 import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HealthcheckResource;
 import com.ch.resources.HomeResource;
+import com.ch.resources.TestResource;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Slf4jReporter;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
@@ -25,9 +27,11 @@ import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.LoggerFactory;
 
+import java.util.EnumSet;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import javax.servlet.DispatcherType;
 import javax.ws.rs.client.Client;
 
 /**
@@ -80,6 +84,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
     environment.jersey().register(new BarcodeResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
+    environment.jersey().register(new TestResource());
 
     // Health Checks
     final AppHealthCheck healthCheck =
@@ -94,6 +99,10 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         Logger.getLogger(LoggingFilter.class.getName()),
         true)
     );
+
+    //Filters
+    environment.servlets().addFilter("RateLimitFilter", new RateLimitFilter())
+        .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
     // Metrics
     startReporting(configuration);

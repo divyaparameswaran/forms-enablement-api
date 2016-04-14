@@ -25,14 +25,14 @@ public class FilingDetailsTransformTest extends TestHelper {
   @Test
   public void addFilingDetailsToXml() throws Exception {
     // xml
-    String xml = TestHelper.getStringFromFile(FORM_XML_PATH);
+    String xml = getStringFromFile(FORM_XML_PATH);
 
     // package json
-    String package_string = TestHelper.getStringFromFile(PACKAGE_JSON_PATH);
+    String package_string = getStringFromFile(PACKAGE_JSON_PATH);
     JSONObject package_json = new JSONObject(package_string);
 
     // meta json
-    String meta_string = TestHelper.getStringFromFile(META_PATH);
+    String meta_string = getStringFromFile(META_PATH);
     JSONObject meta_json = new JSONObject(meta_string);
 
     FilingDetailsTransform transform = new FilingDetailsTransform(config, xml, package_json, meta_json);

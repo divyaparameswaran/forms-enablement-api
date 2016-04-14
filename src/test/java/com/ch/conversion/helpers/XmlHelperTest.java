@@ -22,7 +22,7 @@ public class XmlHelperTest extends TestHelper {
 
   @Test
   public void createDocumentFromString() throws Exception {
-    String xml_string = TestHelper.getStringFromFile(EXAMPLE_XML_PATH);
+    String xml_string = getStringFromFile(EXAMPLE_XML_PATH);
     Document xml = helper.createDocumentFromString(xml_string);
     Assert.assertNotNull(xml);
   }
@@ -33,7 +33,7 @@ public class XmlHelperTest extends TestHelper {
     Document xml = createDocumentFromPath(EXAMPLE_XML_PATH);
 
     // json
-    String json_string = TestHelper.getStringFromFile(EXAMPLE_JSON_PATH);
+    String json_string = getStringFromFile(EXAMPLE_JSON_PATH);
     JSONObject json = new JSONObject(json_string);
 
     // where to add element
@@ -67,7 +67,7 @@ public class XmlHelperTest extends TestHelper {
 
   @Test
   public void createAttributeFromJson() throws Exception {
-    String json_string = TestHelper.getStringFromFile(EXAMPLE_JSON_PATH);
+    String json_string = getStringFromFile(EXAMPLE_JSON_PATH);
     JSONObject json = new JSONObject(json_string);
     String json_property = "new_child";
     String attribute_name = "new_attribute";
@@ -84,7 +84,7 @@ public class XmlHelperTest extends TestHelper {
   }
 
   private Document createDocumentFromPath(String path) throws Exception {
-    String xml_string = TestHelper.getStringFromFile(path);
+    String xml_string = getStringFromFile(path);
     return helper.createDocumentFromString(xml_string);
   }
 }
