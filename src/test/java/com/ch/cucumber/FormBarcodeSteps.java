@@ -23,10 +23,6 @@ public class FormBarcodeSteps extends TestHelper {
   @Given("^I submit a valid date to the forms API using the correct credentials$")
   public void i_submit_a_valid_date_to_the_forms_API_using_the_correct_credentials() throws Throwable {
 
-    Client client = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
-        .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
-        .build("barcode client 1");
-
     CompaniesHouseConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getCompaniesHouseConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
     String url = String.format("http://localhost:%d/barcode", FormServiceTestSuiteIT.RULE.getLocalPort());
@@ -45,10 +41,6 @@ public class FormBarcodeSteps extends TestHelper {
 
   @Given("^I submit an invalid media type to the barcode forms API using the correct credentials$")
   public void i_submit_an_invalid_media_type_to_the_barcode_forms_API_using_the_correct_credentials() throws Throwable {
-
-    Client client = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
-        .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
-        .build("barcode client 2");
 
     CompaniesHouseConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getCompaniesHouseConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
