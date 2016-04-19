@@ -38,7 +38,7 @@ public class FilingDetailsTransformTest extends TestHelper {
     FilingDetailsTransform transform = new FilingDetailsTransform(config, xml, package_json, meta_json);
     String output = transform.getXml();
 
-    Assert.assertThat(output, CoreMatchers.containsString("<submissionNumber>038-496949</submissionNumber>"));
+    Assert.assertThat(output, CoreMatchers.containsString("<submissionReference>038-496949</submissionReference>"));
     Assert.assertThat(output, CoreMatchers.containsString("<packageIdentifier>some identifier</packageIdentifier>"));
     Assert.assertThat(output, CoreMatchers.containsString("<packageCount>3</packageCount>"));
   }

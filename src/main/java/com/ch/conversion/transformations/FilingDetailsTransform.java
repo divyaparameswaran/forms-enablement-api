@@ -49,8 +49,8 @@ public class FilingDetailsTransform {
     // 1. submission number
     helper.addJsonValueAsElementToXml(xml, meta, xmlLocation,
         config.getMetaPropertyNameIn(),
-        config.getSubmissionNumberPropertyNameIn(),
-        config.getSubmissionNumberElementNameOut());
+        config.getSubmissionReferencePropertyNameIn(),
+        config.getSubmissionReferenceElementNameOut());
 
     // 2. package identifier
     helper.addJsonValueAsElementToXml(xml, pack, xmlLocation,
