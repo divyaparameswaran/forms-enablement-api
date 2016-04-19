@@ -27,9 +27,9 @@ public interface ITransformConfig {
   // filing details
   String getFilingDetailsPropertyNameIn();
 
-  String getSubmissionNumberPropertyNameIn();
+  String getSubmissionReferencePropertyNameIn();
 
-  String getSubmissionNumberElementNameOut();
+  String getSubmissionReferenceElementNameOut();
 
   String getPackageCountPropertyNameIn();
 

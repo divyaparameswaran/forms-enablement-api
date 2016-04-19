@@ -45,12 +45,12 @@ public class TransformConfig implements ITransformConfig {
     return "filingDetails";
   }
 
-  public String getSubmissionNumberPropertyNameIn() {
+  public String getSubmissionReferencePropertyNameIn() {
     return "submissionnumber";
   }
 
-  public String getSubmissionNumberElementNameOut() {
-    return "submissionNumber";
+  public String getSubmissionReferenceElementNameOut() {
+    return "submissionReference";
   }
 
   public String getPackageCountPropertyNameIn() {
