@@ -46,7 +46,7 @@ public class TransformConfig implements ITransformConfig {
   }
 
   public String getSubmissionReferencePropertyNameIn() {
-    return "submissionnumber";
+    return "submissionReference";
   }
 
   public String getSubmissionReferenceElementNameOut() {
