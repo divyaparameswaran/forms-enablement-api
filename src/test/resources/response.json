@@ -1,0 +1,21 @@
+{
+  "barcode": "BARCODE1",
+  "submissionReference": "",
+  "status": 1,
+  "rejectReasons": [
+    {
+      "description": "Electronic filing not allowed for this company",
+      "id": "1539",
+      "textEnglish": "Electronic Filing is not allowed for this company.",
+      "textWelsh": "Ni chaniateir Ffeilio Electronig i'r cwmni hwn.",
+      "order": 100
+    },
+    {
+      "description": "Dissolved Company",
+      "id": "1548",
+      "textEnglish": "The company is dissolved.",
+      "textWelsh": "Mae'r cwmni wedi'i ddiddymu.",
+      "order": 100
+    }
+  ]
+}

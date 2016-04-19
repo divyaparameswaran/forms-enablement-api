@@ -1,7 +1,5 @@
 package com.ch.conversion.transformations;
 
-import static com.ch.helpers.TestHelper.CONVERTED_FORM_XML_PATH;
-
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TestTransformationConfig;
 import com.ch.helpers.TestHelper;
@@ -13,7 +11,7 @@ import org.junit.Test;
 /**
  * Created by elliott.jenkins on 04/04/2016.
  */
-public class ManualElementsTransformTest extends TestHelper{
+public class ManualElementsTransformTest extends TestHelper {
 
   ITransformConfig config;
 

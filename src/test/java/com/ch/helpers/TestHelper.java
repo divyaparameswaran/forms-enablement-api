@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+
 /**
  * Created by elliott.jenkins on 01/04/2016.
  */
@@ -23,15 +24,15 @@ public class TestHelper {
   public static final String META_PATH = "meta.json";
   public static final String EXAMPLE_XML_PATH = "example.xml";
   public static final String LOWERCASE_JSON_PATH = "lower_case.json";
+  public static final String DATE_JSON_PATH = "date.json";
+  public static final String RESPONSE_JSON_PATH = "response.json";
 
   public String getStringFromFile(String filename) throws IOException {
-
     String fileAsString;
     try {
       File file = new File("src/test/resources/" + filename);
-      fileAsString =  FileUtils.readFileToString(file);
-    }
-    catch (FileNotFoundException ex){
+      fileAsString = FileUtils.readFileToString(file);
+    } catch (FileNotFoundException ex) {
       return IOUtils.toString(getClass().getClassLoader().getResourceAsStream(filename));
     }
     return fileAsString;

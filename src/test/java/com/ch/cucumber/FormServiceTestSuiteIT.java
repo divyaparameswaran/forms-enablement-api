@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
  * Created by Aaron.Witter on 09/03/2016.
  */
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/", plugin = {"pretty",
+@CucumberOptions(features = "src/test/resources/features/", plugin = {"pretty",
     "json:target/cucumber.json"})
 public class FormServiceTestSuiteIT {
   @ClassRule

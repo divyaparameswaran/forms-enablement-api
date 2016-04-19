@@ -26,7 +26,7 @@ public class FormsApiAuthenticatorTest {
 
   @Test
   public void responseIs401WhenWeDontSendAnAuthHeader() {
-    Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test client1");
+    Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("auth client 1");
 
     final Response response = client.target(
         String.format("http://localhost:%d/auth", RULE.getLocalPort()))
@@ -38,7 +38,7 @@ public class FormsApiAuthenticatorTest {
 
   @Test
   public void responseIs401WhenWeSendTheWrongAuthHeader() {
-    Client client2 = new JerseyClientBuilder(RULE.getEnvironment()).build("test client2");
+    Client client2 = new JerseyClientBuilder(RULE.getEnvironment()).build("auth client 2");
 
     final Response response = client2.target(
         String.format("http://localhost:%d/auth", RULE.getLocalPort()))
@@ -52,7 +52,7 @@ public class FormsApiAuthenticatorTest {
 
   @Test
   public void responseIs200WhenWeSendTheRightAuthHeaderForSalesforce() {
-    Client client3 = new JerseyClientBuilder(RULE.getEnvironment()).build("test client3");
+    Client client3 = new JerseyClientBuilder(RULE.getEnvironment()).build("auth client 3");
 
     String encode = Base64.encodeAsString(RULE.getConfiguration().getSalesforceConfiguration().getName()
         + ":" + RULE.getConfiguration().getSalesforceConfiguration().getSecret());
@@ -68,7 +68,7 @@ public class FormsApiAuthenticatorTest {
 
   @Test
   public void responseIs200WhenWeSendTheRightAuthHeaderForCompaniesHouse() {
-    Client client4 = new JerseyClientBuilder(RULE.getEnvironment()).build("test client4");
+    Client client4 = new JerseyClientBuilder(RULE.getEnvironment()).build("auth client 4");
 
     String encode = Base64.encodeAsString(RULE.getConfiguration().getCompaniesHouseConfiguration().getName()
         + ":" + RULE.getConfiguration().getCompaniesHouseConfiguration().getSecret());
