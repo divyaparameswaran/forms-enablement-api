@@ -1,7 +1,7 @@
 Companies House Forms Enablement API Service
 =====================
 
-The tool accepts forms posted from Salesforce as JSON, converts them to XML and posts them to Companies House Information Processing System (CHIPS). 
+The tool accepts forms posted from Salesforce, converts them to an agreed format and posts them to Companies House Information Processing System (CHIPS). 
 
 ### About this application
 
