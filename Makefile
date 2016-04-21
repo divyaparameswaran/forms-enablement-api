@@ -24,10 +24,10 @@ package:
 	$(eval branch := $(shell t=$(tag); grep -rl $(commit) .git/refs/|grep $${t%%-*}$$|rev|cut -d/ -f1,2|rev))
 	$(eval VERSION := $(shell b=$(branch); t=$(tag); if [ "$${t%%-*}" == "$$b" ]; then basename $${t}; else echo $(commit); fi))
 	$(eval tmpdir:=$(shell mktemp -d build-XXXXXXXXXX))
-	cp ./target/formsapiservice*.jar $(tmpdir)
+	cp ./target/formsapiservice*.jar $(tmpdir)/forms-enablement-api.jar
 	cp ./configuration.yml $(tmpdir)
 	cp ./start.sh $(tmpdir)
-	cd $(tmpdir); zip -r ../formsapiservice-$(VERSION).zip *
+	cd $(tmpdir); zip -r ../forms-enablement-api-$(VERSION).zip *
 	rm -rf $(tmpdir)
 
 dist: build package
