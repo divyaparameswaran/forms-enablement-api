@@ -26,6 +26,7 @@ public class TestHelper {
   public static final String LOWERCASE_JSON_PATH = "lower_case.json";
   public static final String DATE_JSON_PATH = "date.json";
   public static final String RESPONSE_JSON_PATH = "response.json";
+  public static final String VALID_DS01_XML_PATH = "valid_DS01.xml";
 
   public String getStringFromFile(String filename) throws IOException {
     String fileAsString;

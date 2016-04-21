@@ -2,27 +2,9 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:include schemaLocation="CORE.xsd" />
 	<xs:annotation>
-		<xs:documentation>For type=LLDS01, type id=5560, template id=5500</xs:documentation>
+		<xs:documentation>For type=LLDS01, type id=5682, template id=491</xs:documentation>
 	</xs:annotation>
-
-	<xs:complexType name="dissolutionForm">
-		<xs:complexContent>
-			<xs:extension base="coreForm">
-				<xs:all>
-					<xs:element ref="dissolution" minOccurs="0" />
-				</xs:all>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
 	
-	<xs:element name="dissolution">
-		<xs:complexType>
-			<xs:all>
-				<xs:element ref="address" minOccurs="0" />
-			</xs:all>
-		</xs:complexType>
-	</xs:element>
-	
-	<xs:element name="form" type="dissolutionForm" />
+	<xs:element name="form" type="coreForm" />
 
 </xs:schema>
