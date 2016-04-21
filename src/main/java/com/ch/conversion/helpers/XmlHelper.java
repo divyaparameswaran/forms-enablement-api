@@ -189,4 +189,19 @@ public final class XmlHelper {
       throw new XmlException(ex, ex.getMessage());
     }
   }
+
+  public String getAttributeValueFromDocument(Document doc, String elementName, String attributeName) {
+    NodeList nodeList = doc.getElementsByTagName(elementName);
+    // if no elements, throw exception
+    if (nodeList.getLength() == 0){
+      throw new XmlException(String.format("Element %s, not present in xml document.", elementName));
+    }
+    // get the attribute from first element
+    Node attribute = nodeList.item(0).getAttributes().getNamedItem(attributeName);
+    if (attribute == null){
+      throw new XmlException(String.format("Attribute '%s', not present in Element '%s' in the xml document.", attributeName,
+          elementName));
+    }
+    return attribute.getNodeValue();
+  }
 }

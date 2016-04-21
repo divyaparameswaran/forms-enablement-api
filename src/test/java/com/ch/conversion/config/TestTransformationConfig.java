@@ -88,4 +88,8 @@ public class TestTransformationConfig implements ITransformConfig {
   public String getFormVersionAttributeNameOut() {
     return "version";
   }
+
+  public String getSchemasLocation() {
+    return "src/main/resources/schemas/";
+  }
 }

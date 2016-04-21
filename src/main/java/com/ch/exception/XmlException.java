@@ -9,6 +9,10 @@ public class XmlException extends WebApplicationException {
 
   private final String message;
 
+  public XmlException(String message) {
+    this.message = message;
+  }
+
   public XmlException(Exception exception, String message) {
     super(exception);
     this.message = message;
@@ -16,7 +20,7 @@ public class XmlException extends WebApplicationException {
 
   @Override
   public String getMessage() {
-    return String.format("Error handling xml. Error: %s",
+    return String.format("Error handling xml. %s",
         message);
   }
 }
