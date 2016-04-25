@@ -78,7 +78,7 @@ public class JsonBuilderTest extends TestHelper {
     // valid package data
     String package_string = getStringFromFile(PACKAGE_JSON_PATH);
     // valid forms
-    String valid = getStringFromFile(FORM_JSON_PATH);
+    String valid = getStringFromFile(FORM_ALL_JSON_PATH);
     List<String> valid_forms = new ArrayList<>();
     for (int i = 0; i < 5; i++) {
       valid_forms.add(valid);
@@ -93,7 +93,7 @@ public class JsonBuilderTest extends TestHelper {
     String pack = getStringFromFile(PACKAGE_JSON_PATH);
     multi.field(config.getPackageMultiPartName(), pack, MediaType.APPLICATION_JSON_TYPE);
     // form json
-    String form = getStringFromFile(FORM_JSON_PATH);
+    String form = getStringFromFile(FORM_ALL_JSON_PATH);
     multi.field("form1", form, MediaType.APPLICATION_JSON_TYPE);
     return multi;
   }
