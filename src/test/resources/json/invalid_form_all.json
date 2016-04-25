@@ -1,12 +1,11 @@
 {
   "metadata": {
-    "type": "SH08",
+    "type": "DS01",
     "version": null,
     "submissionReference": "038-496949"
   },
   "formdata": {
     "filingDetails": {
-      "barcode": "X53D3R3T",
       "receiptDate": "2016-03-23",
       "signDate": "2016-03-23"
     },

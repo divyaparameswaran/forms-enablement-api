@@ -1,4 +1,4 @@
-<form type="DS01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ChipsXSD/DS01.xsd">
+<form type="DS01">
     <filingDetails>
         <method>enablement</method>
         <authoriser>director</authoriser>
@@ -21,7 +21,7 @@
             <presenterAddressPostCode>CF3 4UZ</presenterAddressPostCode>
         </presenterDetails>
         <payment>
-            <paymentMethod>account</paymentMethod>
+            <paymentMethod>ACCOUNT</paymentMethod>
             <accountNumber>00599998000</accountNumber>
         </payment>
     </filingDetails>

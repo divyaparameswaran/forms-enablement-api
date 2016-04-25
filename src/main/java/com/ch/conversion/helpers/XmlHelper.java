@@ -190,15 +190,23 @@ public final class XmlHelper {
     }
   }
 
+  /**
+   * Get the value of an attribute from an element.
+   *
+   * @param doc           xml
+   * @param elementName   xml element
+   * @param attributeName xml attribute
+   * @return attribute value
+   */
   public String getAttributeValueFromDocument(Document doc, String elementName, String attributeName) {
     NodeList nodeList = doc.getElementsByTagName(elementName);
     // if no elements, throw exception
-    if (nodeList.getLength() == 0){
+    if (nodeList.getLength() == 0) {
       throw new XmlException(String.format("Element %s, not present in xml document.", elementName));
     }
     // get the attribute from first element
     Node attribute = nodeList.item(0).getAttributes().getNamedItem(attributeName);
-    if (attribute == null){
+    if (attribute == null) {
       throw new XmlException(String.format("Attribute '%s', not present in Element '%s' in the xml document.", attributeName,
           elementName));
     }

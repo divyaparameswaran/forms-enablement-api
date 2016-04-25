@@ -28,6 +28,10 @@ public class XmlValidator {
     this.xml = xml;
   }
 
+  /**
+   * Validate a forms xml against its schema.
+   * Throws XsdValidationException if not valid.
+   */
   public void validate() {
     // get schema for form
     String formType = getFormType();
@@ -40,7 +44,6 @@ public class XmlValidator {
       File schemaFile = new File(schemaPath);
       Schema schema = factory.newSchema(schemaFile);
       Validator validator = schema.newValidator();
-
       // create a source from xml string
       Source source = new StreamSource(new StringReader(xml));
 
@@ -54,7 +57,7 @@ public class XmlValidator {
     }
   }
 
-  private String getFormType(){
+  private String getFormType() {
     // create xml document
     XmlHelper helper = XmlHelper.getInstance();
     Document document = helper.createDocumentFromString(xml);
@@ -63,11 +66,11 @@ public class XmlValidator {
     return helper.getAttributeValueFromDocument(document, config.getRootElementNameOut(), config.getFormTypeAttributeNameOut());
   }
 
-  private String getSchemaFileName(String formType){
+  private String getSchemaFileName(String formType) {
     return String.format("%s.xsd", formType);
   }
 
-  private String getSchemaPath(String schemaFileName){
+  private String getSchemaPath(String schemaFileName) {
     return config.getSchemasLocation() + schemaFileName;
   }
 }

@@ -61,6 +61,7 @@ public class FormXmlBuilder {
     // 6. validate xml against form xsd
     validateXml(manualXml);
 
+
     // 7. base64 encode
     return encode(manualXml);
   }
@@ -84,7 +85,7 @@ public class FormXmlBuilder {
     return transform.getXml();
   }
 
-  private void validateXml(String xml){
+  private void validateXml(String xml) {
     XmlValidator validator = new XmlValidator(config, xml);
     validator.validate();
   }
