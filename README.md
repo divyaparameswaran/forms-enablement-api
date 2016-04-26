@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/companieshouse/forms-enablement-api/tree/master.svg?style=shield)](https://circleci.com/gh/companieshouse/forms-enablement-api/tree/master)
+
 Companies House Forms Enablement API Service
 =====================
 
