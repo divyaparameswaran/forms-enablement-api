@@ -30,6 +30,9 @@ public class TestHelper {
   protected static final String EXAMPLE_XML_PATH = "xml/example.xml";
   protected static final String VALID_DS01_XML_PATH = "xml/valid_DS01.xml";
   protected static final String INVALID_DS01_XML_PATH = "xml/invalid_DS01.xml";
+  protected static final String INVALID_FORM_XML_PATH = "xml/invalid_form.xml";
+  protected static final String BLANK_FORM_XML_PATH = "xml/blank_form.xml";
+  protected static final String NO_SCHEMA_XML_PATH = "xml/no_schema_form.xml";
 
   public String getStringFromFile(String filename) throws IOException {
     String fileAsString;

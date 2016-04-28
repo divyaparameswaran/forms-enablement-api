@@ -1,8 +1,7 @@
 package com.ch.conversion.transformations;
 
-
 import com.ch.conversion.config.ITransformConfig;
-import com.ch.conversion.config.TestTransformationConfig;
+import com.ch.conversion.config.TransformConfig;
 import com.ch.helpers.TestHelper;
 import org.hamcrest.CoreMatchers;
 import org.json.JSONObject;
@@ -19,7 +18,7 @@ public class FilingDetailsTransformTest extends TestHelper {
 
   @Before
   public void setUp() {
-    config = new TestTransformationConfig();
+    config = new TransformConfig();
   }
 
   @Test
