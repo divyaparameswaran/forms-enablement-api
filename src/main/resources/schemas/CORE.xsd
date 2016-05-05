@@ -4,8 +4,9 @@
 	<xs:complexType name="coreForm">
 		<xs:all>
 			<xs:element ref="filingDetails" />
-			<xs:element ref="corporateBody" />
+			<xs:element name="corporateBody" type="corporateBodyType" />
 			<xs:element ref="attachments" minOccurs="0" />
+			<xs:element ref="general" minOccurs="0" />
 		</xs:all>
 		<xs:attribute name="type" type="xs:string" />
 		<xs:attribute name="version" type="xs:double" use="optional" />
@@ -75,6 +76,9 @@
 				<xs:enumeration value="ACCOUNT" />
 				<xs:enumeration value="CREDITCARD" />
 				<xs:enumeration value="PREPAID" />
+				<xs:enumeration value="account" />
+				<xs:enumeration value="creditcard" />
+				<xs:enumeration value="prepaid" />
 			</xs:restriction>
 		</xs:simpleType>
 	</xs:element>
@@ -234,12 +238,18 @@
 			</xs:all>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="corporateBody">
+	
+	<xs:complexType name="corporateBodyType">
+		<xs:sequence>
+			<xs:element name="incorporationNumber" type="xs:string" />
+			<xs:element name="corporateBodyName" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="general">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="incorporationNumber" type="xs:string" />
-				<xs:element name="corporateBodyName" type="xs:string" />
-				<xs:element ref="officers" minOccurs="0" />
+				<xs:element name="effectiveDate" type="xs:string" minOccurs="0" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
