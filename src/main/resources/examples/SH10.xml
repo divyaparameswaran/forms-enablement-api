@@ -1,0 +1,33 @@
+<form type="SH10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../schemas/SH10.xsd">
+    <filingDetails>
+        <method>enablement</method>
+        <authoriser>director</authoriser>
+        <contactDetails />
+        <signDate>2013-04-04</signDate>
+        <receiptDate>2013-04-10</receiptDate>
+        <presenterDocumentReference>DS0009</presenterDocumentReference>
+        <submissionReference>8c199ac6-369a-462d-8cfc-0f4b6d13fa7a</submissionReference>
+        <barcode>${BARCODE}</barcode>
+        <packageIdentifier>12345</packageIdentifier>
+        <packageCount>1</packageCount>
+        <presenterDetails>
+            <presenterName>Steve Bowen</presenterName>
+            <presenterAccountNumber>12345678901</presenterAccountNumber>
+            <presenterEmailIn>sbowen@companieshouse.gov.uk</presenterEmailIn>
+            <presenterEmailOut>sbowen@companieshouse.gov.uk</presenterEmailOut>
+          </presenterDetails>
+        <payment>
+            <paymentMethod>account</paymentMethod>
+            <accountNumber>00599998000</accountNumber>
+        </payment>
+    </filingDetails>
+    <corporateBody>
+        <incorporationNumber>02667726</incorporationNumber>
+        <corporateBodyName>SOLDATA LIMITED</corporateBodyName>
+        <detailsOfVariationOfRights>A ORDINARY SHARES
+THE A ORDINARY SHARES HAVE ATTACHED TO THEM FULL VOTING RIGHTS AND DIVIDEND RIGHTS.  THE DIRECTORS MAY, SUBJECT TO THE PROVISIONS OF THE ACT, PAY INTERIM DIVIDENDS AT VARIABLE RATES ON THE DIFFERENT CLASSES OF SHARES AND THE COMPANY, ON THE RECOMMENDATION OF THE DIRECTORS, MAY DECLARE DIVIDENDS AT VARIABLE RATES ON THE DIFFERENT CLASSES OF SHARES.  THE A ORDINARY SHARES DO NOT CONFER ANY RIGHTS OF REDEMPTION.  ON A RETURN OF CAPITAL, THE A ORDINARY SHARES RANK BEHIND THE A PREFERENCE SHARES, B PREFERENCE SHARES AND C PREFERENCE SHARES (TOGETHER THE PREFERENCE SHARES), SO THAT ANY SURPLUS ASSETS OF THE COMPANY REMAINING AFTER THE PAYMENT OF ITS LIABILITIES AND AFTER THE PAYMENT OF THE ISSUE PRICE OF THE PREFERENCE SHARES SHALL BE APPLIED IN PAYING THE ISSUE PRICE OF THE A ORDINARY SHARES AND THE BALANCE (IF ANY) OF ANY SURPLUS.</detailsOfVariationOfRights>
+    </corporateBody>
+    <general>
+    	<effectiveDate>2016-05-04</effectiveDate>
+    </general>
+</form>

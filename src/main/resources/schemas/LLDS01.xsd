@@ -4,7 +4,19 @@
 	<xs:annotation>
 		<xs:documentation>For type=LLDS01, type id=5682, template id=491</xs:documentation>
 	</xs:annotation>
-	
+
+	<xs:redefine schemaLocation="CORE.xsd">
+		<xs:complexType name="corporateBodyType">
+			<xs:complexContent>
+				<xs:extension base="corporateBodyType">
+					<xs:sequence>
+						<xs:element ref="officers" minOccurs="1" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:redefine>
+		
 	<xs:element name="form" type="coreForm" />
 
 </xs:schema>
