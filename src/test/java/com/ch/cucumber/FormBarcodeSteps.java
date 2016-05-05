@@ -1,12 +1,17 @@
 package com.ch.cucumber;
 
+
 import com.ch.configuration.CompaniesHouseConfiguration;
+import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.helpers.TestHelper;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.internal.util.Base64;
 import org.junit.Assert;
+
+import java.io.IOException;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -15,24 +20,24 @@ import javax.ws.rs.core.Response;
 /**
  * Created by elliott.jenkins on 14/04/2016.
  */
-// TODO: look at refactoring
 public class FormBarcodeSteps extends TestHelper {
+
   private Response responseOne;
   private Response responseTwo;
+  private  DropwizardAppRule<FormsServiceConfiguration> rule = FormServiceTestSuiteIT.RULE;
 
   @Given("^I submit a valid date to the forms API using the correct credentials$")
-  public void i_submit_a_valid_date_to_the_forms_API_using_the_correct_credentials() throws Throwable {
-
-    Client client1 = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
-        .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
+  public void i_submit_a_valid_date_to_the_forms_API_using_the_correct_credentials() throws IOException {
+    Client client = new JerseyClientBuilder(rule.getEnvironment())
+        .using(rule.getConfiguration().getJerseyClientConfiguration())
         .build("barcode client 1");
 
-    CompaniesHouseConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getCompaniesHouseConfiguration();
+    CompaniesHouseConfiguration config = rule.getConfiguration().getCompaniesHouseConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
-    String url = String.format("http://localhost:%d/barcode", FormServiceTestSuiteIT.RULE.getLocalPort());
-
+    String url = String.format("http://localhost:%d/barcode", rule.getLocalPort());
     String date = getStringFromFile(DATE_JSON_PATH);
-    responseOne = client1.target(url)
+
+    responseOne = client.target(url)
         .request()
         .header("Authorization", "Basic " + encode)
         .post(Entity.json(date));
@@ -45,20 +50,19 @@ public class FormBarcodeSteps extends TestHelper {
 
   @Given("^I submit an invalid media type to the barcode forms API using the correct credentials$")
   public void i_submit_an_invalid_media_type_to_the_barcode_forms_API_using_the_correct_credentials() throws Throwable {
-
-    Client client2 = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
-        .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
+    Client client = new JerseyClientBuilder(rule.getEnvironment())
+        .using(rule.getConfiguration().getJerseyClientConfiguration())
         .build("barcode client 2");
 
-    CompaniesHouseConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getCompaniesHouseConfiguration();
+    CompaniesHouseConfiguration config = rule.getConfiguration().getCompaniesHouseConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
-    String url = String.format("http://localhost:%d/barcode", FormServiceTestSuiteIT.RULE.getLocalPort());
-
+    String url = String.format("http://localhost:%d/barcode", rule.getLocalPort());
     String date = getStringFromFile(DATE_JSON_PATH);
-    // wrong media type
-    responseTwo = client2.target(url)
+
+    responseTwo = client.target(url)
         .request()
         .header("Authorization", "Basic " + encode)
+        // wrong media type
         .post(Entity.text(date));
   }
 

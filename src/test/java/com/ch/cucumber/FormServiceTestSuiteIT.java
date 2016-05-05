@@ -13,12 +13,9 @@ import org.junit.runner.RunWith;
  * Created by Aaron.Witter on 09/03/2016.
  */
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/features/", plugin = {"pretty",
-    "json:target/cucumber.json"})
+@CucumberOptions(plugin = {"pretty", "json:target/cucumber.json"})
 public class FormServiceTestSuiteIT {
   @ClassRule
   public static final DropwizardAppRule<FormsServiceConfiguration> RULE =
-      new DropwizardAppRule<>(FormsServiceApplication.class,
-          ResourceHelpers.resourceFilePath("test-configuration.yml"));
-
+      new DropwizardAppRule<>(FormsServiceApplication.class, ResourceHelpers.resourceFilePath("test-configuration.yml"));
 }

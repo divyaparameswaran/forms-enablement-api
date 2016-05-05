@@ -4,21 +4,22 @@ server:
   adminContextPath: /admin
   connector:
     type: http
-    port: 9000
+    port: 8000
 
 salesforceConfiguration:
   name: Salesforce
   secret: "password"
-  apiUrl: "http://localhost:9000/test/response"
+  apiUrl: "http://localhost:8000/test/response"
 
 companiesHouseConfiguration:
   name: CHIPS
   secret: "password"
-  apiUrl: "http://localhost:9000/test/submission"
-  barcodeServiceUrl: "http://localhost:9000/test/barcode"
+  apiUrl: "http://localhost:8000/test/submission"
+  barcodeServiceUrl: "http://localhost:8000/test/barcode"
 
 jerseyClient:
-  timeout: 8000ms
+  timeout: 10s
+  connectionTimeout: 10s
   chunkedEncodingEnabled: false
   gzipEnabled: false
   gzipEnabledForRequests: false

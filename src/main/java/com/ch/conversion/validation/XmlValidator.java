@@ -20,8 +20,8 @@ import javax.xml.validation.Validator;
  */
 public class XmlValidator {
 
-  private ITransformConfig config;
-  private String xml;
+  private final ITransformConfig config;
+  private final String xml;
 
   public XmlValidator(ITransformConfig config, String xml) {
     this.config = config;

@@ -18,7 +18,8 @@ companiesHouseConfiguration:
   barcodeServiceUrl: ${env.CHIPS_BARCODE_SERVICE_URL}
 
 jerseyClient:
-  timeout: 5000ms
+  timeout: 10s
+  connectionTimeout: 10s
   chunkedEncodingEnabled: false
   gzipEnabled: false
   gzipEnabledForRequests: false
