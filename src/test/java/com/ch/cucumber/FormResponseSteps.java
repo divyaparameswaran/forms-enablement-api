@@ -1,12 +1,19 @@
 package com.ch.cucumber;
 
+import static com.ch.cucumber.FormServiceTestSuiteIT.RULE;
+
+import com.ch.application.FormsServiceApplication;
+import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.configuration.SalesforceConfiguration;
 import com.ch.helpers.TestHelper;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.testing.ResourceHelpers;
+import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.internal.util.Base64;
 import org.junit.Assert;
+import org.junit.ClassRule;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -15,21 +22,21 @@ import javax.ws.rs.core.Response;
 /**
  * Created by elliott.jenkins on 14/04/2016.
  */
-// TODO: look at refactoring
 public class FormResponseSteps extends TestHelper {
+
   private Response responseOne;
   private Response responseTwo;
+  private  DropwizardAppRule<FormsServiceConfiguration> rule = FormServiceTestSuiteIT.RULE;
 
   @Given("^I submit a valid verdict to the response forms API using the correct credentials$")
   public void i_submit_a_valid_verdict_to_the_response_forms_API_using_the_correct_credentials() throws Throwable {
-
-    Client client1 = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
-        .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
+    Client client1 = new JerseyClientBuilder(rule.getEnvironment())
+        .using(rule.getConfiguration().getJerseyClientConfiguration())
         .build("response client 1");
 
-    SalesforceConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getSalesforceConfiguration();
+    SalesforceConfiguration config = rule.getConfiguration().getSalesforceConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
-    String url = String.format("http://localhost:%d/response", FormServiceTestSuiteIT.RULE.getLocalPort());
+    String url = String.format("http://localhost:%d/response", rule.getLocalPort());
 
     String response = getStringFromFile(RESPONSE_JSON_PATH);
     responseOne = client1.target(url)
@@ -45,14 +52,13 @@ public class FormResponseSteps extends TestHelper {
 
   @Given("^I submit an invalid media type to the response forms API using the correct credentials$")
   public void i_submit_an_invalid_media_type_to_the_response_forms_API_using_the_correct_credentials() throws Throwable {
-
-    Client client2 = new JerseyClientBuilder(FormServiceTestSuiteIT.RULE.getEnvironment())
-        .using(FormServiceTestSuiteIT.RULE.getConfiguration().getJerseyClientConfiguration())
+    Client client2 = new JerseyClientBuilder(rule.getEnvironment())
+        .using(rule.getConfiguration().getJerseyClientConfiguration())
         .build("response client 2");
 
-    SalesforceConfiguration config = FormServiceTestSuiteIT.RULE.getConfiguration().getSalesforceConfiguration();
+    SalesforceConfiguration config = rule.getConfiguration().getSalesforceConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
-    String url = String.format("http://localhost:%d/response", FormServiceTestSuiteIT.RULE.getLocalPort());
+    String url = String.format("http://localhost:%d/response", rule.getLocalPort());
 
     String response = getStringFromFile(RESPONSE_JSON_PATH);
     // wrong media type

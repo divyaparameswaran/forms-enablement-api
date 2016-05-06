@@ -2,7 +2,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:include schemaLocation="CORE.xsd" />
 	<xs:annotation>
-		<xs:documentation>For type=DS01, type id=5560, template id=5500</xs:documentation>
+		<xs:documentation>For type=LLDS01, type id=5682, template id=491</xs:documentation>
 	</xs:annotation>
 
 	<xs:redefine schemaLocation="CORE.xsd">

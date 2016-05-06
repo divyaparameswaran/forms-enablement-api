@@ -4,15 +4,27 @@ server:
   adminContextPath: /admin
   connector:
     type: http
-    port: ${env.PORT!"8080"}
+    port: 9000
 
 salesforceConfiguration:
   name: Salesforce
-  secret: ${env.SALESFORCE_API_KEY!"ABC123"}
-  apiUrl: ${env.SALESFORCE_API_URL!"www.example.com/submit"}
+  secret: "password"
+  apiUrl: "http://localhost:9000/test/response"
 
 companiesHouseConfiguration:
   name: CHIPS
-  secret: ${env.CHIPS_API_KEY!"ABC321"}
-  apiUrl: ${env.CHIPS_API_URL!"www.example.com/response"}
+  secret: "password"
+  apiUrl: "http://localhost:9000/test/submission"
+  barcodeServiceUrl: "http://localhost:9000/test/barcode"
 
+jerseyClient:
+  timeout: 10s
+  connectionTimeout: 10s
+  chunkedEncodingEnabled: false
+  gzipEnabled: false
+  gzipEnabledForRequests: false
+
+log4jConfiguration:
+  frequency: 1
+  # Valid values are DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS
+  timeUnit: "HOURS"

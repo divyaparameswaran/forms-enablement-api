@@ -1,4 +1,4 @@
-<root>
+<root type="abc">
     <parent>
         <child>1</child>
         <child>2</child>

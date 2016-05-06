@@ -1,8 +1,7 @@
 package com.ch.conversion.builders;
 
-
 import com.ch.conversion.config.ITransformConfig;
-import com.ch.conversion.config.TestTransformationConfig;
+import com.ch.conversion.config.TransformConfig;
 import com.ch.exception.MissingRequiredDataException;
 import com.ch.helpers.TestHelper;
 import org.json.JSONException;
@@ -10,7 +9,6 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  * Created by elliott.jenkins on 31/03/2016.
@@ -21,7 +19,7 @@ public class FormJsonBuilderTest extends TestHelper {
 
   @Before
   public void setUp() {
-    config = new TestTransformationConfig();
+    config = new TransformConfig();
   }
 
   @Test(expected = JSONException.class)
@@ -49,7 +47,7 @@ public class FormJsonBuilderTest extends TestHelper {
     // valid package data
     String package_string = getStringFromFile(PACKAGE_JSON_PATH);
     // valid form data
-    String form_string = getStringFromFile(FORM_JSON_PATH);
+    String form_string = getStringFromFile(FORM_ALL_JSON_PATH);
     // builder
     return new FormJsonBuilder(config, package_string, form_string);
   }
