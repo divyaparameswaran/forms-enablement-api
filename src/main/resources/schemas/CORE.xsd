@@ -240,10 +240,7 @@
 	</xs:element>
 	
 	<xs:complexType name="corporateBodyType">
-		<xs:sequence>
-			<xs:element name="incorporationNumber" type="xs:string" />
-			<xs:element name="corporateBodyName" type="xs:string" />
-		</xs:sequence>
+		<xs:choice/>
 	</xs:complexType>
 
 	<xs:element name="general">
