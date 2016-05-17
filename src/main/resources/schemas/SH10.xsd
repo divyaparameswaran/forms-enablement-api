@@ -9,9 +9,11 @@
 		<xs:complexType name="corporateBodyType">
 			<xs:complexContent>
 				<xs:extension base="corporateBodyType">
-					<xs:sequence>
+					<xs:choice maxOccurs="unbounded">
+						<xs:element name="incorporationNumber" type="xs:string" />
+						<xs:element name="corporateBodyName" type="xs:string" />
 						<xs:element ref="detailsOfVariationOfRights" minOccurs="1" />
-					</xs:sequence>
+					</xs:choice>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

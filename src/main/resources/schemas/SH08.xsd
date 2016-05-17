@@ -9,9 +9,11 @@
 		<xs:complexType name="corporateBodyType">
 			<xs:complexContent>
 				<xs:extension base="corporateBodyType">
-					<xs:sequence>
+					<xs:choice maxOccurs="unbounded">
+						<xs:element name="incorporationNumber" type="xs:string" />
+						<xs:element name="corporateBodyName" type="xs:string" />
 						<xs:element ref="shareAssignments" minOccurs="1" />
-					</xs:sequence>
+					</xs:choice>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -27,11 +29,11 @@
 
 	<xs:element name="shareAssignment">
 		<xs:complexType>
-			<xs:sequence>
+			<xs:all>
 				<xs:element ref="existingClass" minOccurs="1" maxOccurs="1" />
 				<xs:element ref="nameOrOtherDesignation" minOccurs="1"
 					maxOccurs="1" />
-			</xs:sequence>
+			</xs:all>
 		</xs:complexType>
 	</xs:element>
 
