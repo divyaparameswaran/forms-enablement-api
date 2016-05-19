@@ -24,7 +24,7 @@ public class FormBarcodeSteps extends TestHelper {
 
   private Response responseOne;
   private Response responseTwo;
-  private  DropwizardAppRule<FormsServiceConfiguration> rule = FormServiceTestSuiteIT.RULE;
+  private DropwizardAppRule<FormsServiceConfiguration> rule = FormServiceTestSuiteIT.RULE;
 
   @Given("^I submit a valid date to the forms API using the correct credentials$")
   public void i_submit_a_valid_date_to_the_forms_API_using_the_correct_credentials() throws IOException {
@@ -68,7 +68,7 @@ public class FormBarcodeSteps extends TestHelper {
 
   @Then("^I should receive an invalid media type error from the barcode api$")
   public void i_should_receive_an_invalid_media_type_error_from_the_barcode_api() throws Throwable {
-    Assert.assertEquals("Correct HTTP status code.", 500, responseTwo.getStatus());
+    Assert.assertEquals("Correct HTTP status code.", 415, responseTwo.getStatus());
   }
 }
 

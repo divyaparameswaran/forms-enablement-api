@@ -1,8 +1,5 @@
 package com.ch.cucumber;
 
-import static com.ch.cucumber.FormServiceTestSuiteIT.RULE;
-
-import com.ch.application.FormsServiceApplication;
 import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.conversion.config.ITransformConfig;
@@ -11,13 +8,11 @@ import com.ch.helpers.TestHelper;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import io.dropwizard.client.JerseyClientBuilder;
-import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.internal.util.Base64;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.junit.Assert;
-import org.junit.ClassRule;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -91,6 +86,6 @@ public class FormSubmissionSteps extends TestHelper {
 
   @Then("^then I should receive an error message from the API$")
   public void then_I_should_receive_an_error_message_from_the_API() throws Throwable {
-    Assert.assertEquals("Correct HTTP status code.", 500, responseTwo.getStatus());
+    Assert.assertEquals("Correct HTTP status code.", 400, responseTwo.getStatus());
   }
 }
