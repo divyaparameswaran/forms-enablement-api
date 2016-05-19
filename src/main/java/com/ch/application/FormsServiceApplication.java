@@ -118,7 +118,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     );
 
     //Filters
-    environment.servlets().addFilter("RateLimitFilter", new RateLimitFilter())
+    environment.servlets().addFilter("RateLimitFilter", new RateLimitFilter(configuration.getRateLimit()))
         .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
     // Metrics

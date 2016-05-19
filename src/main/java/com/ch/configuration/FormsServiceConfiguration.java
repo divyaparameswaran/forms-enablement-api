@@ -3,6 +3,7 @@ package com.ch.configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 import io.dropwizard.client.JerseyClientConfiguration;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -16,7 +17,9 @@ public class FormsServiceConfiguration extends Configuration {
   @NotNull
   @JsonProperty
   private final JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
-
+  @JsonProperty
+  @NotEmpty
+  private Double ratelimit;
   @JsonProperty
   private SalesforceConfiguration salesforceConfiguration;
 
@@ -29,6 +32,10 @@ public class FormsServiceConfiguration extends Configuration {
   @NotNull
   @JsonProperty
   private Log4jConfiguration log4jConfiguration;
+
+  public double getRateLimit() {
+    return ratelimit;
+  }
 
   public SalesforceConfiguration getSalesforceConfiguration() {
     return salesforceConfiguration;

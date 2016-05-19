@@ -14,10 +14,16 @@ import javax.servlet.ServletResponse;
 /**
  * Created by Aaron.Witter on 10/04/2016.
  */
+@SuppressWarnings("PMD")
 public class RateLimitFilter implements Filter {
-  @SuppressWarnings("PMD")
-  public void init(FilterConfig filterConfig) throws ServletException {
 
+  private double rateLimit;
+
+  public RateLimitFilter(double rateLimit) {
+    this.rateLimit = rateLimit;
+  }
+
+  public void init(FilterConfig filterConfig) throws ServletException {
   }
 
   /**
@@ -32,8 +38,8 @@ public class RateLimitFilter implements Filter {
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
       throws IOException, ServletException {
 
-    // limiting the submission of requests to 1 per second
-    RateLimiter limiter = RateLimiter.create(1.0);
+    // limiting the submission of requests to x per second
+    RateLimiter limiter = RateLimiter.create(rateLimit);
 
     //acquires the limiter after the block has expired
     limiter.acquire();
@@ -42,7 +48,6 @@ public class RateLimitFilter implements Filter {
     chain.doFilter(servletRequest, servletResponse);
   }
 
-  @SuppressWarnings("PMD")
   public void destroy() {
 
   }

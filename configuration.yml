@@ -48,3 +48,6 @@ fluentLogging:
   fluentPort: ${env.FLUENT_PORT}
   tag: ${env.FORMS_API_LOG_TAG!"forms-enablement-api"}
   maxQueueSize: 20
+
+# limit the submission of requests to x per second
+rateLimit: ${env.RATE_LIMIT!1.0}
