@@ -17,9 +17,10 @@ public class FormsServiceConfiguration extends Configuration {
   @NotNull
   @JsonProperty
   private final JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
+
   @JsonProperty
-  @NotEmpty
-  private Double ratelimit;
+  private int rateLimit;
+
   @JsonProperty
   private SalesforceConfiguration salesforceConfiguration;
 
@@ -33,8 +34,8 @@ public class FormsServiceConfiguration extends Configuration {
   @JsonProperty
   private Log4jConfiguration log4jConfiguration;
 
-  public double getRateLimit() {
-    return ratelimit;
+  public int getRateLimit() {
+    return rateLimit;
   }
 
   public SalesforceConfiguration getSalesforceConfiguration() {

@@ -50,4 +50,4 @@ fluentLogging:
   maxQueueSize: 20
 
 # limit the submission of requests to x per second
-rateLimit: ${env.RATE_LIMIT!1.0}
+rateLimit: ${env.RATE_LIMIT!1}

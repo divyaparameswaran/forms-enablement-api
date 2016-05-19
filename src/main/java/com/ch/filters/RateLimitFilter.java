@@ -1,5 +1,9 @@
 package com.ch.filters;
 
+import static com.ch.service.LoggingService.LoggingLevel.INFO;
+import static com.ch.service.LoggingService.tag;
+
+import com.ch.service.LoggingService;
 import com.google.common.util.concurrent.RateLimiter;
 
 import java.io.IOException;
@@ -17,9 +21,9 @@ import javax.servlet.ServletResponse;
 @SuppressWarnings("PMD")
 public class RateLimitFilter implements Filter {
 
-  private double rateLimit;
+  private int rateLimit;
 
-  public RateLimitFilter(double rateLimit) {
+  public RateLimitFilter(int rateLimit) {
     this.rateLimit = rateLimit;
   }
 
@@ -37,6 +41,7 @@ public class RateLimitFilter implements Filter {
    */
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
       throws IOException, ServletException {
+    LoggingService.log(tag, INFO, String.format("Rate Limit set to %d requests per second", rateLimit), RateLimitFilter.class);
 
     // limiting the submission of requests to x per second
     RateLimiter limiter = RateLimiter.create(rateLimit);
