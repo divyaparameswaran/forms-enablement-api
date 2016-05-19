@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<xs:include schemaLocation="CORE.xsd" />
-	<xs:annotation>
-		<xs:documentation>For type=LLDS02, type id=5577, template id=0492</xs:documentation>
-	</xs:annotation>
+    <xs:include schemaLocation="CORE.xsd"/>
+    <xs:annotation>
+        <xs:documentation>For type=LLDS02, type id=5577, template id=0492</xs:documentation>
+    </xs:annotation>
 
-	<xs:redefine schemaLocation="CORE.xsd">
-		<xs:complexType name="corporateBodyType">
-			<xs:complexContent>
-				<xs:extension base="corporateBodyType">
-					<xs:choice maxOccurs="unbounded">
-						<xs:element name="incorporationNumber" type="xs:string" />
-						<xs:element name="corporateBodyName" type="xs:string" />
-					</xs:choice>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:redefine>
-		
-	<xs:element name="form" type="coreForm" />
+    <xs:redefine schemaLocation="CORE.xsd">
+        <xs:complexType name="corporateBodyType">
+            <xs:complexContent>
+                <xs:extension base="corporateBodyType">
+                    <xs:choice maxOccurs="unbounded">
+                        <xs:element name="incorporationNumber" type="xs:string"/>
+                        <xs:element name="corporateBodyName" type="xs:string"/>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:redefine>
+
+    <xs:element name="form" type="coreForm"/>
 
 </xs:schema>

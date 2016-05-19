@@ -20,9 +20,9 @@ In order to run the tool locally you'll need the following installed on your mac
 Run the following from the command line to download the repository and change into the directory:
 
 ```
-git clone git@github.com:AaronWitter/formsapiservice.git
+git clone git@github.com:companieshouse/forms-enablement-api.git
 
-cd formsapiservice
+cd forms-enablement-api
 ```
 
 

@@ -28,3 +28,11 @@ log4jConfiguration:
   frequency: 1
   # Valid values are DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS
   timeUnit: "HOURS"
+
+logging:
+  level: ${env.LOGGING_LEVEL!"DEBUG"}
+
+fluentLogging:
+  fluentLoggingOn: false
+  tag: "forms-enablement-api"
+  maxQueueSize: 20

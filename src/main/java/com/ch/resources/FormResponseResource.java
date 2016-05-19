@@ -1,12 +1,14 @@
 package com.ch.resources;
 
+import static com.ch.service.LoggingService.LoggingLevel.INFO;
+import static com.ch.service.LoggingService.tag;
+
 import com.ch.application.FormsServiceApplication;
 import com.ch.client.ClientHelper;
 import com.ch.configuration.SalesforceConfiguration;
+import com.ch.service.LoggingService;
 import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -21,7 +23,6 @@ import javax.ws.rs.core.Response;
 @Path("/response")
 public class FormResponseResource {
 
-  private static final Logger log = LogManager.getLogger(FormResponseResource.class);
   private static final Timer timer = FormsServiceApplication.registry.timer("FormResponseResource");
 
   private final ClientHelper client;
@@ -45,12 +46,13 @@ public class FormResponseResource {
                                    String verdict) {
     final Timer.Context context = timer.time();
     try {
-      log.info("Verdict from CHIPS: " + verdict);
+      LoggingService.log(tag, INFO, "Verdict from CHIPS: " + verdict,
+          FormResponseResource.class);
 
-      // post to Salesforce
+      // POST to Salesforce
       Response response = client.postJson(configuration.getApiUrl(), verdict);
-      log.info("Response from Salesforce " + response);
-
+      LoggingService.log(tag, INFO, "Response from Salesforce " + response,
+          FormResponseResource.class);
       return response;
 
     } finally {

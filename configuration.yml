@@ -18,16 +18,33 @@ companiesHouseConfiguration:
   barcodeServiceUrl: ${env.CHIPS_BARCODE_SERVICE_URL}
 
 jerseyClient:
-  timeout: 10s
-  connectionTimeout: 10s
-  chunkedEncodingEnabled: false
-  gzipEnabled: false
-  gzipEnabledForRequests: false
+  # The socket timeout value. If a read or write to the underlying
+  # TCP/IP connection hasn't succeeded after this duration, a
+  # timeout exception is thrown.
+  timeout: ${env.TIMEOUT!"10s"}
+  # The connection timeout value. If a TCP/IP connection cannot be
+  # established in this time, a timeout exception is thrown.
+  connectionTimeout: ${env.CONNECTION_TIMEOUT!"10s"}
+  # Enables the use of chunked encoding for requests.
+  chunkedEncodingEnabled: ${env.CHUNKED_ENCODING_ENABLED!false}
+  # If true, the client will automatically decode response entities
+  # with gzip content encoding.
+  gzipEnabled: ${env.GZIP_ENABLED!true}
+  # If true, the client will encode request entities with gzip
+  # content encoding. (Requires gzipEnabled to be true).
+  gzipEnabledForRequests: ${env.GZIP_ENABLED_FOR_REQUESTS!true}
 
 log4jConfiguration:
-  frequency: ${env.CH_LOG_FREQUENCY!"1"}
+  frequency: ${env.CH_LOG_FREQUENCY!1}
   # Valid values are DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS
   timeUnit: ${env.CH_LOG_TIME_UNIT!"HOURS"}
 
 logging:
-  level: DEBUG
+  level: ${env.LOGGING_LEVEL!"DEBUG"}
+
+fluentLogging:
+  fluentLoggingOn: ${env.FLUENT_LOGGING_ON!false}
+  fluentHost: ${env.FLUENT_HOST}
+  fluentPort: ${env.FLUENT_PORT}
+  tag: ${env.FORMS_API_LOG_TAG!"forms-enablement-api"}
+  maxQueueSize: 20

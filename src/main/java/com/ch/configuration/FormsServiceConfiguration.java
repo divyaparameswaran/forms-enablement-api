@@ -23,6 +23,9 @@ public class FormsServiceConfiguration extends Configuration {
   @JsonProperty
   private CompaniesHouseConfiguration companiesHouseConfiguration;
 
+  @JsonProperty
+  private FluentLoggingConfiguration fluentLogging;
+
   @NotNull
   @JsonProperty
   private Log4jConfiguration log4jConfiguration;
@@ -33,6 +36,10 @@ public class FormsServiceConfiguration extends Configuration {
 
   public CompaniesHouseConfiguration getCompaniesHouseConfiguration() {
     return companiesHouseConfiguration;
+  }
+
+  public FluentLoggingConfiguration getFluentLoggingConfiguration() {
+    return fluentLogging;
   }
 
   @JsonProperty("jerseyClient")
