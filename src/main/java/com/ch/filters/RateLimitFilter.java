@@ -1,6 +1,6 @@
 package com.ch.filters;
 
-import static com.ch.service.LoggingService.LoggingLevel.INFO;
+import static com.ch.service.LoggingService.LoggingLevel.DEBUG;
 import static com.ch.service.LoggingService.tag;
 
 import com.ch.service.LoggingService;
@@ -25,6 +25,7 @@ public class RateLimitFilter implements Filter {
 
   public RateLimitFilter(int rateLimit) {
     this.rateLimit = rateLimit;
+    LoggingService.log(tag, DEBUG, String.format("Rate Limit set to %d requests per second", rateLimit), RateLimitFilter.class);
   }
 
   public void init(FilterConfig filterConfig) throws ServletException {
@@ -41,8 +42,6 @@ public class RateLimitFilter implements Filter {
    */
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
       throws IOException, ServletException {
-    LoggingService.log(tag, INFO, String.format("Rate Limit set to %d requests per second", rateLimit), RateLimitFilter.class);
-
     // limiting the submission of requests to x per second
     RateLimiter limiter = RateLimiter.create(rateLimit);
 

@@ -48,9 +48,9 @@ public class BarcodeResource {
       LoggingService.log(tag, INFO, "Barcode request from Salesforce: " + dateReceived,
           BarcodeResource.class);
 
-      // POST to CHIPS
+      // POST to Barcode Service
       Response response = client.postJson(configuration.getBarcodeServiceUrl(), dateReceived);
-      LoggingService.log(tag, INFO, "Response from CHIPS " + response,
+      LoggingService.log(tag, INFO, "Response from Barcode Service " + response,
           BarcodeResource.class);
       return response;
 
