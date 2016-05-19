@@ -10,7 +10,7 @@ import com.ch.exception.mapper.ConnectionExceptionMapper;
 import com.ch.exception.mapper.ContentTypeExceptionMapper;
 import com.ch.exception.mapper.MissingRequiredDataExceptionMapper;
 import com.ch.exception.mapper.XmlExceptionMapper;
-import com.ch.exception.mapper.XsdValidationException;
+import com.ch.exception.mapper.XsdValidationExceptionMapper;
 import com.ch.filters.RateLimitFilter;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
@@ -109,7 +109,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new ContentTypeExceptionMapper());
     environment.jersey().register(new MissingRequiredDataExceptionMapper());
     environment.jersey().register(new XmlExceptionMapper());
-    environment.jersey().register(new XsdValidationException());
+    environment.jersey().register(new XsdValidationExceptionMapper());
 
     // Logging filter for input and output
     environment.jersey().register(new LoggingFilter(

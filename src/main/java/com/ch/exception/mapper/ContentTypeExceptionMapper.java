@@ -1,6 +1,10 @@
 package com.ch.exception.mapper;
 
+import static com.ch.service.LoggingService.LoggingLevel.ERROR;
+import static com.ch.service.LoggingService.tag;
+
 import com.ch.exception.ContentTypeException;
+import com.ch.service.LoggingService;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -19,6 +23,7 @@ public class ContentTypeExceptionMapper implements ExceptionMapper<ContentTypeEx
    * @return an appropriate HTTP error response
    */
   public Response toResponse(ContentTypeException exception) {
+    LoggingService.log(tag, ERROR, exception.getMessage(), ContentTypeException.class);
     return Response.status(Response.Status.BAD_REQUEST)
         .header("Error", exception.getMessage())
         .build();
