@@ -1,19 +1,14 @@
 package com.ch.cucumber;
 
-import static com.ch.cucumber.FormServiceTestSuiteIT.RULE;
-
-import com.ch.application.FormsServiceApplication;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.configuration.SalesforceConfiguration;
 import com.ch.helpers.TestHelper;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import io.dropwizard.client.JerseyClientBuilder;
-import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.internal.util.Base64;
 import org.junit.Assert;
-import org.junit.ClassRule;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -26,7 +21,7 @@ public class FormResponseSteps extends TestHelper {
 
   private Response responseOne;
   private Response responseTwo;
-  private  DropwizardAppRule<FormsServiceConfiguration> rule = FormServiceTestSuiteIT.RULE;
+  private DropwizardAppRule<FormsServiceConfiguration> rule = FormServiceTestSuiteIT.RULE;
 
   @Given("^I submit a valid verdict to the response forms API using the correct credentials$")
   public void i_submit_a_valid_verdict_to_the_response_forms_API_using_the_correct_credentials() throws Throwable {
@@ -70,6 +65,6 @@ public class FormResponseSteps extends TestHelper {
 
   @Then("^I should receive an invalid media type error from the response api$")
   public void i_should_receive_an_invalid_media_type_error_from_the_response_api() throws Throwable {
-    Assert.assertEquals("Correct HTTP status code.", 500, responseTwo.getStatus());
+    Assert.assertEquals("Correct HTTP status code.", 415, responseTwo.getStatus());
   }
 }

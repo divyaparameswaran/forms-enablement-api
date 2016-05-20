@@ -1,9 +1,16 @@
 package com.ch.application;
 
+import static com.ch.service.LoggingService.LoggingLevel.INFO;
+import static com.ch.service.LoggingService.tag;
+
 import com.ch.auth.FormsApiAuthenticator;
 import com.ch.client.ClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
-import com.ch.exception.mapper.CustomExceptionMapper;
+import com.ch.exception.mapper.ConnectionExceptionMapper;
+import com.ch.exception.mapper.ContentTypeExceptionMapper;
+import com.ch.exception.mapper.MissingRequiredDataExceptionMapper;
+import com.ch.exception.mapper.XmlExceptionMapper;
+import com.ch.exception.mapper.XsdValidationExceptionMapper;
 import com.ch.filters.RateLimitFilter;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
@@ -13,6 +20,7 @@ import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HealthcheckResource;
 import com.ch.resources.HomeResource;
 import com.ch.resources.TestResource;
+import com.ch.service.LoggingService;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Slf4jReporter;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
@@ -60,6 +68,11 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
   @Override
   public void run(FormsServiceConfiguration configuration, Environment environment) {
+    // Logging
+    if (configuration.getFluentLoggingConfiguration().isFluentLoggingOn()) {
+      LoggingService.setFluentLogging(configuration.getFluentLoggingConfiguration());
+    }
+    LoggingService.log(tag, INFO, "Starting up Forms API Service...", FormsServiceApplication.class);
 
     // Authentication Filter for resources
     BasicCredentialAuthFilter authFilter = new BasicCredentialAuthFilter.Builder<FormsApiUser>()
@@ -92,7 +105,11 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.healthChecks().register("AppHealthCheck", healthCheck);
 
     // Exception Mappers
-    environment.jersey().register(new CustomExceptionMapper());
+    environment.jersey().register(new ConnectionExceptionMapper());
+    environment.jersey().register(new ContentTypeExceptionMapper());
+    environment.jersey().register(new MissingRequiredDataExceptionMapper());
+    environment.jersey().register(new XmlExceptionMapper());
+    environment.jersey().register(new XsdValidationExceptionMapper());
 
     // Logging filter for input and output
     environment.jersey().register(new LoggingFilter(
@@ -101,7 +118,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     );
 
     //Filters
-    environment.servlets().addFilter("RateLimitFilter", new RateLimitFilter())
+    environment.servlets().addFilter("RateLimitFilter", new RateLimitFilter(configuration.getRateLimit()))
         .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
     // Metrics

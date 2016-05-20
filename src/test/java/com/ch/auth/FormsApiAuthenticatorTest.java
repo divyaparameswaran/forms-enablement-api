@@ -8,7 +8,6 @@ import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.internal.util.Base64;
 import org.junit.Assert;
 import org.junit.ClassRule;
-import org.junit.Test;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;

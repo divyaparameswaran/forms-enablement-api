@@ -61,7 +61,6 @@ public class FormXmlBuilder {
     // 6. validate xml against form xsd
     validateXml(manualXml);
 
-
     // 7. base64 encode
     return encode(manualXml);
   }

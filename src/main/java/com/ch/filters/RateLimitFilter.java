@@ -1,5 +1,9 @@
 package com.ch.filters;
 
+import static com.ch.service.LoggingService.LoggingLevel.DEBUG;
+import static com.ch.service.LoggingService.tag;
+
+import com.ch.service.LoggingService;
 import com.google.common.util.concurrent.RateLimiter;
 
 import java.io.IOException;
@@ -14,10 +18,17 @@ import javax.servlet.ServletResponse;
 /**
  * Created by Aaron.Witter on 10/04/2016.
  */
+@SuppressWarnings("PMD")
 public class RateLimitFilter implements Filter {
-  @SuppressWarnings("PMD")
-  public void init(FilterConfig filterConfig) throws ServletException {
 
+  private int rateLimit;
+
+  public RateLimitFilter(int rateLimit) {
+    this.rateLimit = rateLimit;
+    LoggingService.log(tag, DEBUG, String.format("Rate Limit set to %d requests per second", rateLimit), RateLimitFilter.class);
+  }
+
+  public void init(FilterConfig filterConfig) throws ServletException {
   }
 
   /**
@@ -31,9 +42,8 @@ public class RateLimitFilter implements Filter {
    */
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
       throws IOException, ServletException {
-
-    // limiting the submission of requests to 1 per second
-    RateLimiter limiter = RateLimiter.create(1.0);
+    // limiting the submission of requests to x per second
+    RateLimiter limiter = RateLimiter.create(rateLimit);
 
     //acquires the limiter after the block has expired
     limiter.acquire();
@@ -42,7 +52,6 @@ public class RateLimitFilter implements Filter {
     chain.doFilter(servletRequest, servletResponse);
   }
 
-  @SuppressWarnings("PMD")
   public void destroy() {
 
   }

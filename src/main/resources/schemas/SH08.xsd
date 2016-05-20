@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	
-	<xs:annotation>
-		<xs:documentation>For type=SH08, type id=5575, template id=5500</xs:documentation>
-	</xs:annotation>
-	
-	<xs:redefine schemaLocation="CORE.xsd">
-		<xs:complexType name="corporateBodyType">
-			<xs:complexContent>
-				<xs:extension base="corporateBodyType">
-					<xs:choice maxOccurs="unbounded">
-						<xs:element name="incorporationNumber" type="xs:string" />
-						<xs:element name="corporateBodyName" type="xs:string" />
-						<xs:element ref="shareAssignments" minOccurs="1" />
-					</xs:choice>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:redefine>
 
-	<xs:element name="shareAssignments">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="shareAssignment" minOccurs="1" maxOccurs="unbounded" />
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+    <xs:annotation>
+        <xs:documentation>For type=SH08, type id=5575, template id=5500</xs:documentation>
+    </xs:annotation>
 
-	<xs:element name="shareAssignment">
-		<xs:complexType>
-			<xs:all>
-				<xs:element ref="existingClass" minOccurs="1" maxOccurs="1" />
-				<xs:element ref="nameOrOtherDesignation" minOccurs="1"
-					maxOccurs="1" />
-			</xs:all>
-		</xs:complexType>
-	</xs:element>
+    <xs:redefine schemaLocation="CORE.xsd">
+        <xs:complexType name="corporateBodyType">
+            <xs:complexContent>
+                <xs:extension base="corporateBodyType">
+                    <xs:choice maxOccurs="unbounded">
+                        <xs:element name="incorporationNumber" type="xs:string"/>
+                        <xs:element name="corporateBodyName" type="xs:string"/>
+                        <xs:element ref="shareAssignments" minOccurs="1"/>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:redefine>
 
-	<xs:element name="existingClass" type="xs:string" />
-	<xs:element name="nameOrOtherDesignation" type="xs:string" />
-	
-	<xs:element name="form" type="coreForm" />
+    <xs:element name="shareAssignments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="shareAssignment" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="shareAssignment">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="existingClass" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="nameOrOtherDesignation" minOccurs="1"
+                            maxOccurs="1"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="existingClass" type="xs:string"/>
+    <xs:element name="nameOrOtherDesignation" type="xs:string"/>
+
+    <xs:element name="form" type="coreForm"/>
 
 
 </xs:schema>

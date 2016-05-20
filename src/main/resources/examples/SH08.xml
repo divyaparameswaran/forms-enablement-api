@@ -1,8 +1,8 @@
-<form type="SH08" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../schemas/SH08.xsd">
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="SH08" xsi:noNamespaceSchemaLocation="../schemas/SH08.xsd">
     <filingDetails>
         <method>enablement</method>
         <authoriser>director</authoriser>
-        <contactDetails />
+        <contactDetails/>
         <signDate>2013-04-04</signDate>
         <receiptDate>2013-04-10</receiptDate>
         <presenterDocumentReference>DS0009</presenterDocumentReference>
@@ -15,7 +15,7 @@
             <presenterAccountNumber>12345678901</presenterAccountNumber>
             <presenterEmailIn>sbowen@companieshouse.gov.uk</presenterEmailIn>
             <presenterEmailOut>sbowen@companieshouse.gov.uk</presenterEmailOut>
-          </presenterDetails>
+        </presenterDetails>
         <payment>
             <paymentMethod>account</paymentMethod>
             <accountNumber>00599998000</accountNumber>
@@ -25,17 +25,17 @@
         <incorporationNumber>02667726</incorporationNumber>
         <corporateBodyName>SOLDATA LIMITED</corporateBodyName>
         <shareAssignments>
-        	<shareAssignment>
-        		<existingClass>30 ORDINARY SHARES</existingClass>
-        		<nameOrOtherDesignation>30 A ORDINARY SHARES</nameOrOtherDesignation>
-        	</shareAssignment>
-        	<shareAssignment>
-        		<existingClass>SPECIAL SHARES</existingClass>
-        		<nameOrOtherDesignation>NOT SO SPECIAL SHARES</nameOrOtherDesignation>
-        	</shareAssignment>        	
+            <shareAssignment>
+                <existingClass>30 ORDINARY SHARES</existingClass>
+                <nameOrOtherDesignation>30 A ORDINARY SHARES</nameOrOtherDesignation>
+            </shareAssignment>
+            <shareAssignment>
+                <existingClass>SPECIAL SHARES</existingClass>
+                <nameOrOtherDesignation>NOT SO SPECIAL SHARES</nameOrOtherDesignation>
+            </shareAssignment>
         </shareAssignments>
     </corporateBody>
     <general>
-    	<effectiveDate>2016-05-04</effectiveDate>
+        <effectiveDate>2016-05-04</effectiveDate>
     </general>
 </form>

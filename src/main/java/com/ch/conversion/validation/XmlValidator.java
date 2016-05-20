@@ -52,7 +52,6 @@ public class XmlValidator {
 
     } catch (Exception ex) {
       // exception thrown when invalid
-      // TODO: do we want to catch all exceptions or handle specific ones
       throw new XsdValidationException(ex, formType, schemaFileName);
     }
   }
