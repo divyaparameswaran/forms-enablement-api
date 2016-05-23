@@ -167,7 +167,7 @@
     <xs:element name="reconvertedClass">
         <xs:complexType>
             <xs:all>
-                <xs:element name="stockValue" type="xs:string" minOccurs="1" maxOccurs="1" />
+                <xs:element name="stockValue" type="xs:decimal" minOccurs="1" maxOccurs="1" />
                 <xs:element name="class" type="xs:string" minOccurs="1" maxOccurs="1" />
                 <xs:element ref="number" minOccurs="1" maxOccurs="1" />
                 <xs:element ref="value" minOccurs="1" maxOccurs="1" />
