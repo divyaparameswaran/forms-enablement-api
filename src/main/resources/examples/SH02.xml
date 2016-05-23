@@ -25,35 +25,67 @@
         <incorporationNumber>02667726</incorporationNumber>
         <corporateBodyName>SOLDATA LIMITED</corporateBodyName>
         <statementOfCapital>
+            <grandTotals>
+                <shareValueGrandTotals>
+	                <shareValueGrandTotal>
+	                    <currencyCode>GBP</currencyCode>
+	                    <value>103519.2620</value>
+	                    <totalAmountUnpaid>0</totalAmountUnpaid>
+	                </shareValueGrandTotal>
+	                <shareValueGrandTotal>
+	                    <currencyCode>JOD</currencyCode>
+	                    <value>5.9</value>
+	                    <totalAmountUnpaid>0</totalAmountUnpaid>
+	                </shareValueGrandTotal>
+	                <shareValueGrandTotal>
+	                    <currencyCode>USD</currencyCode>
+	                    <value>53</value>
+	                    <totalAmountUnpaid>0</totalAmountUnpaid>
+	                </shareValueGrandTotal>
+                </shareValueGrandTotals>
+                <shareNumberGrandTotal>51822</shareNumberGrandTotal>
+            </grandTotals>
             <shareValues>
                 <shareValue>
                     <currencyCode>GBP</currencyCode>
                     <value>103519.2620</value>
-                    <totalNumberOfShares>25388660</totalNumberOfShares>
+                    <totalNumberOfShares>51759</totalNumberOfShares>
                     <totalAmountUnpaid>0</totalAmountUnpaid>
                 </shareValue>
+                <shareValue>
+                    <currencyCode>JOD</currencyCode>
+                    <value>5.9</value>
+                    <totalNumberOfShares>10</totalNumberOfShares>
+                    <totalAmountUnpaid>0</totalAmountUnpaid>
+                </shareValue>
+                <shareValue>
+                    <currencyCode>USD</currencyCode>
+                    <value>53</value>
+                    <totalNumberOfShares>53</totalNumberOfShares>
+                    <totalAmountUnpaid>0</totalAmountUnpaid>
+                </shareValue>                                
             </shareValues>
             <shareClasses>
                 <shareClass>
-                    <currencyCode>GBP</currencyCode>
+                    <currencyCode>JOD</currencyCode>
                     <suppliedClass>ORDINARY</suppliedClass>
                     <description>ONE VOTE PER SHARE ON A POLL ONE VOTE PER ORDINARY SHAREHOLDER PRESENT AND VOTING AS A SHOW OF HANDS RIGHT TO PARTICIPATE IN A DISTRIBUTION AS RESPECTS DIVIDENDS RIGHTS TO PARTICIPATE IN A DISTRIBUTION ON A WINDING UP OR EXIT IN PRIORITY TO ALL OTHER CLASSES OF ORDINARY SHARES</description>
-                    <number>10200040</number>
-                    <value>102000.40</value>
+                    <number>10</number>
+                    <value>5.9</value>
+                </shareClass>
+                <shareClass>
+                    <currencyCode>USD</currencyCode>
+                    <suppliedClass>GS1</suppliedClass>
+                    <description>NO VOTING RIGHTS NO RIGHTS TO PARTICIPATE IN A DISTRIBTUION AS RESPECTS DIVIDENDS RIGHTS TO PARTICIPATE IN A DISTRIBUTION ON A WINDING UP OR EXIT, WHERE SURPLUS ASSETS EXCEED A CERTAIN AMOUNT</description>
+                    <number>53</number>
+                    <value>53</value>
                 </shareClass>
                 <shareClass>
                     <currencyCode>GBP</currencyCode>
                     <suppliedClass>GS2</suppliedClass>
-                    <description>NO VOTING RIGHTS NO RIGHTS TO PARTICIPATE IN A DISTRIBTUION AS RESPECTS DIVIDENDS RIGHTS TO PARTICIPATE IN A DISTRIBUTION ON A WINDING UP OR EXIT, WHERE SURPLUS ASSETS EXCEED A CERTAIN AMOUNT</description>
-                    <number>11940000</number>
-                    <value>1194.0000</value>
-                </shareClass>
-                <shareClass>
-                    <currencyCode>GBP</currencyCode>
-                    <suppliedClass>GS1</suppliedClass>
                     <description>NO VOTING RIGHTS NO RIGHTS TO PARTICIPATE IN A DISTRIBUTION AS RESPECTS DIVIDENDS RIGHTS TO PARTICIPATE IN A DISTRIBUTION ON A WINDING UP OR EXIT, WHERE SURPLUS ASSETS EXCEED A CERTAIN AMOUNT</description>
-                    <number>3248620</number>
-                    <value>324.8620</value>
+                    <number>51759</number>
+                    <value>103519.2620</value>
                 </shareClass>
             </shareClasses>
             <latestSOCInd>true</latestSOCInd>

@@ -30,6 +30,7 @@
 				<xs:element ref="shareValues" minOccurs="1" maxOccurs="1" />
 				<xs:element ref="shareClasses" minOccurs="1" maxOccurs="1" />
 				<xs:element ref="latestSOCInd" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="grandTotals" minOccurs="1" maxOccurs="1" />
 			</xs:all>
 		</xs:complexType>
 	</xs:element>
@@ -170,6 +171,33 @@
                 <xs:element name="stockValue" type="xs:decimal" minOccurs="1" maxOccurs="1" />
                 <xs:element name="class" type="xs:string" minOccurs="1" maxOccurs="1" />
                 <xs:element ref="number" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="value" minOccurs="1" maxOccurs="1" />
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="grandTotals">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="shareValueGrandTotals" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="shareNumberGrandTotal" minOccurs="1" maxOccurs="1" />
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="shareValueGrandTotals">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="shareValueGrandTotal" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="shareValueGrandTotal">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="currencyCode" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="totalAmountUnpaid" minOccurs="1" maxOccurs="1" />
                 <xs:element ref="value" minOccurs="1" maxOccurs="1" />
             </xs:all>
         </xs:complexType>
@@ -359,6 +387,7 @@
     <xs:element name="number" type="xs:decimal" />
     <xs:element name="totalNumberOfShares" type="xs:decimal" />
     <xs:element name="totalAmountUnpaid" type="xs:decimal" />
+    <xs:element name="shareNumberGrandTotal" type="xs:decimal" />
     <xs:element name="value" type="xs:decimal" />
     <xs:element name="redemptionSelected" type="xs:string" />
     <xs:element name="subDivision" type="xs:string" />
