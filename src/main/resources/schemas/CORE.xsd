@@ -245,9 +245,10 @@
 
     <xs:element name="general">
         <xs:complexType>
-            <xs:sequence>
+            <xs:all>
                 <xs:element name="effectiveDate" type="xs:string" minOccurs="0"/>
-            </xs:sequence>
+                <xs:element name="resolutionDate" type="xs:string" minOccurs="0"/>
+            </xs:all>
         </xs:complexType>
     </xs:element>
     <xs:annotation>
