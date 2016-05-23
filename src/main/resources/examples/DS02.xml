@@ -1,4 +1,4 @@
-<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="LLDS02" xsi:noNamespaceSchemaLocation="../schemas/LLDS02.xsd">
+<form type="DS02" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../schemas/DS02.xsd">
     <filingDetails>
         <method>enablement</method>
         <authoriser>director</authoriser>
@@ -26,7 +26,7 @@
         </payment>
     </filingDetails>
     <corporateBody>
-        <incorporationNumber>OC383551</incorporationNumber>
-        <corporateBodyName>TITE PROPERTY PARTNERSHIP LLP</corporateBodyName>
+        <incorporationNumber>09450005</incorporationNumber>
+        <corporateBodyName>LIVERPOOL GIRL GEEKS LTD</corporateBodyName>
     </corporateBody>
 </form>
