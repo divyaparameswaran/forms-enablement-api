@@ -1,4 +1,4 @@
-<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="LLDS01" xsi:noNamespaceSchemaLocation="../schemas/LLDS02.xsd">
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="LLDS02" xsi:noNamespaceSchemaLocation="../schemas/LLDS02.xsd">
     <filingDetails>
         <method>enablement</method>
         <authoriser>director</authoriser>
