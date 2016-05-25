@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="CORE.xsd" />
+	<xs:annotation>
+		<xs:documentation>For type=SH16, type id=5479, template id=5035</xs:documentation>
+	</xs:annotation>
+
+	<xs:redefine schemaLocation="CORE.xsd">
+		<xs:complexType name="corporateBodyType">
+			<xs:complexContent>
+				<xs:extension base="corporateBodyType">
+					<xs:sequence>
+						<xs:element ref="officers" minOccurs="1" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:redefine>
+		
+	<xs:element name="form" type="coreForm" />
+
+</xs:schema>
