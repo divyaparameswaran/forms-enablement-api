@@ -4,7 +4,20 @@
 	<xs:annotation>
 		<xs:documentation>For type=SH16, type id=5479, template id=5035</xs:documentation>
 	</xs:annotation>
-		
+
+    <xs:redefine schemaLocation="CORE.xsd">
+        <xs:complexType name="corporateBodyType">
+            <xs:complexContent>
+                <xs:extension base="corporateBodyType">
+                    <xs:choice maxOccurs="unbounded">
+                        <xs:element name="incorporationNumber" type="xs:string"/>
+                        <xs:element name="corporateBodyName" type="xs:string"/>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:redefine>
+    		
 	<xs:element name="form" type="coreForm" />
 
 </xs:schema>
