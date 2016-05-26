@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:annotation>
+        <xs:documentation>For type=SH13, type id=5580, template id=5058</xs:documentation>
+    </xs:annotation>
+
+    <xs:redefine schemaLocation="CORE.xsd">
+        <xs:complexType name="corporateBodyType">
+            <xs:complexContent>
+                <xs:extension base="corporateBodyType">
+                    <xs:choice maxOccurs="unbounded">
+                        <xs:element name="incorporationNumber" type="xs:string"/>
+                        <xs:element name="corporateBodyName" type="xs:string"/>
+                        <xs:element ref="memberClasses" minOccurs="1"/>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:redefine>
+
+
+    <xs:element name="memberClasses">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="memberClass" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="memberClass">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="existingClass" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="newNameOrDesignation" minOccurs="1" maxOccurs="1" />
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="existingClass" type="xs:string" />
+    <xs:element name="newNameOrDesignation" type="xs:string" />
+
+    <xs:element name="form" type="coreForm"/>
+
+</xs:schema>
