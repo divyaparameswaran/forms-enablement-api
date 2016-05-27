@@ -1,4 +1,4 @@
-<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="SH11" xsi:noNamespaceSchemaLocation="../schemas/SH11.xsd">
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="AUD" xsi:noNamespaceSchemaLocation="../schemas/AUD.xsd">
     <filingDetails>
         <method>enablement</method>
         <authoriser>director</authoriser>
@@ -22,11 +22,7 @@
         </payment>
     </filingDetails>
     <corporateBody>
-        <incorporationNumber>02667726</incorporationNumber>
-        <corporateBodyName>SOLDATA LIMITED</corporateBodyName>
-        <detailsOfCreationOfRights>SPECIAL MEMBERS SHALL VOTE AT GENERAL MEETINGS, ORDINARY MEMBERS SHALL NOT VOTE AT GENERAL MEETINGS</detailsOfCreationOfRights>
+        <incorporationNumber>02667727</incorporationNumber>
+        <corporateBodyName>NEWDATA LIMITED</corporateBodyName>
     </corporateBody>
-    <general>
-        <effectiveDate>2016-05-04</effectiveDate>
-    </general>
 </form>
