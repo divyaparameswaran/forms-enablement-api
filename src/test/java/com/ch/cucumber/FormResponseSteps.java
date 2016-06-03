@@ -30,7 +30,7 @@ public class FormResponseSteps extends TestHelper {
         .build("response client 1");
 
     SalesforceConfiguration config = rule.getConfiguration().getSalesforceConfiguration();
-    String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
+    String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
     String url = String.format("http://localhost:%d/response", rule.getLocalPort());
 
     String response = getStringFromFile(RESPONSE_JSON_PATH);
@@ -52,7 +52,7 @@ public class FormResponseSteps extends TestHelper {
         .build("response client 2");
 
     SalesforceConfiguration config = rule.getConfiguration().getSalesforceConfiguration();
-    String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
+    String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
     String url = String.format("http://localhost:%d/response", rule.getLocalPort());
 
     String response = getStringFromFile(RESPONSE_JSON_PATH);
