@@ -4,17 +4,23 @@ server:
   adminContextPath: /admin
   connector:
     type: http
-    port: ${env.PORT}
+    port: ${env.PORT!8080}
 
 salesforceConfiguration:
   name: Salesforce
-  secret: ${env.SALESFORCE_API_KEY}
-  apiUrl: ${env.SALESFORCE_API_URL}
+  apiKey: ${env.SALESFORCE_API_KEY}
+  authUrl: ${env.SALESFORCE_AUTH_URL}
+  authGrantType: ${env.SALESFORCE_AUTH_TYPE}
+  authUsername: ${env.SALESFORCE_AUTH_USERNAME}
+  authPassword: ${env.SALESFORCE_AUTH_PASSWORD}
+  authId: ${env.SALESFORCE_AUTH_ID}
+  authSecret: ${env.SALESFORCE_AUTH_SECRET}
+  clientUrl: ${env.SALESFORCE_CLIENT_URL}
 
 companiesHouseConfiguration:
   name: CHIPS
-  secret: ${env.CHIPS_API_KEY}
-  apiUrl: ${env.CHIPS_API_URL}
+  apiKey: ${env.CHIPS_API_KEY}
+  chipsApiUrl: ${env.CHIPS_API_URL}
   barcodeServiceUrl: ${env.CHIPS_BARCODE_SERVICE_URL}
 
 jerseyClient:
@@ -26,13 +32,13 @@ jerseyClient:
   # established in this time, a timeout exception is thrown.
   connectionTimeout: ${env.CONNECTION_TIMEOUT!"10s"}
   # Enables the use of chunked encoding for requests.
-  chunkedEncodingEnabled: ${env.CHUNKED_ENCODING_ENABLED!false}
+  chunkedEncodingEnabled: ${env.CHUNKED_ENCODING_ENABLED!"false"}
   # If true, the client will automatically decode response entities
   # with gzip content encoding.
-  gzipEnabled: ${env.GZIP_ENABLED!true}
+  gzipEnabled: ${env.GZIP_ENABLED!"true"}
   # If true, the client will encode request entities with gzip
   # content encoding. (Requires gzipEnabled to be true).
-  gzipEnabledForRequests: ${env.GZIP_ENABLED_FOR_REQUESTS!true}
+  gzipEnabledForRequests: ${env.GZIP_ENABLED_FOR_REQUESTS!"true"}
 
 log4jConfiguration:
   frequency: ${env.CH_LOG_FREQUENCY!1}
@@ -43,9 +49,9 @@ logging:
   level: ${env.LOGGING_LEVEL!"DEBUG"}
 
 fluentLogging:
-  fluentLoggingOn: ${env.FLUENT_LOGGING_ON!false}
-  fluentHost: ${env.FLUENT_HOST}
-  fluentPort: ${env.FLUENT_PORT}
+  fluentLoggingOn: ${env.FLUENT_LOGGING_ON!"false"}
+  fluentHost: ${env.FLUENT_HOST!"test"}
+  fluentPort: ${env.FLUENT_PORT!20}
   tag: ${env.FORMS_API_LOG_TAG!"forms-enablement-api"}
   maxQueueSize: 20
 
