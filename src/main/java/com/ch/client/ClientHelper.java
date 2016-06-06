@@ -32,6 +32,20 @@ public final class ClientHelper {
   }
 
   /**
+   * Patches json verdict to Salesforce.
+   *
+   * @param clientUrl   salesforce client url
+   * @param accessToken access token
+   * @param verdict     json verdict from chips
+   * @return response
+   */
+  public Response postJson(String clientUrl, String accessToken, String verdict) {
+    final WebTarget target = client.target(clientUrl);
+    return target.request(MediaType.APPLICATION_XML_TYPE)
+        .header("Authorization", "Bearer " + accessToken).method("PATCH", Entity.json(verdict));
+  }
+
+  /**
    * Gets token from Salesforce oauth client.
    *
    * @param configuration Salesforce configuration object
@@ -45,20 +59,6 @@ public final class ClientHelper {
         .queryParam("username", configuration.getAuthUsername())
         .queryParam("password", configuration.getAuthPassword());
     return target.request().post(Entity.json(null));
-  }
-
-  /**
-   * Posts json verdict to Salesforce.
-   *
-   * @param clientUrl   salesforce client url
-   * @param accessToken access token
-   * @param verdict     json verdict from chips
-   * @return response
-   */
-  public Response postVerdict(String clientUrl, String accessToken, String verdict) {
-    final WebTarget target = client.target(clientUrl);
-    return target.request(MediaType.APPLICATION_XML_TYPE)
-        .header("Authorization", "Bearer " + accessToken).method("PATCH", Entity.json(verdict));
   }
 }
 

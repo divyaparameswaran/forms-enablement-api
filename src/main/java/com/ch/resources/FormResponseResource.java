@@ -60,7 +60,7 @@ public class FormResponseResource {
       String accessToken = (String) accessTokenJson.get("access_token");
 
       // POST to Salesforce
-      Response response = client.postVerdict(configuration.getClientUrl(), accessToken, verdict);
+      Response response = client.postJson(configuration.getClientUrl(), accessToken, verdict);
       LoggingService.log(tag, INFO, "Response from Salesforce " + response,
           FormResponseResource.class);
       return response;
