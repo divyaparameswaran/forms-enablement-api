@@ -36,6 +36,10 @@ public class TestResource {
     return Response.status(202).entity(date).build();
   }
 
+  /**
+   * Method to simulate the auth token response from salsforce.
+   * @return Response object.
+   */
   @POST
   @Path("/salesforce/auth")
   @Consumes(MediaType.APPLICATION_JSON)
