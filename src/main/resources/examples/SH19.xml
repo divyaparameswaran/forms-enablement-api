@@ -93,5 +93,6 @@
     </corporateBody>
     <general>
     	<effectiveDate>2016-05-04</effectiveDate>
+    	<sameDay>true</sameDay>
     </general>
 </form>
