@@ -1,5 +1,8 @@
 package com.ch.resources;
 
+import io.dropwizard.jersey.PATCH;
+import org.json.simple.JSONObject;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -31,5 +34,24 @@ public class TestResource {
   @Consumes(MediaType.APPLICATION_JSON)
   public Response postBarcode(String date) {
     return Response.status(202).entity(date).build();
+  }
+
+  @POST
+  @Path("/salesforce/auth")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response postAuth() {
+
+    JSONObject jsonObject = new JSONObject();
+
+    jsonObject.put("access_token", "abcdefghijklmnopqrstuvwxyz");
+
+    return Response.status(202).entity(jsonObject).build();
+  }
+
+  @PATCH
+  @Path("/salesforce/client")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response postVerdict() {
+    return Response.status(202).build();
   }
 }
