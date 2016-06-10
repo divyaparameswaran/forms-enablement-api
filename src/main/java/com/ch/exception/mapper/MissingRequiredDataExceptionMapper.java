@@ -24,8 +24,9 @@ public class MissingRequiredDataExceptionMapper implements ExceptionMapper<Missi
    */
   public Response toResponse(MissingRequiredDataException exception) {
     LoggingService.log(tag, ERROR, exception.getMessage(), MissingRequiredDataException.class);
+    String error = ExceptionHelper.getInstance().getJsonError(exception);
     return Response.status(Response.Status.BAD_REQUEST)
-        .entity(ExceptionHelper.getJsonError(exception))
+        .entity(error)
         .build();
   }
 }
