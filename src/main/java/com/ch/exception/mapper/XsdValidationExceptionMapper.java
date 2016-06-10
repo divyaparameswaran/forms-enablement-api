@@ -25,7 +25,7 @@ public class XsdValidationExceptionMapper implements ExceptionMapper<XsdValidati
   public Response toResponse(XsdValidationException exception) {
     LoggingService.log(tag, ERROR, exception.getMessage(), XsdValidationException.class);
     return Response.status(Response.Status.BAD_REQUEST)
-        .header("Error", exception.getMessage())
+        .entity(ExceptionHelper.getJsonError(exception))
         .build();
   }
 }

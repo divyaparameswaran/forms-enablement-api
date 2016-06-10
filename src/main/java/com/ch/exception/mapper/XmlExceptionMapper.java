@@ -25,7 +25,7 @@ public class XmlExceptionMapper implements ExceptionMapper<XmlException> {
   public Response toResponse(XmlException exception) {
     LoggingService.log(tag, ERROR, exception.getMessage(), XmlException.class);
     return Response.status(Response.Status.BAD_REQUEST)
-        .header("Error", exception.getMessage())
+        .entity(ExceptionHelper.getJsonError(exception))
         .build();
   }
 }
