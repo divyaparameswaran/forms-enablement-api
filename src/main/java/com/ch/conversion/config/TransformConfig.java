@@ -90,6 +90,6 @@ public class TransformConfig implements ITransformConfig {
   }
 
   public String getSchemasLocation() {
-    return "src/main/resources/schemas/";
+    return "schemas";
   }
 }
