@@ -31,7 +31,7 @@ public class XmlValidatorTest extends TestHelper {
   public void invalidXsd() throws Exception {
     // resources/schemas/DS01.xsd is an incomplete xsd
     ITransformConfig schemaConfig = Mockito.spy(config);
-    Mockito.when(schemaConfig.getSchemasLocation()).thenReturn("test/resources/schemas/");
+    Mockito.when(schemaConfig.getSchemasLocation()).thenReturn("testschemas");
 
     String valid = getStringFromFile(VALID_DS01_XML_PATH);
     XmlValidator validator = new XmlValidator(schemaConfig, valid);
