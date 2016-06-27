@@ -65,7 +65,8 @@ public final class XmlHelper {
      * @throws XmlException                 error parsing xml
      * @throws MissingRequiredDataException error getting property from json
      */
-    public void addJsonValueAsElementToXml(Document xml, JSONObject json, String xmlLocation, String parentName, String propertyName,
+    public void addJsonValueAsElementToXml(Document xml, JSONObject json, String xmlLocation, String parentName,
+                                           String propertyName,
                                            String
                                                elementName) throws XmlException, MissingRequiredDataException {
         try {
