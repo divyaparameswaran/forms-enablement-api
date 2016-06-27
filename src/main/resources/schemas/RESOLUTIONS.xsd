@@ -29,7 +29,6 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-
     <xs:element name="resolutionType">
         <xs:complexType>
             <xs:sequence>
@@ -37,7 +36,6 @@
                 <xs:element ref="freeFormatText" minOccurs="0"/>
                 <xs:element ref="memorandumArticleType" minOccurs="0"/>
                 <xs:element ref="memorandumActionType" minOccurs="0"/>
-
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -60,12 +58,17 @@
     <xs:element name="memorandumArticleType">
         <xs:simpleType>
             <xs:restriction base="xs:positiveInteger">
+                <xs:enumeration value="1" />
+                <xs:enumeration value="2" />
+                <xs:enumeration value="3" />
             </xs:restriction>
         </xs:simpleType>
     </xs:element>
     <xs:element name="memorandumActionType">
         <xs:simpleType>
             <xs:restriction base="xs:positiveInteger">
+                <xs:enumeration value="1" />
+                <xs:enumeration value="2" />
             </xs:restriction>
         </xs:simpleType>
     </xs:element>
