@@ -1,0 +1,40 @@
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="C:/mapforce/mappings/chips_schemas/DS01schema.xsd" type="${FORMTYPE}" id="
+-1">
+    <filingDetails>
+        <method>enablement</method>
+        <authoriser>director</authoriser>
+        <authentication>
+            <code>222222</code>
+            <status>authenticated</status>
+        </authentication>
+        <eFileValidated>false</eFileValidated>
+        <contactDetails />
+        <signDate>2013-04-04</signDate>
+        <receiptDate>2016-04-10</receiptDate>
+        <presenterDocumentReference>DS0009</presenterDocumentReference>
+        <barcode>J53W9DA1</barcode>
+        <presenterDetails>
+            <presenterName>Steve Bowen</presenterName>
+            <presenterAccountNumber>12345678901</presenterAccountNumber>
+            <presenterEmailIn>sbowen@companieshouse.gov.uk</presenterEmailIn>
+            <presenterEmailOut>sbowen@companieshouse.gov.uk</presenterEmailOut>
+        </presenterDetails>
+        <payment>
+            <paymentMethod>account</paymentMethod>
+            <accountNumber>00599998000</accountNumber>
+        </payment>
+    </filingDetails>
+    <corporateBody>
+        <incorporationNumber>02667726</incorporationNumber>
+        <corporateBodyName>SOLDATA LIMITED</corporateBodyName>
+        <resolutions>
+            <resolutionType>
+                <resolutionFormType>13</resolutionFormType>
+                <freeFormatText>FREE TEXT</freeFormatText>
+            </resolutionType>
+        </resolutions>
+    </corporateBody>
+    <general>
+        <resolutionDate>2016-01-01</resolutionDate>
+    </general>
+</form>
