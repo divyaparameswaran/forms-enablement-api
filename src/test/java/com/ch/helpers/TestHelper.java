@@ -13,19 +13,26 @@ import java.io.IOException;
  */
 public class TestHelper {
 
-  public static final String EXAMPLE_JSON_PATH = "example.json";
-  public static final String INVALID_JSON_PATH = "invalid.json";
-  public static final String VALID_JSON_PATH = "valid.json";
-  public static final String PACKAGE_JSON_PATH = "package.json";
-  public static final String FORM_JSON_PATH = "form_all.json";
-  public static final String INVALID_FORM_JSON_PATH = "invalid_form_all.json";
-  public static final String FORM_XML_PATH = "form.xml";
-  public static final String CONVERTED_FORM_XML_PATH = "converted_form.xml";
-  public static final String META_PATH = "meta.json";
-  public static final String EXAMPLE_XML_PATH = "example.xml";
-  public static final String LOWERCASE_JSON_PATH = "lower_case.json";
-  public static final String DATE_JSON_PATH = "date.json";
-  public static final String RESPONSE_JSON_PATH = "response.json";
+  protected static final String EXAMPLE_JSON_PATH = "json/example.json";
+  protected static final String INVALID_JSON_PATH = "json/invalid.json";
+  protected static final String VALID_JSON_PATH = "json/valid.json";
+  protected static final String PACKAGE_JSON_PATH = "json/package.json";
+  protected static final String FORM_JSON_PATH = "json/form.json";
+  protected static final String FORM_ALL_JSON_PATH = "json/form_all.json";
+  protected static final String INVALID_FORM_JSON_PATH = "json/invalid_form_all.json";
+  protected static final String META_PATH = "json/meta.json";
+  protected static final String LOWERCASE_JSON_PATH = "json/lower_case.json";
+  protected static final String DATE_JSON_PATH = "json/date.json";
+  protected static final String RESPONSE_JSON_PATH = "json/response.json";
+
+  protected static final String FORM_XML_PATH = "xml/form.xml";
+  protected static final String CONVERTED_FORM_XML_PATH = "xml/converted_form.xml";
+  protected static final String EXAMPLE_XML_PATH = "xml/example.xml";
+  protected static final String VALID_DS01_XML_PATH = "xml/valid_DS01.xml";
+  protected static final String INVALID_DS01_XML_PATH = "xml/invalid_DS01.xml";
+  protected static final String INVALID_FORM_XML_PATH = "xml/invalid_form.xml";
+  protected static final String BLANK_FORM_XML_PATH = "xml/blank_form.xml";
+  protected static final String NO_SCHEMA_XML_PATH = "xml/no_schema_form.xml";
 
   public String getStringFromFile(String filename) throws IOException {
     String fileAsString;

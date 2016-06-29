@@ -1,7 +1,7 @@
 package com.ch.conversion.builders;
 
 import com.ch.conversion.config.ITransformConfig;
-import com.ch.conversion.config.TestTransformationConfig;
+import com.ch.conversion.config.TransformConfig;
 import com.ch.exception.MissingRequiredDataException;
 import com.ch.helpers.TestHelper;
 import org.json.JSONObject;
@@ -18,7 +18,7 @@ public class FormXmlBuilderTest extends TestHelper {
 
   @Before
   public void setUp() {
-    config = new TestTransformationConfig();
+    config = new TransformConfig();
   }
 
   @Test(expected = MissingRequiredDataException.class)

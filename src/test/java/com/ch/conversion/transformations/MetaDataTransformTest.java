@@ -33,6 +33,6 @@ public class MetaDataTransformTest extends TestHelper {
     MetaDataTransform transform = new MetaDataTransform(config, xml, meta_json);
     String output = transform.getXml();
 
-    Assert.assertThat(output, CoreMatchers.containsString("<?xml version='1.0'?><form type='SH08' version=''>"));
+    Assert.assertThat(output, CoreMatchers.containsString("<?xml version='1.0'?><form type='DS01' version='1'>"));
   }
 }

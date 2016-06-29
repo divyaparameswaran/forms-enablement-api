@@ -1,5 +1,6 @@
 package com.ch.conversion.helpers;
 
+import com.ch.exception.XmlException;
 import com.ch.helpers.TestHelper;
 import org.hamcrest.CoreMatchers;
 import org.json.JSONObject;
@@ -81,6 +82,28 @@ public class XmlHelperTest extends TestHelper {
     Document xml = createDocumentFromPath(EXAMPLE_XML_PATH);
     String output = helper.getStringFromDocument(xml);
     Assert.assertNotNull(output);
+  }
+
+  @Test
+  public void getAttributeValueFromDocumentValid() throws Exception {
+    Document xml = createDocumentFromPath(EXAMPLE_XML_PATH);
+    String output = helper.getAttributeValueFromDocument(xml, "root", "type");
+    ;
+    Assert.assertEquals("abc", output);
+  }
+
+  @Test(expected = XmlException.class)
+  public void getAttributeValueFromDocumentNoElement() throws Exception {
+    Document xml = createDocumentFromPath(EXAMPLE_XML_PATH);
+    helper.getAttributeValueFromDocument(xml, "no", "no");
+    ;
+  }
+
+  @Test(expected = XmlException.class)
+  public void getAttributeValueFromDocumentElementPresentNoAttribute() throws Exception {
+    Document xml = createDocumentFromPath(EXAMPLE_XML_PATH);
+    helper.getAttributeValueFromDocument(xml, "root", "no");
+    ;
   }
 
   private Document createDocumentFromPath(String path) throws Exception {

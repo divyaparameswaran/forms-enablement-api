@@ -3,6 +3,7 @@ package com.ch.configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 import io.dropwizard.client.JerseyClientConfiguration;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -18,14 +19,24 @@ public class FormsServiceConfiguration extends Configuration {
   private final JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
 
   @JsonProperty
+  private int rateLimit;
+
+  @JsonProperty
   private SalesforceConfiguration salesforceConfiguration;
 
   @JsonProperty
   private CompaniesHouseConfiguration companiesHouseConfiguration;
 
+  @JsonProperty
+  private FluentLoggingConfiguration fluentLogging;
+
   @NotNull
   @JsonProperty
   private Log4jConfiguration log4jConfiguration;
+
+  public int getRateLimit() {
+    return rateLimit;
+  }
 
   public SalesforceConfiguration getSalesforceConfiguration() {
     return salesforceConfiguration;
@@ -33,6 +44,10 @@ public class FormsServiceConfiguration extends Configuration {
 
   public CompaniesHouseConfiguration getCompaniesHouseConfiguration() {
     return companiesHouseConfiguration;
+  }
+
+  public FluentLoggingConfiguration getFluentLoggingConfiguration() {
+    return fluentLogging;
   }
 
   @JsonProperty("jerseyClient")

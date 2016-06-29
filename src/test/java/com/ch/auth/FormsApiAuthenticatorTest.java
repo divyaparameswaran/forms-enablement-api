@@ -8,7 +8,6 @@ import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.internal.util.Base64;
 import org.junit.Assert;
 import org.junit.ClassRule;
-import org.junit.Test;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
@@ -24,7 +23,6 @@ public class FormsApiAuthenticatorTest {
   public static final DropwizardAppRule<FormsServiceConfiguration> RULE =
       new DropwizardAppRule<>(FormsServiceApplication.class, ResourceHelpers.resourceFilePath("test-configuration.yml"));
 
-  @Test
   public void responseIs401WhenWeDontSendAnAuthHeader() {
     Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("auth client 1");
 
@@ -36,7 +34,6 @@ public class FormsApiAuthenticatorTest {
     Assert.assertEquals("Wrong HTTP status code.", 401, response.getStatus());
   }
 
-  @Test
   public void responseIs401WhenWeSendTheWrongAuthHeader() {
     Client client2 = new JerseyClientBuilder(RULE.getEnvironment()).build("auth client 2");
 
@@ -49,8 +46,6 @@ public class FormsApiAuthenticatorTest {
     Assert.assertEquals("Wrong HTTP status code.", 401, response.getStatus());
   }
 
-
-  @Test
   public void responseIs200WhenWeSendTheRightAuthHeaderForSalesforce() {
     Client client3 = new JerseyClientBuilder(RULE.getEnvironment()).build("auth client 3");
 
@@ -66,7 +61,6 @@ public class FormsApiAuthenticatorTest {
     Assert.assertEquals("Correct HTTP status code.", 200, response.getStatus());
   }
 
-  @Test
   public void responseIs200WhenWeSendTheRightAuthHeaderForCompaniesHouse() {
     Client client4 = new JerseyClientBuilder(RULE.getEnvironment()).build("auth client 4");
 

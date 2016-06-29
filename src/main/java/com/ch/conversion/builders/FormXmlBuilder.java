@@ -6,6 +6,7 @@ import com.ch.conversion.transformations.FilingDetailsTransform;
 import com.ch.conversion.transformations.ManualElementsTransform;
 import com.ch.conversion.transformations.MetaDataTransform;
 import com.ch.conversion.transformations.UpperCaseTransform;
+import com.ch.conversion.validation.XmlValidator;
 import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
 import org.json.XML;
@@ -55,10 +56,13 @@ public class FormXmlBuilder {
     String filingDetailsXml = addFilingDetails(metaXml);
 
     // 5. add any manual elements into the xml
-    String methodXml = addManualElements(filingDetailsXml);
+    String manualXml = addManualElements(filingDetailsXml);
 
-    // 6. base64 encode
-    return encode(methodXml);
+    // 6. validate xml against form xsd
+    validateXml(manualXml);
+
+    // 7. base64 encode
+    return encode(manualXml);
   }
 
   private String toXml() {
@@ -78,6 +82,11 @@ public class FormXmlBuilder {
   private String addManualElements(String xml) {
     ManualElementsTransform transform = new ManualElementsTransform(config, xml);
     return transform.getXml();
+  }
+
+  private void validateXml(String xml) {
+    XmlValidator validator = new XmlValidator(config, xml);
+    validator.validate();
   }
 
   private String encode(String xml) {

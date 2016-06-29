@@ -49,4 +49,6 @@ public interface ITransformConfig {
   String getFormVersionPropertyNameIn();
 
   String getFormVersionAttributeNameOut();
+
+  String getSchemasLocation();
 }

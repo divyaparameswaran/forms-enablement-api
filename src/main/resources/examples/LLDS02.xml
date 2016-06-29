@@ -1,0 +1,32 @@
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="LLDS02" xsi:noNamespaceSchemaLocation="../schemas/LLDS02.xsd">
+    <filingDetails>
+        <method>enablement</method>
+        <authoriser>director</authoriser>
+        <signDate>2016-03-31</signDate>
+        <receiptDate>2016-03-31</receiptDate>
+        <presenterDocumentReference>DS0009</presenterDocumentReference>
+        <submissionReference>8c199ac6-369a-462d-8cfc-0f4b6d13fa7b</submissionReference>
+        <barcode>J53W9DA1</barcode>
+        <packageIdentifier>12345</packageIdentifier>
+        <packageCount>1</packageCount>
+        <presenterDetails>
+            <presenterName>Steve Bowen</presenterName>
+            <presenterAccountNumber>12345678901</presenterAccountNumber>
+            <presenterEmailIn>sbowen@companieshouse.gov.uk</presenterEmailIn>
+            <presenterEmailOut>sbowen@companieshouse.gov.uk</presenterEmailOut>
+            <presenterAddressLine1>Companies House</presenterAddressLine1>
+            <presenterAddressLine2>Crown Way</presenterAddressLine2>
+            <presenterAddressPostTown>Cardiff</presenterAddressPostTown>
+            <presenterAddressCountry>Wales</presenterAddressCountry>
+            <presenterAddressPostCode>CF3 4UZ</presenterAddressPostCode>
+        </presenterDetails>
+        <payment>
+            <paymentMethod>account</paymentMethod>
+            <accountNumber>00599998000</accountNumber>
+        </payment>
+    </filingDetails>
+    <corporateBody>
+        <incorporationNumber>OC383551</incorporationNumber>
+        <corporateBodyName>TITE PROPERTY PARTNERSHIP LLP</corporateBodyName>
+    </corporateBody>
+</form>

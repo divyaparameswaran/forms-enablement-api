@@ -1,12 +1,14 @@
 package com.ch.resources;
 
+import static com.ch.service.LoggingService.LoggingLevel.INFO;
+import static com.ch.service.LoggingService.tag;
+
 import com.ch.application.FormsServiceApplication;
 import com.ch.client.ClientHelper;
 import com.ch.configuration.CompaniesHouseConfiguration;
+import com.ch.service.LoggingService;
 import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -20,7 +22,6 @@ import javax.ws.rs.core.Response;
  */
 @Path("/barcode")
 public class BarcodeResource {
-  private static final Logger log = LogManager.getLogger(BarcodeResource.class);
   private static final Timer timer = FormsServiceApplication.registry.timer("BarcodeResource");
 
   private final ClientHelper client;
@@ -44,13 +45,13 @@ public class BarcodeResource {
                                  String dateReceived) {
     final Timer.Context context = timer.time();
     try {
+      LoggingService.log(tag, INFO, "Barcode request from Salesforce: " + dateReceived,
+          BarcodeResource.class);
 
-      log.info("Barcode request from Salesforce: " + dateReceived);
-
-      // post to CHIPS
+      // POST to Barcode Service
       Response response = client.postJson(configuration.getBarcodeServiceUrl(), dateReceived);
-      log.info("Response from CHIPS " + response);
-
+      LoggingService.log(tag, INFO, "Response from Barcode Service " + response,
+          BarcodeResource.class);
       return response;
 
     } finally {
