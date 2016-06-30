@@ -6,7 +6,10 @@ import com.ch.model.FormsPackage;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,8 +60,21 @@ public class JsonBuilder {
             forms.add(object.toString());
         }
 
-        // 3. create transformed forms package
-        String packageMetaData = rawFormsPackage.getPackageMetaData();
+        // 3. transform package meta data
+        String packageMetaData = getTransformedPackageMetaData();
+
+        // 4. return transformed package
         return new FormsPackage(packageMetaData, forms);
+    }
+
+    private String getTransformedPackageMetaData() {
+        JSONObject packageMetaData = new JSONObject(rawFormsPackage.getPackageMetaData());
+
+        // 1. add datetime to package meta data
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        String format = dateFormat.format(new Date());
+        packageMetaData.put(config.getPackageDatePropertyNameOut(), format);
+
+        return packageMetaData.toString();
     }
 }

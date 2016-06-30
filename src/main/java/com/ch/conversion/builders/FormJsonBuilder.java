@@ -3,6 +3,7 @@ package com.ch.conversion.builders;
 
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.helpers.JsonHelper;
+import com.ch.model.FormStatus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -59,7 +60,11 @@ public class FormJsonBuilder {
         Object packageIdentifier = getPackageIdentifier();
         output.put(config.getPackageIdentifierPropertyNameIn(), packageIdentifier);
 
-        // 5. transform package and form json into base64 xml
+        // 5. add pending status
+        Object status = FormStatus.PENDING.toString();
+        output.put(config.getFormStatusPropertyNameOut(), status);
+
+        // 6. transform package and form json into base64 xml
         String xml = getFormXML();
         output.put(config.getXmlPropertyNameOut(), xml);
         return output;
