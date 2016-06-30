@@ -99,7 +99,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         final ClientHelper clientHelper = new ClientHelper(client);
 
         // Resources
-        environment.jersey().register(new FormSubmissionResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
+        environment.jersey().register(new FormSubmissionResource(mongoClient));
         environment.jersey().register(new FormResponseResource(clientHelper, configuration.getSalesforceConfiguration()));
         environment.jersey().register(new HomeResource());
         environment.jersey().register(new HealthcheckResource());

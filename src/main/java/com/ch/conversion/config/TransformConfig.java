@@ -62,7 +62,7 @@ public class TransformConfig implements ITransformConfig {
     }
 
     public String getPackageIdentifierPropertyNameIn() {
-        return "id";
+        return "packageIdentifier";
     }
 
     public String getPackageIdentifierElementNameOut() {

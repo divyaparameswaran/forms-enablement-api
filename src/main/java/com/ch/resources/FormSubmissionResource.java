@@ -1,17 +1,16 @@
 package com.ch.resources;
 
-import static com.ch.service.LoggingService.LoggingLevel.INFO;
-import static com.ch.service.LoggingService.tag;
-
 import com.ch.application.FormsServiceApplication;
-import com.ch.client.ClientHelper;
-import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.conversion.builders.JsonBuilder;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
-import com.ch.service.LoggingService;
+import com.ch.model.FormsPackage;
 import com.codahale.metrics.Timer;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import io.dropwizard.auth.Auth;
+import org.bson.Document;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import javax.ws.rs.Consumes;
@@ -28,12 +27,10 @@ import javax.ws.rs.core.Response;
 public class FormSubmissionResource {
     private static final Timer timer = FormsServiceApplication.registry.timer("FormSubmissionResource");
 
-    private final ClientHelper client;
-    private final CompaniesHouseConfiguration configuration;
+    private final MongoClient client;
 
-    public FormSubmissionResource(ClientHelper client, CompaniesHouseConfiguration configuration) {
+    public FormSubmissionResource(MongoClient client) {
         this.client = client;
-        this.configuration = configuration;
     }
 
     /**
@@ -51,17 +48,25 @@ public class FormSubmissionResource {
             // convert input to json
             ITransformConfig config = new TransformConfig();
             JsonBuilder builder = new JsonBuilder(config, multi);
-            String forms = builder.getJson();
-            LoggingService.log(tag, INFO, "Transformation output: " + forms,
-                FormSubmissionResource.class);
+            FormsPackage transformedPackage = builder.getTransformedPackage();
 
-            // post to CHIPS
-            Response response = client.postJson(configuration.getApiUrl(), forms);
-            LoggingService.log(tag, INFO, "Response from CHIPS: " + response.toString(),
-                FormSubmissionResource.class);
+            // insert into mongodb
+            // TODO: get from config, refactor
+            MongoDatabase database = client.getDatabase("enablement");
+            MongoCollection<Document> packagesCollection = database.getCollection("packages");
+            MongoCollection<Document> formsCollection = database.getCollection("forms");
 
-            // return response from CHIPS
-            return response;
+            // add package to db
+            Document packageMetaDataDocument = Document.parse(transformedPackage.getPackageMetaData());
+            packagesCollection.insertOne(packageMetaDataDocument);
+            // add each form to db
+            for (String form : transformedPackage.getForms()) {
+                Document transformedForm = Document.parse(form);
+                formsCollection.insertOne(transformedForm);
+            }
+
+            // return 200
+            return Response.ok().build();
 
         } finally {
             context.stop();
