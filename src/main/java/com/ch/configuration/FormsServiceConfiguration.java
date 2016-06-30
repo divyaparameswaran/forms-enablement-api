@@ -41,6 +41,14 @@ public class FormsServiceConfiguration extends Configuration {
     @JsonProperty
     private String mongoDbName;
 
+    @NotNull
+    @JsonProperty
+    private String mongoDbPackagesCollectionName;
+
+    @NotNull
+    @JsonProperty
+    private String mongoDbFormsCollectionName;
+
     public int getRateLimit() {
         return rateLimit;
     }
@@ -72,5 +80,13 @@ public class FormsServiceConfiguration extends Configuration {
 
     public String getMongoDbName() {
         return mongoDbName;
+    }
+
+    public String getMongoDbPackagesCollectionName() {
+        return mongoDbPackagesCollectionName;
+    }
+
+    public String getMongoDbFormsCollectionName() {
+        return mongoDbFormsCollectionName;
     }
 }

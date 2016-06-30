@@ -4,6 +4,7 @@ import com.ch.application.FormsServiceApplication;
 import com.ch.conversion.builders.JsonBuilder;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
+import com.ch.helpers.MongoHelper;
 import com.ch.model.FormsPackage;
 import com.codahale.metrics.Timer;
 import com.mongodb.MongoClient;
@@ -27,10 +28,10 @@ import javax.ws.rs.core.Response;
 public class FormSubmissionResource {
     private static final Timer timer = FormsServiceApplication.registry.timer("FormSubmissionResource");
 
-    private final MongoClient client;
+    private final MongoHelper mongoHelper;
 
-    public FormSubmissionResource(MongoClient client) {
-        this.client = client;
+    public FormSubmissionResource(MongoHelper mongoHelper) {
+        this.mongoHelper = mongoHelper;
     }
 
     /**
@@ -51,19 +52,7 @@ public class FormSubmissionResource {
             FormsPackage transformedPackage = builder.getTransformedPackage();
 
             // insert into mongodb
-            // TODO: get from config, refactor
-            MongoDatabase database = client.getDatabase("enablement");
-            MongoCollection<Document> packagesCollection = database.getCollection("packages");
-            MongoCollection<Document> formsCollection = database.getCollection("forms");
-
-            // add package to db
-            Document packageMetaDataDocument = Document.parse(transformedPackage.getPackageMetaData());
-            packagesCollection.insertOne(packageMetaDataDocument);
-            // add each form to db
-            for (String form : transformedPackage.getForms()) {
-                Document transformedForm = Document.parse(form);
-                formsCollection.insertOne(transformedForm);
-            }
+            mongoHelper.storeFormsPackage(transformedPackage);
 
             // return 200
             return Response.ok().build();

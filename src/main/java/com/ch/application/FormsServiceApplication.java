@@ -4,7 +4,7 @@ import static com.ch.service.LoggingService.LoggingLevel.INFO;
 import static com.ch.service.LoggingService.tag;
 
 import com.ch.auth.FormsApiAuthenticator;
-import com.ch.client.ClientHelper;
+import com.ch.helpers.ClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.exception.mapper.ConnectionExceptionMapper;
 import com.ch.exception.mapper.ContentTypeExceptionMapper;
@@ -14,6 +14,7 @@ import com.ch.exception.mapper.XsdValidationExceptionMapper;
 import com.ch.filters.RateLimitFilter;
 import com.ch.health.AppHealthCheck;
 import com.ch.health.MongoHealthCheck;
+import com.ch.helpers.MongoHelper;
 import com.ch.model.FormsApiUser;
 import com.ch.resources.BarcodeResource;
 import com.ch.resources.FormResponseResource;
@@ -89,6 +90,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
         // MongoDB
         final MongoClient mongoClient = getMongoClient(configuration.getMongoDbUri());
+        final MongoHelper mongoHelper = new MongoHelper(mongoClient, configuration);
 
         // Jersey Client
         final Client client = new JerseyClientBuilder(environment)
@@ -99,7 +101,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         final ClientHelper clientHelper = new ClientHelper(client);
 
         // Resources
-        environment.jersey().register(new FormSubmissionResource(mongoClient));
+        environment.jersey().register(new FormSubmissionResource(mongoHelper));
         environment.jersey().register(new FormResponseResource(clientHelper, configuration.getSalesforceConfiguration()));
         environment.jersey().register(new HomeResource());
         environment.jersey().register(new HealthcheckResource());
