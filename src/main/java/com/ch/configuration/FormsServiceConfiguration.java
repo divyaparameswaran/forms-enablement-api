@@ -33,6 +33,14 @@ public class FormsServiceConfiguration extends Configuration {
     @JsonProperty
     private Log4jConfiguration log4jConfiguration;
 
+    @NotNull
+    @JsonProperty
+    private String dbUrl;
+
+    @NotNull
+    @JsonProperty
+    private String dbName;
+
     public int getRateLimit() {
         return rateLimit;
     }
@@ -56,5 +64,13 @@ public class FormsServiceConfiguration extends Configuration {
 
     public Log4jConfiguration getLog4jConfiguration() {
         return log4jConfiguration;
+    }
+
+    public String getDbUrl() {
+        return dbUrl;
+    }
+
+    public String getDbName() {
+        return dbName;
     }
 }
