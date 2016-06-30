@@ -4,7 +4,6 @@ import static com.ch.service.LoggingService.LoggingLevel.INFO;
 import static com.ch.service.LoggingService.tag;
 
 import com.ch.auth.FormsApiAuthenticator;
-import com.ch.helpers.ClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.exception.mapper.ConnectionExceptionMapper;
 import com.ch.exception.mapper.ContentTypeExceptionMapper;
@@ -14,6 +13,7 @@ import com.ch.exception.mapper.XsdValidationExceptionMapper;
 import com.ch.filters.RateLimitFilter;
 import com.ch.health.AppHealthCheck;
 import com.ch.health.MongoHealthCheck;
+import com.ch.helpers.ClientHelper;
 import com.ch.helpers.MongoHelper;
 import com.ch.model.FormsApiUser;
 import com.ch.resources.BarcodeResource;
