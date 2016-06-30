@@ -35,11 +35,11 @@ public class FormsServiceConfiguration extends Configuration {
 
     @NotNull
     @JsonProperty
-    private String dbUrl;
+    private String mongoDbUri;
 
     @NotNull
     @JsonProperty
-    private String dbName;
+    private String mongoDbName;
 
     public int getRateLimit() {
         return rateLimit;
@@ -66,11 +66,11 @@ public class FormsServiceConfiguration extends Configuration {
         return log4jConfiguration;
     }
 
-    public String getDbUrl() {
-        return dbUrl;
+    public String getMongoDbUri() {
+        return mongoDbUri;
     }
 
-    public String getDbName() {
-        return dbName;
+    public String getMongoDbName() {
+        return mongoDbName;
     }
 }

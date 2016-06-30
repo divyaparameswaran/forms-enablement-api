@@ -13,6 +13,7 @@ import com.ch.exception.mapper.XmlExceptionMapper;
 import com.ch.exception.mapper.XsdValidationExceptionMapper;
 import com.ch.filters.RateLimitFilter;
 import com.ch.health.AppHealthCheck;
+import com.ch.health.MongoHealthCheck;
 import com.ch.model.FormsApiUser;
 import com.ch.resources.BarcodeResource;
 import com.ch.resources.FormResponseResource;
@@ -23,6 +24,8 @@ import com.ch.resources.TestResource;
 import com.ch.service.LoggingService;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Slf4jReporter;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
@@ -35,6 +38,7 @@ import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.EnumSet;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -67,7 +71,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     }
 
     @Override
-    public void run(FormsServiceConfiguration configuration, Environment environment) {
+    public void run(FormsServiceConfiguration configuration, Environment environment) throws IOException {
         // Logging
         if (configuration.getFluentLoggingConfiguration().isFluentLoggingOn()) {
             LoggingService.setFluentLogging(configuration.getFluentLoggingConfiguration());
@@ -82,6 +86,9 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
         AuthDynamicFeature feature = new AuthDynamicFeature(authFilter);
         environment.jersey().register(feature);
+
+        // MongoDB
+        final MongoClient mongoClient = getMongoClient(configuration.getMongoDbUri());
 
         // Jersey Client
         final Client client = new JerseyClientBuilder(environment)
@@ -100,9 +107,8 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         environment.jersey().register(new TestResource());
 
         // Health Checks
-        final AppHealthCheck healthCheck =
-            new AppHealthCheck();
-        environment.healthChecks().register("AppHealthCheck", healthCheck);
+        environment.healthChecks().register("AppHealthCheck", new AppHealthCheck());
+        environment.healthChecks().register("MongoHealthCheck", new MongoHealthCheck(mongoClient));
 
         // Exception Mappers
         environment.jersey().register(new ConnectionExceptionMapper());
@@ -134,5 +140,10 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         // report metrics to log every hour
         reporter.start(configuration.getLog4jConfiguration().getFrequency(), TimeUnit.valueOf(configuration.getLog4jConfiguration()
             .getTimeUnit().toUpperCase()));
+    }
+
+    private MongoClient getMongoClient(String uri) throws IOException {
+        MongoClientURI mongoUri = new MongoClientURI(uri);
+        return new MongoClient(mongoUri);
     }
 }

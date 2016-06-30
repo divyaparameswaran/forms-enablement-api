@@ -53,5 +53,5 @@ fluentLogging:
 rateLimit: ${env.RATE_LIMIT!1}
 
 # mongodb
-dbUrl: ${env.MONGODB_URL!""}
-dbName: ${env.MONGODB_NAME!""}
+mongoDbUri: ${env.MONGODB_URI!"mongodb://localhost:27017"}
+mongoDbName: ${env.MONGODB_NAME!"enablement"}
