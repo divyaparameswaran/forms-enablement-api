@@ -6,11 +6,14 @@ import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
 import com.ch.helpers.MongoHelper;
 import com.ch.helpers.TestHelper;
+import com.mongodb.client.FindIterable;
+import com.sun.research.ws.wadl.Doc;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.junit.DropwizardAppRule;
+import org.bson.Document;
 import org.glassfish.jersey.internal.util.Base64;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -56,6 +59,7 @@ public class FormSubmissionSteps extends TestHelper {
         String packagemetadata = getStringFromFile(PACKAGE_JSON_PATH);
 
         multiPart.field("form1", formdata, MediaType.TEXT_PLAIN_TYPE);
+        multiPart.field("form2", formdata, MediaType.TEXT_PLAIN_TYPE);
         multiPart.field("packagemetadata", packagemetadata, MediaType.TEXT_PLAIN_TYPE);
 
         invalidResponse = client2.target(url)
@@ -63,6 +67,17 @@ public class FormSubmissionSteps extends TestHelper {
             .request()
             .header("Authorization", "Basic " + encode)
             .post(Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE));
+    }
+
+    @Then("^the database should contain (\\d+) packages and (\\d+) forms$")
+    public void the_database_should_contain_packages_and_forms(int arg1, int arg2) throws Throwable {
+        // packages
+        long packagesCount = mongoHelper.getPackagesCollection().count();
+        Assert.assertEquals(arg1, packagesCount);
+
+        // forms
+        long formsCount = mongoHelper.getFormsCollection().count();
+        Assert.assertEquals(arg2, formsCount);
     }
 
     @Then("^I should receive an error response from the API$")
@@ -87,6 +102,7 @@ public class FormSubmissionSteps extends TestHelper {
         String packagemetadata = getStringFromFile(PACKAGE_JSON_PATH);
 
         multiPart.field("form1", formdata, MediaType.TEXT_PLAIN_TYPE);
+        multiPart.field("form2", formdata, MediaType.TEXT_PLAIN_TYPE);
         multiPart.field("packagemetadata", packagemetadata, MediaType.TEXT_PLAIN_TYPE);
 
         validResponse = client1.target(url)
@@ -96,15 +112,20 @@ public class FormSubmissionSteps extends TestHelper {
             .post(Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE));
     }
 
-    @Then("^the package and forms should be added to the database$")
-    public void the_package_and_forms_should_be_added_to_the_database() throws Throwable {
-        // packages
-        long packagesCount = mongoHelper.getPackagesCollection().count();
-        // forms
-        long formsCount = mongoHelper.getFormsCollection().count();
+    @Then("^the package and forms should have the correct info$")
+    public void the_package_and_forms_should_have_the_correct_info() throws Throwable {
+        // ensure the package has a date property
+        Document storedPackage = mongoHelper.getPackagesCollection().find().first();
+        Object date = storedPackage.get(transformConfig.getPackageDatePropertyNameOut());
+        Object packageIdentifier = storedPackage.get(transformConfig.getPackageIdentifierPropertyNameIn());
+        Assert.assertNotNull(date);
 
-        Assert.assertEquals(1, packagesCount);
-        Assert.assertEquals(1, formsCount);
+        FindIterable<Document> forms = mongoHelper.getFormsCollection().find();
+        for(Document formDoc : forms){
+            // make sure each form has the packageIdentifier
+            Object formPackageIdentifier = formDoc.get(transformConfig.getPackageIdentifierPropertyNameIn());
+            Assert.assertEquals(packageIdentifier, formPackageIdentifier);
+        }
     }
 
     @Then("^I should get a success response from the API$")
