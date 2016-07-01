@@ -3,6 +3,7 @@ package com.ch.helpers;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.model.FormsPackage;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
@@ -14,9 +15,47 @@ public class MongoHelper {
     private final MongoClient client;
     private final FormsServiceConfiguration config;
 
-    public MongoHelper(MongoClient client, FormsServiceConfiguration config) {
-        this.client = client;
+    public MongoHelper(FormsServiceConfiguration config) {
         this.config = config;
+        this.client = setupMongoClient();
+    }
+
+    /**
+     * Get the mongo client.
+     *
+     * @return MongoClient
+     */
+    public MongoClient getMongoClient() {
+        return client;
+    }
+
+    /**
+     * Get mongo database.
+     * 
+     * @return MongoDatabase
+     */
+    public MongoDatabase getDatabase() {
+        return client.getDatabase(config.getMongoDbName());
+    }
+
+    /**
+     * Get the packages collection.
+     *
+     * @return MongoCollection
+     */
+    public MongoCollection<Document> getPackagesCollection() {
+        MongoDatabase database = getDatabase();
+        return database.getCollection(config.getMongoDbPackagesCollectionName());
+    }
+
+    /**
+     * Get the forms collection.
+     *
+     * @return MongoCollection
+     */
+    public MongoCollection<Document> getFormsCollection() {
+        MongoDatabase database = getDatabase();
+        return database.getCollection(config.getMongoDbFormsCollectionName());
     }
 
     /**
@@ -37,17 +76,9 @@ public class MongoHelper {
         }
     }
 
-    private MongoDatabase getDatabase() {
-        return client.getDatabase(config.getMongoDbName());
-    }
-
-    private MongoCollection<Document> getPackagesCollection() {
-        MongoDatabase database = getDatabase();
-        return database.getCollection(config.getMongoDbPackagesCollectionName());
-    }
-
-    private MongoCollection<Document> getFormsCollection() {
-        MongoDatabase database = getDatabase();
-        return database.getCollection(config.getMongoDbFormsCollectionName());
+    private MongoClient setupMongoClient() {
+        String uri = config.getMongoDbUri();
+        MongoClientURI mongoUri = new MongoClientURI(uri);
+        return new MongoClient(mongoUri);
     }
 }

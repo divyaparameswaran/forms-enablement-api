@@ -89,8 +89,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         environment.jersey().register(feature);
 
         // MongoDB
-        final MongoClient mongoClient = getMongoClient(configuration.getMongoDbUri());
-        final MongoHelper mongoHelper = new MongoHelper(mongoClient, configuration);
+        final MongoHelper mongoHelper = new MongoHelper(configuration);
 
         // Jersey Client
         final Client client = new JerseyClientBuilder(environment)
@@ -110,7 +109,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
         // Health Checks
         environment.healthChecks().register("AppHealthCheck", new AppHealthCheck());
-        environment.healthChecks().register("MongoHealthCheck", new MongoHealthCheck(mongoClient));
+        environment.healthChecks().register("MongoHealthCheck", new MongoHealthCheck(mongoHelper.getMongoClient()));
 
         // Exception Mappers
         environment.jersey().register(new ConnectionExceptionMapper());
@@ -142,10 +141,5 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         // report metrics to log every hour
         reporter.start(configuration.getLog4jConfiguration().getFrequency(), TimeUnit.valueOf(configuration.getLog4jConfiguration()
             .getTimeUnit().toUpperCase()));
-    }
-
-    private MongoClient getMongoClient(String uri) throws IOException {
-        MongoClientURI mongoUri = new MongoClientURI(uri);
-        return new MongoClient(mongoUri);
     }
 }
