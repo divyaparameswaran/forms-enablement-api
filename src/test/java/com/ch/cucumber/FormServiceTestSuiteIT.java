@@ -13,7 +13,8 @@ import org.junit.runner.RunWith;
  * Created by Aaron.Witter on 09/03/2016.
  */
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = {"pretty", "json:target/cucumber.json"})
+@CucumberOptions(features = "src/test/resources/", plugin = {"pretty",
+    "json:target/cucumber.json"})
 public class FormServiceTestSuiteIT {
     @ClassRule
     public static final DropwizardAppRule<FormsServiceConfiguration> RULE =
