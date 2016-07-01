@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by elliott.jenkins on 31/03/2016.
@@ -71,7 +72,7 @@ public class JsonBuilder {
         JSONObject packageMetaData = new JSONObject(rawFormsPackage.getPackageMetaData());
 
         // 1. add datetime to package meta data
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, Locale.ENGLISH);
         String format = dateFormat.format(new Date());
         packageMetaData.put(config.getPackageDatePropertyNameOut(), format);
 
