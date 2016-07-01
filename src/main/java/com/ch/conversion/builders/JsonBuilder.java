@@ -3,6 +3,7 @@ package com.ch.conversion.builders;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.helpers.MultiPartHelper;
 import com.ch.model.FormsPackage;
+import org.assertj.core.internal.cglib.core.Local;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.json.JSONObject;
 
@@ -72,7 +73,7 @@ public class JsonBuilder {
         JSONObject packageMetaData = new JSONObject(rawFormsPackage.getPackageMetaData());
 
         // 1. add datetime to package meta data
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.ENGLISH);
         String format = dateFormat.format(new Date());
         packageMetaData.put(config.getPackageDatePropertyNameOut(), format);
 
