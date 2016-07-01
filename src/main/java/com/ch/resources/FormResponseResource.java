@@ -5,6 +5,7 @@ import static com.ch.service.LoggingService.tag;
 
 import com.ch.application.FormsServiceApplication;
 import com.ch.client.ClientHelper;
+import com.ch.client.SalesforceClientHelper;
 import com.ch.configuration.SalesforceConfiguration;
 import com.ch.service.LoggingService;
 import com.codahale.metrics.Timer;
@@ -26,10 +27,10 @@ public class FormResponseResource {
 
   private static final Timer timer = FormsServiceApplication.registry.timer("FormResponseResource");
 
-  private final ClientHelper client;
+  private final SalesforceClientHelper client;
   private final SalesforceConfiguration configuration;
 
-  public FormResponseResource(ClientHelper client, SalesforceConfiguration configuration) {
+  public FormResponseResource(SalesforceClientHelper client, SalesforceConfiguration configuration) {
     this.client = client;
     this.configuration = configuration;
   }
