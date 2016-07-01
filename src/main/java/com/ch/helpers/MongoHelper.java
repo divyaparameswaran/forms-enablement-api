@@ -31,7 +31,7 @@ public class MongoHelper {
 
     /**
      * Get mongo database.
-     * 
+     *
      * @return MongoDatabase
      */
     public MongoDatabase getDatabase() {
