@@ -55,6 +55,11 @@ public class TestResource {
     return Response.status(202).entity(jsonObject).build();
   }
 
+  /**
+   * Mock endpoint for Salesforce client.
+   * @param accessToken takes accesstoken as a header.
+   * @return acceptance response.
+   */
   @PATCH
   @Path("/salesforce/client")
   @Consumes(MediaType.APPLICATION_JSON)
