@@ -29,7 +29,7 @@ public class SalesforceClientHelper {
      */
     public Response postJson(String clientUrl, String accessToken, String verdict) {
         final WebTarget target = client.target(clientUrl);
-        return target.request(MediaType.APPLICATION_XML_TYPE)
+        return target.request(MediaType.APPLICATION_JSON_TYPE)
             .header("Authorization", "Bearer " + accessToken).method("PATCH", Entity.json(verdict));
     }
 
