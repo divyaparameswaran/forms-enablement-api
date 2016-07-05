@@ -4,7 +4,6 @@ import static com.ch.service.LoggingService.LoggingLevel.INFO;
 import static com.ch.service.LoggingService.tag;
 
 import com.ch.application.FormsServiceApplication;
-import com.ch.client.ClientHelper;
 import com.ch.client.SalesforceClientHelper;
 import com.ch.configuration.SalesforceConfiguration;
 import com.ch.service.LoggingService;
@@ -49,7 +48,7 @@ public class FormResponseResource {
     final Timer.Context context = timer.time();
     try {
       LoggingService.log(tag, INFO, "Verdict from CHIPS: " + verdict,
-          FormResponseResource.class);
+        FormResponseResource.class);
 
       //Get Token from Salesforce
       Response tokenReponse = getToken();
@@ -63,7 +62,7 @@ public class FormResponseResource {
       // POST to Salesforce
       Response response = client.postJson(configuration.getClientUrl(), accessToken, verdict);
       LoggingService.log(tag, INFO, "Response from Salesforce " + response,
-          FormResponseResource.class);
+        FormResponseResource.class);
       return response;
 
     } finally {

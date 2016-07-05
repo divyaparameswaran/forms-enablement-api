@@ -49,47 +49,47 @@ import javax.ws.rs.client.Client;
 @SuppressWarnings("PMD")
 public class FormsServiceApplication extends Application<FormsServiceConfiguration> {
 
-    public static final String NAME = "Forms API Service";
-    public static final MetricRegistry registry = new MetricRegistry();
+  public static final String NAME = "Forms API Service";
+  public static final MetricRegistry registry = new MetricRegistry();
 
-    public static void main(String[] args) throws Exception {
-        new FormsServiceApplication().run(args);
+  public static void main(String[] args) throws Exception {
+    new FormsServiceApplication().run(args);
+  }
+
+  @Override
+  public String getName() {
+    return NAME;
+  }
+
+  @Override
+  public void initialize(Bootstrap<FormsServiceConfiguration> bootstrap) {
+    bootstrap.addBundle(new TemplateConfigBundle());
+    bootstrap.addBundle(new MultiPartBundle());
+  }
+
+  @Override
+  public void run(FormsServiceConfiguration configuration, Environment environment) {
+    // Logging
+    if (configuration.getFluentLoggingConfiguration().isFluentLoggingOn()) {
+      LoggingService.setFluentLogging(configuration.getFluentLoggingConfiguration());
     }
-
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
-    @Override
-    public void initialize(Bootstrap<FormsServiceConfiguration> bootstrap) {
-        bootstrap.addBundle(new TemplateConfigBundle());
-        bootstrap.addBundle(new MultiPartBundle());
-    }
-
-    @Override
-    public void run(FormsServiceConfiguration configuration, Environment environment) {
-        // Logging
-        if (configuration.getFluentLoggingConfiguration().isFluentLoggingOn()) {
-            LoggingService.setFluentLogging(configuration.getFluentLoggingConfiguration());
-        }
 
     LoggingService.log(tag, INFO, "Starting up Forms API Service...", FormsServiceApplication.class);
 
     // Authentication Filter for resources
     BasicCredentialAuthFilter authFilter = new BasicCredentialAuthFilter.Builder<FormsApiUser>()
-        .setAuthenticator(new FormsApiAuthenticator(configuration))
-        .setRealm(getName())
-        .buildAuthFilter();
+      .setAuthenticator(new FormsApiAuthenticator(configuration))
+      .setRealm(getName())
+      .buildAuthFilter();
 
     AuthDynamicFeature feature = new AuthDynamicFeature(authFilter);
     environment.jersey().register(feature);
 
     // Jersey Client
     final Client client = new JerseyClientBuilder(environment)
-        .using(configuration.getJerseyClientConfiguration())
-        .withProvider(MultiPartFeature.class)
-        .build(getName());
+      .using(configuration.getJerseyClientConfiguration())
+      .withProvider(MultiPartFeature.class)
+      .build(getName());
 
     final ClientHelper clientHelper = new ClientHelper(client);
     final SalesforceClientHelper salesforceClientHelper = new SalesforceClientHelper(client);
@@ -104,7 +104,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
     // Health Checks
     final AppHealthCheck healthCheck =
-        new AppHealthCheck();
+      new AppHealthCheck();
     environment.healthChecks().register("AppHealthCheck", healthCheck);
 
     // Exception Mappers
@@ -116,13 +116,13 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
     // Logging filter for input and output
     environment.jersey().register(new LoggingFilter(
-        Logger.getLogger(LoggingFilter.class.getName()),
-        true)
+      Logger.getLogger(LoggingFilter.class.getName()),
+      true)
     );
 
     //Filters
     environment.servlets().addFilter("RateLimitFilter", new RateLimitFilter(configuration.getRateLimit()))
-        .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+      .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
     // Metrics
     startReporting(configuration);
@@ -130,12 +130,12 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
   private void startReporting(FormsServiceConfiguration configuration) {
     Slf4jReporter reporter = Slf4jReporter.forRegistry(registry)
-        .outputTo(LoggerFactory.getLogger(FormsServiceApplication.class))
-        .convertRatesTo(TimeUnit.SECONDS)
-        .convertDurationsTo(TimeUnit.MILLISECONDS)
-        .build();
+      .outputTo(LoggerFactory.getLogger(FormsServiceApplication.class))
+      .convertRatesTo(TimeUnit.SECONDS)
+      .convertDurationsTo(TimeUnit.MILLISECONDS)
+      .build();
     // report metrics to log every hour
     reporter.start(configuration.getLog4jConfiguration().getFrequency(), TimeUnit.valueOf(configuration.getLog4jConfiguration()
-        .getTimeUnit().toUpperCase()));
+      .getTimeUnit().toUpperCase()));
   }
 }

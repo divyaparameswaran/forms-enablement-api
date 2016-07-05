@@ -28,11 +28,11 @@ public class FormsApiAuthenticator implements Authenticator<BasicCredentials, Fo
     String secret = credentials.getPassword();
 
     if (configuration.getSalesforceConfiguration().getApiKey().equals(secret)
-        && configuration.getSalesforceConfiguration().getName().equals(username)) {
+      && configuration.getSalesforceConfiguration().getName().equals(username)) {
       return Optional.of(new FormsApiUser(credentials.getUsername()));
     }
     if (configuration.getCompaniesHouseConfiguration().getApiKey().equals(secret)
-        && configuration.getCompaniesHouseConfiguration().getName().equals(username)) {
+      && configuration.getCompaniesHouseConfiguration().getName().equals(username)) {
       return Optional.of(new FormsApiUser(credentials.getUsername()));
     }
     return Optional.absent();

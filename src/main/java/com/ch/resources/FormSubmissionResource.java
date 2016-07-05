@@ -53,12 +53,12 @@ public class FormSubmissionResource {
       JsonBuilder builder = new JsonBuilder(config, multi);
       String forms = builder.getJson();
       LoggingService.log(tag, INFO, "Transformation output: " + forms,
-          FormSubmissionResource.class);
+        FormSubmissionResource.class);
 
       // post to CHIPS
       Response response = client.postJson(configuration.getChipsApiUrl(), forms);
       LoggingService.log(tag, INFO, "Response from CHIPS: " + response.toString(),
-          FormSubmissionResource.class);
+        FormSubmissionResource.class);
 
       // return response from CHIPS
       return response;

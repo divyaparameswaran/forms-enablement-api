@@ -30,7 +30,7 @@ public class SalesforceClientHelper {
   public Response postJson(String clientUrl, String accessToken, String verdict) {
     final WebTarget target = client.target(clientUrl);
     return target.request(MediaType.APPLICATION_JSON_TYPE)
-        .header("Authorization", "Bearer " + accessToken).method("PATCH", Entity.json(verdict));
+      .header("Authorization", "Bearer " + accessToken).method("PATCH", Entity.json(verdict));
   }
 
   /**
@@ -41,11 +41,11 @@ public class SalesforceClientHelper {
    */
   public Response getToken(SalesforceConfiguration configuration) {
     final WebTarget target = client.target(configuration.getAuthUrl())
-        .queryParam("grant_type", configuration.getAuthGrantType())
-        .queryParam("client_id", configuration.getAuthId())
-        .queryParam("client_secret", configuration.getAuthSecret())
-        .queryParam("username", configuration.getAuthUsername())
-        .queryParam("password", configuration.getAuthPassword());
+      .queryParam("grant_type", configuration.getAuthGrantType())
+      .queryParam("client_id", configuration.getAuthId())
+      .queryParam("client_secret", configuration.getAuthSecret())
+      .queryParam("username", configuration.getAuthUsername())
+      .queryParam("password", configuration.getAuthPassword());
     return target.request().post(Entity.json(null));
   }
 }

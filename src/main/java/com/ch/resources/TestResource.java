@@ -17,19 +17,19 @@ import javax.ws.rs.core.Response;
 @Path("test")
 public class TestResource {
 
-    @POST
-    @Path("/submission")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response postSubmission(String forms) {
-        return Response.status(202).entity(forms).build();
-    }
+  @POST
+  @Path("/submission")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response postSubmission(String forms) {
+    return Response.status(202).entity(forms).build();
+  }
 
-    @POST
-    @Path("/response")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response postResponse(String verdict) {
-        return Response.status(202).entity(verdict).build();
-    }
+  @POST
+  @Path("/response")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response postResponse(String verdict) {
+    return Response.status(202).entity(verdict).build();
+  }
 
   @POST
   @Path("/barcode")
@@ -40,6 +40,7 @@ public class TestResource {
 
   /**
    * Method to simulate the auth token response from salsforce.
+   *
    * @return Response object.
    */
   @POST
@@ -57,6 +58,7 @@ public class TestResource {
 
   /**
    * Mock endpoint for Salesforce client.
+   *
    * @param accessToken takes accesstoken as a header.
    * @return acceptance response.
    */
