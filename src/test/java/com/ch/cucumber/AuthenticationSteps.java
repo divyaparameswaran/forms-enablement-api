@@ -47,13 +47,13 @@ public class AuthenticationSteps extends TestHelper {
             .using(rule.getConfiguration().getJerseyClientConfiguration())
             .build("auth steps client 2");
 
-        CompaniesHouseConfiguration config = rule.getConfiguration().getCompaniesHouseConfiguration();
-        String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
-        String url = String.format("http://localhost:%d/auth", rule.getLocalPort());
-        validResponse = client.target(url)
-            .request()
-            .header("Authorization", "Basic " + encode)
-            .get();
+    CompaniesHouseConfiguration config = rule.getConfiguration().getCompaniesHouseConfiguration();
+    String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
+    String url = String.format("http://localhost:%d/auth", rule.getLocalPort());
+    validResponse = client.target(url)
+        .request()
+        .header("Authorization", "Basic " + encode)
+        .get();
 
     }
 

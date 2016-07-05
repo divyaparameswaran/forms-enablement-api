@@ -7,35 +7,36 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by Aaron.Witter on 09/03/2016.
  */
 public class CompaniesHouseConfiguration {
-    @JsonProperty
-    @NotEmpty
-    private String secret;
+  @JsonProperty
+  @NotEmpty
+  private String apiKey;
 
-    @JsonProperty
-    @NotEmpty
-    private String apiUrl;
+  @JsonProperty
+  @NotEmpty
+  private String chipsApiUrl;
 
-    @JsonProperty
-    @NotEmpty
-    private String name;
 
-    @JsonProperty
-    @NotEmpty
-    private String barcodeServiceUrl;
+  @JsonProperty
+  @NotEmpty
+  private String name;
 
-    public String getSecret() {
-        return secret;
-    }
+  @JsonProperty
+  @NotEmpty
+  private String barcodeServiceUrl;
 
-    public String getApiUrl() {
-        return apiUrl;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getBarcodeServiceUrl() {
+    return barcodeServiceUrl;
+  }
 
-    public String getBarcodeServiceUrl() {
-        return barcodeServiceUrl;
-    }
+  public String getApiKey() {
+    return apiKey;
+  }
+
+  public String getChipsApiUrl() {
+    return chipsApiUrl;
+  }
 }
