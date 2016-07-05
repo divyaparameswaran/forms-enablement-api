@@ -15,6 +15,7 @@ public class CompaniesHouseConfiguration {
   @NotEmpty
   private String chipsApiUrl;
 
+
   @JsonProperty
   @NotEmpty
   private String name;

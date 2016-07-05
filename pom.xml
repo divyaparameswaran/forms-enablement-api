@@ -134,7 +134,12 @@
     </dependencies>
 
     <build>
-        <plugins>
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/src/main/resources</directory>
+            </testResource>
+        </testResources>
+        <plugins>  
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
@@ -212,7 +217,7 @@
                         <include>**/*Test.java</include>
                     </includes>
                 </configuration>
-            </plugin>
+            </plugin> 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>

@@ -52,6 +52,7 @@ public class FormsApiAuthenticatorTest {
     String encode = Base64.encodeAsString(RULE.getConfiguration().getSalesforceConfiguration().getName()
         + ":" + RULE.getConfiguration().getSalesforceConfiguration().getApiKey());
 
+
     final Response response = client3.target(
         String.format("http://localhost:%d/auth", RULE.getLocalPort()))
         .request()
@@ -66,6 +67,7 @@ public class FormsApiAuthenticatorTest {
 
     String encode = Base64.encodeAsString(RULE.getConfiguration().getCompaniesHouseConfiguration().getName()
         + ":" + RULE.getConfiguration().getCompaniesHouseConfiguration().getApiKey());
+
 
     final Response response = client4.target(
         String.format("http://localhost:%d/auth", RULE.getLocalPort()))

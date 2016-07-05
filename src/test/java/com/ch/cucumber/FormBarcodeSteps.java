@@ -37,6 +37,7 @@ public class FormBarcodeSteps extends TestHelper {
     String url = String.format("http://localhost:%d/barcode", rule.getLocalPort());
     String date = getStringFromFile(DATE_JSON_PATH);
 
+
     responseOne = client.target(url)
         .request()
         .header("Authorization", "Basic " + encode)
@@ -58,6 +59,7 @@ public class FormBarcodeSteps extends TestHelper {
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
     String url = String.format("http://localhost:%d/barcode", rule.getLocalPort());
     String date = getStringFromFile(DATE_JSON_PATH);
+
 
     responseTwo = client.target(url)
         .request()

@@ -34,6 +34,7 @@ public class FormResponseSteps extends TestHelper {
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
     String url = String.format("http://localhost:%d/response", rule.getLocalPort());
 
+
     String response = getStringFromFile(RESPONSE_JSON_PATH);
     responseOne = client1.target(url)
         .request()
@@ -58,6 +59,7 @@ public class FormResponseSteps extends TestHelper {
     SalesforceConfiguration config = rule.getConfiguration().getSalesforceConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
     String url = String.format("http://localhost:%d/response", rule.getLocalPort());
+
 
     String response = getStringFromFile(RESPONSE_JSON_PATH);
     // wrong media type

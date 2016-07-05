@@ -7,9 +7,6 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by Aaron.Witter on 09/03/2016.
  */
 public class SalesforceConfiguration {
-  @JsonProperty
-  @NotEmpty
-  private String name;
 
   @JsonProperty
   @NotEmpty
@@ -40,6 +37,7 @@ public class SalesforceConfiguration {
   @NotEmpty
   private String clientUrl;
 
+
   @JsonProperty
   @NotEmpty
   private String apiUrl;
@@ -47,11 +45,13 @@ public class SalesforceConfiguration {
   @JsonProperty
   @NotEmpty
   private String apiKey;
+  @JsonProperty
+  @NotEmpty
+  private String name;
 
   public String getName() {
     return name;
   }
-
 
   public String getAuthUsername() {
     return authUsername;
@@ -73,10 +73,6 @@ public class SalesforceConfiguration {
     return authGrantType;
   }
 
-  public String getClientUrl() {
-    return clientUrl;
-  }
-
   public String getApiUrl() {
     return apiUrl;
   }
@@ -87,5 +83,9 @@ public class SalesforceConfiguration {
 
   public String getAuthId() {
     return authId;
+  }
+
+  public String getClientUrl() {
+    return clientUrl;
   }
 }

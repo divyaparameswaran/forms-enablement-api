@@ -45,7 +45,7 @@ public class FormSubmissionResource {
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
   public Response postForms(@Auth
-                                FormDataMultiPart multi) {
+                            FormDataMultiPart multi) {
     final Timer.Context context = timer.time();
     try {
       // convert input to json

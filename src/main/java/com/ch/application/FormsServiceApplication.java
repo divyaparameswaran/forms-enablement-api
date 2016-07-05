@@ -49,30 +49,31 @@ import javax.ws.rs.client.Client;
 @SuppressWarnings("PMD")
 public class FormsServiceApplication extends Application<FormsServiceConfiguration> {
 
-  public static final String NAME = "Forms API Service";
-  public static final MetricRegistry registry = new MetricRegistry();
+    public static final String NAME = "Forms API Service";
+    public static final MetricRegistry registry = new MetricRegistry();
 
-  public static void main(String[] args) throws Exception {
-    new FormsServiceApplication().run(args);
-  }
-
-  @Override
-  public String getName() {
-    return NAME;
-  }
-
-  @Override
-  public void initialize(Bootstrap<FormsServiceConfiguration> bootstrap) {
-    bootstrap.addBundle(new TemplateConfigBundle());
-    bootstrap.addBundle(new MultiPartBundle());
-  }
-
-  @Override
-  public void run(FormsServiceConfiguration configuration, Environment environment) {
-    // Logging
-    if (configuration.getFluentLoggingConfiguration().isFluentLoggingOn()) {
-      LoggingService.setFluentLogging(configuration.getFluentLoggingConfiguration());
+    public static void main(String[] args) throws Exception {
+        new FormsServiceApplication().run(args);
     }
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
+    public void initialize(Bootstrap<FormsServiceConfiguration> bootstrap) {
+        bootstrap.addBundle(new TemplateConfigBundle());
+        bootstrap.addBundle(new MultiPartBundle());
+    }
+
+    @Override
+    public void run(FormsServiceConfiguration configuration, Environment environment) {
+        // Logging
+        if (configuration.getFluentLoggingConfiguration().isFluentLoggingOn()) {
+            LoggingService.setFluentLogging(configuration.getFluentLoggingConfiguration());
+        }
+
     LoggingService.log(tag, INFO, "Starting up Forms API Service...", FormsServiceApplication.class);
 
     // Authentication Filter for resources
