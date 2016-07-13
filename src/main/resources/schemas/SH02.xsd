@@ -389,10 +389,10 @@
     <xs:element name="totalAmountUnpaid" type="xs:decimal"/>
     <xs:element name="shareNumberGrandTotal" type="xs:decimal"/>
     <xs:element name="value" type="xs:decimal"/>
-    <xs:element name="redemptionSelected" type="xs:string"/>
-    <xs:element name="subDivision" type="xs:string"/>
-    <xs:element name="consolidation" type="xs:string"/>
-    <xs:element name="reconversion" type="xs:string"/>
+    <xs:element name="redemptionSelected" type="xs:boolean"/>
+    <xs:element name="subDivision" type="xs:boolean"/>
+    <xs:element name="consolidation" type="xs:boolean"/>
+    <xs:element name="reconversion" type="xs:boolean"/>
     <xs:element name="latestSOCInd" type="xs:string"/>
 
     <xs:element name="form" type="coreForm"/>
