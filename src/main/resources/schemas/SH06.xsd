@@ -2,7 +2,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:annotation>
-        <xs:documentation>For type=SH19, type id=5010, template id=5010</xs:documentation>
+        <xs:documentation>For type=SH06, type id=5477, template id=5032</xs:documentation>
     </xs:annotation>
 
     <xs:redefine schemaLocation="CORE.xsd">
@@ -13,6 +13,7 @@
                         <xs:element name="incorporationNumber" type="xs:string"/>
                         <xs:element name="corporateBodyName" type="xs:string"/>
                         <xs:element ref="statementOfCapital" minOccurs="1"/>
+                        <xs:element ref="shares" minOccurs="1"/>
                     </xs:choice>
                 </xs:extension>
             </xs:complexContent>
@@ -27,6 +28,14 @@
                 <xs:element ref="latestSOCInd" minOccurs="1" maxOccurs="1"/>
                 <xs:element ref="grandTotals" minOccurs="1" maxOccurs="1"/>
             </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="shares">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="cancelledShareClass" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
         </xs:complexType>
     </xs:element>
 
@@ -52,6 +61,17 @@
                 <xs:element ref="currencyCode" minOccurs="1" maxOccurs="1"/>
                 <xs:element ref="suppliedClass" minOccurs="1" maxOccurs="1"/>
                 <xs:element ref="description" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="number" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="value" minOccurs="1" maxOccurs="1"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="cancelledShareClass">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="currencyCode" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="suppliedClass" minOccurs="1" maxOccurs="1"/>
                 <xs:element ref="number" minOccurs="1" maxOccurs="1"/>
                 <xs:element ref="value" minOccurs="1" maxOccurs="1"/>
             </xs:all>
