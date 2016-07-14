@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:annotation>
+        <xs:documentation>For type=RES15, type id=5024, template id=5024</xs:documentation>
+    </xs:annotation>
+
+    <xs:redefine schemaLocation="CORE.xsd">
+        <xs:complexType name="corporateBodyType">
+            <xs:complexContent>
+                <xs:extension base="corporateBodyType">
+                    <xs:choice maxOccurs="unbounded">
+                        <xs:element name="incorporationNumber" type="xs:string"/>
+                        <xs:element name="corporateBodyName" type="xs:string"/>
+                        <xs:element name="proposedCorporateBodyName" type="xs:string"/>
+                        <xs:element name="proposedNameEnding" type="xs:long"/>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:redefine>
+
+    <xs:element name="form" type="coreForm"/>
+
+</xs:schema>
