@@ -1,5 +1,6 @@
 package com.ch.conversion.builders;
 
+import com.ch.application.FormServiceConstants;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.helpers.MultiPartHelper;
 import com.ch.model.FormsPackage;
@@ -73,7 +74,7 @@ public class JsonBuilder {
         JSONObject packageMetaData = new JSONObject(rawFormsPackage.getPackageMetaData());
 
         // 1. add datetime to package meta data
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat(FormServiceConstants.DATE_TIME_FORMAT, Locale.ENGLISH);
         String format = dateFormat.format(new Date());
         packageMetaData.put(config.getPackageDatePropertyNameOut(), format);
 
