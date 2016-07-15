@@ -35,6 +35,8 @@ public class TestHelper {
     protected static final String NO_SCHEMA_XML_PATH = "xml/no_schema_form.xml";
     public static final String FORM_SERVICE_TEST_YML = "FORM_SERVICE_TEST_YML";
 
+    public static final long TEST_PACKAGE_ID = 12345;
+
 
     public String getStringFromFile(String filename) throws IOException {
         String fileAsString;

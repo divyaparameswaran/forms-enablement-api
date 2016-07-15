@@ -115,12 +115,15 @@ public class FormSubmissionSteps extends TestHelper {
     @Then("^the package and forms should have the correct info$")
     public void the_package_and_forms_should_have_the_correct_info() throws Throwable {
         // ensure the package has a date property
-        Document storedPackage = mongoHelper.getPackagesCollection().find().first();
+
+        Document storedPackage = mongoHelper.getPackagesCollectionByPackageId(TEST_PACKAGE_ID);
+
         Object date = storedPackage.get(transformConfig.getPackageDatePropertyNameOut());
         Object packageIdentifier = storedPackage.get(transformConfig.getPackageIdentifierPropertyNameIn());
         Assert.assertNotNull(date);
 
-        FindIterable<Document> forms = mongoHelper.getFormsCollection().find();
+        FindIterable<Document> forms = mongoHelper.getFormsCollectionByPackageId(TEST_PACKAGE_ID);
+
         for(Document formDoc : forms){
             // make sure each form has the packageIdentifier
             Object formPackageIdentifier = formDoc.get(transformConfig.getPackageIdentifierPropertyNameIn());
