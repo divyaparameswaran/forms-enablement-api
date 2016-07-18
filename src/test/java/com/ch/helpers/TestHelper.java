@@ -37,6 +37,7 @@ public class TestHelper {
     public static final String FORM_SERVICE_TEST_YML = "FORM_SERVICE_TEST_YML";
 
     public static final long TEST_PACKAGE_ID = 12345;
+    protected static final String SALESFORCE_ACCESS_TOKEN = "Bearer abcdefghijklmnopqrstuvwxyz";
 
 
     public String getStringFromFile(String filename) throws IOException {

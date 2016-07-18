@@ -20,6 +20,7 @@ import org.bson.Document;
 import org.glassfish.jersey.internal.util.Base64;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -98,7 +99,7 @@ public class FormSubmissionSteps extends TestHelper {
             .build("submission client 1");
 
         CompaniesHouseConfiguration config = rule.getConfiguration().getCompaniesHouseConfiguration();
-        String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
+        String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
         String url = String.format("http://localhost:%d/submission", rule.getLocalPort());
 
         FormDataMultiPart multiPart = new FormDataMultiPart();
@@ -149,7 +150,7 @@ public class FormSubmissionSteps extends TestHelper {
             .build("submission client 3");
 
         CompaniesHouseConfiguration config = rule.getConfiguration().getCompaniesHouseConfiguration();
-        String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
+        String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
         String url = String.format("http://localhost:%d/submission", rule.getLocalPort());
 
         FormDataMultiPart multiPart = new FormDataMultiPart();

@@ -22,36 +22,34 @@ import javax.ws.rs.core.Response;
  */
 @Path("/submission")
 public class FormSubmissionResource {
-    private static final Timer timer = FormsServiceApplication.registry.timer("FormSubmissionResource");
 
-    public FormSubmissionResource() {
+  private static final Timer timer = FormsServiceApplication.registry.timer("FormSubmissionResource");
+
+  /**
+   * Resource to post forms from Salesforce to CHIPS.
+   *
+   * @return json with response from forms api.
+   */
+  @POST
+  @Consumes(MediaType.MULTIPART_FORM_DATA)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response postForms(@Auth
+                            FormDataMultiPart multi) {
+    final Timer.Context context = timer.time();
+    try {
+      // convert input to json
+      ITransformConfig config = new TransformConfig();
+      JsonBuilder builder = new JsonBuilder(config, multi);
+      FormsPackage transformedPackage = builder.getTransformedPackage();
+
+      // insert into mongodb
+      MongoHelper.getInstance().storeFormsPackage(transformedPackage);
+
+      // return 200
+      return Response.ok().build();
+
+    } finally {
+      context.stop();
     }
-
-    /**
-     * Resource to post forms from Salesforce to CHIPS.
-     *
-     * @return json with response from forms api.
-     */
-    @POST
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response postForms(@Auth
-                              FormDataMultiPart multi) {
-        final Timer.Context context = timer.time();
-        try {
-            // convert input to json
-            ITransformConfig config = new TransformConfig();
-            JsonBuilder builder = new JsonBuilder(config, multi);
-            FormsPackage transformedPackage = builder.getTransformedPackage();
-
-            // insert into mongodb
-            MongoHelper.getInstance().storeFormsPackage(transformedPackage);
-
-            // return 200
-            return Response.ok().build();
-
-        } finally {
-            context.stop();
-        }
-    }
+  }
 }

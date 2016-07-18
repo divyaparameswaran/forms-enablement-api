@@ -7,27 +7,85 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by Aaron.Witter on 09/03/2016.
  */
 public class SalesforceConfiguration {
-    @JsonProperty
-    @NotEmpty
-    private String secret;
 
-    @JsonProperty
-    @NotEmpty
-    private String apiUrl;
+  @JsonProperty
+  @NotEmpty
+  private String authId;
 
-    @JsonProperty
-    @NotEmpty
-    private String name;
+  @JsonProperty
+  @NotEmpty
+  private String authUsername;
 
-    public String getSecret() {
-        return secret;
-    }
+  @JsonProperty
+  @NotEmpty
+  private String authPassword;
 
-    public String getApiUrl() {
-        return apiUrl;
-    }
+  @JsonProperty
+  @NotEmpty
+  private String authSecret;
 
-    public String getName() {
-        return name;
-    }
+  @JsonProperty
+  @NotEmpty
+  private String authUrl;
+
+
+  @JsonProperty
+  @NotEmpty
+  private String authGrantType;
+
+  @JsonProperty
+  @NotEmpty
+  private String clientUrl;
+
+
+  @JsonProperty
+  @NotEmpty
+  private String apiUrl;
+
+  @JsonProperty
+  @NotEmpty
+  private String apiKey;
+  @JsonProperty
+  @NotEmpty
+  private String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public String getAuthUsername() {
+    return authUsername;
+  }
+
+  public String getAuthPassword() {
+    return authPassword;
+  }
+
+  public String getAuthSecret() {
+    return authSecret;
+  }
+
+  public String getAuthUrl() {
+    return authUrl;
+  }
+
+  public String getAuthGrantType() {
+    return authGrantType;
+  }
+
+  public String getApiUrl() {
+    return apiUrl;
+  }
+
+  public String getApiKey() {
+    return apiKey;
+  }
+
+  public String getAuthId() {
+    return authId;
+  }
+
+  public String getClientUrl() {
+    return clientUrl;
+  }
 }
