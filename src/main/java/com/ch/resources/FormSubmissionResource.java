@@ -24,16 +24,13 @@ import javax.ws.rs.core.Response;
 public class FormSubmissionResource {
     private static final Timer timer = FormsServiceApplication.registry.timer("FormSubmissionResource");
 
-    private final MongoHelper mongoHelper;
-
-    public FormSubmissionResource(MongoHelper mongoHelper) {
-        this.mongoHelper = mongoHelper;
+    public FormSubmissionResource() {
     }
 
     /**
      * Resource to post forms from Salesforce to CHIPS.
      *
-     * @return json with response from CHIPS
+     * @return json with response from forms api.
      */
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -48,7 +45,7 @@ public class FormSubmissionResource {
             FormsPackage transformedPackage = builder.getTransformedPackage();
 
             // insert into mongodb
-            mongoHelper.storeFormsPackage(transformedPackage);
+            MongoHelper.getInstance().storeFormsPackage(transformedPackage);
 
             // return 200
             return Response.ok().build();
