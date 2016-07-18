@@ -49,6 +49,9 @@ public class FormsServiceConfiguration extends Configuration {
   @JsonProperty
   private String mongoDbFormsCollectionName;
 
+  @JsonProperty
+  private boolean testMode;
+
   public int getRateLimit() {
     return rateLimit;
   }
@@ -88,5 +91,9 @@ public class FormsServiceConfiguration extends Configuration {
 
   public String getMongoDbFormsCollectionName() {
     return mongoDbFormsCollectionName;
+  }
+
+  public boolean isTestMode() {
+    return testMode;
   }
 }
