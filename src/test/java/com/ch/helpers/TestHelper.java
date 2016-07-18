@@ -17,6 +17,7 @@ public class TestHelper {
     protected static final String INVALID_JSON_PATH = "json/invalid.json";
     protected static final String VALID_JSON_PATH = "json/valid.json";
     protected static final String PACKAGE_JSON_PATH = "json/package.json";
+    protected static final String SINGLE_PACKAGE_JSON_PATH = "json/single_package.json";
     protected static final String FORM_JSON_PATH = "json/form.json";
     protected static final String FORM_ALL_JSON_PATH = "json/form_all.json";
     protected static final String INVALID_FORM_JSON_PATH = "json/invalid_form_all.json";

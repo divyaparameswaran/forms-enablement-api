@@ -33,26 +33,24 @@ public class JsonBuilderTest extends TestHelper {
     public void throwsJSONExceptionWithInvalidJson() throws Exception {
         String invalid = getStringFromFile(INVALID_JSON_PATH);
         List<String> invalid_forms = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             invalid_forms.add(invalid);
         }
         JsonBuilder builder = new JsonBuilder(config, invalid, invalid_forms);
         builder.getTransformedPackage();
     }
 
-    // TODO: is this the desired behaviour?
     @Test(expected = MissingRequiredDataException.class)
     public void throwsMissingRequiredDataExceptionWithValidJsonMissingRequiredData() throws Exception {
         String valid = getStringFromFile(VALID_JSON_PATH);
         List<String> valid_json_forms = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             valid_json_forms.add(valid);
         }
         JsonBuilder builder = new JsonBuilder(config, valid, valid_json_forms);
         builder.getTransformedPackage();
     }
 
-    // TODO: what to assert?
     @Test
     public void createStringForValidJson() throws Exception {
         JsonBuilder builder = getValidJsonBuilder();
@@ -81,7 +79,7 @@ public class JsonBuilderTest extends TestHelper {
         // valid forms
         String valid = getStringFromFile(FORM_ALL_JSON_PATH);
         List<String> valid_forms = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             valid_forms.add(valid);
         }
         // builder
@@ -91,7 +89,7 @@ public class JsonBuilderTest extends TestHelper {
     private FormDataMultiPart getValidMultiPart() throws IOException {
         FormDataMultiPart multi = new FormDataMultiPart();
         // forms package data
-        String pack = getStringFromFile(PACKAGE_JSON_PATH);
+        String pack = getStringFromFile(SINGLE_PACKAGE_JSON_PATH);
         multi.field(config.getPackageMultiPartName(), pack, MediaType.APPLICATION_JSON_TYPE);
         // form json
         String form = getStringFromFile(FORM_ALL_JSON_PATH);
