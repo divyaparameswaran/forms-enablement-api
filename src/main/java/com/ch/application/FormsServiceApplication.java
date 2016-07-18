@@ -22,6 +22,7 @@ import com.ch.resources.FormResponseResource;
 import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HealthcheckResource;
 import com.ch.resources.HomeResource;
+import com.ch.resources.QueueResource;
 import com.ch.resources.TestResource;
 import com.ch.service.LoggingService;
 import com.codahale.metrics.MetricRegistry;
@@ -90,7 +91,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         environment.jersey().register(feature);
 
         // MongoDB
-        final MongoHelper mongoHelper = new MongoHelper(configuration);
+        MongoHelper.init(configuration);
 
         // Jersey Client
         final Client client = new JerseyClientBuilder(environment)
@@ -101,16 +102,18 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         final ClientHelper clientHelper = new ClientHelper(client);
 
         // Resources
-        environment.jersey().register(new FormSubmissionResource(mongoHelper));
+        environment.jersey().register(new FormSubmissionResource());
         environment.jersey().register(new FormResponseResource(clientHelper, configuration.getSalesforceConfiguration()));
         environment.jersey().register(new HomeResource());
         environment.jersey().register(new HealthcheckResource());
         environment.jersey().register(new BarcodeResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
+        environment.jersey().register(new QueueResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
+
         environment.jersey().register(new TestResource());
 
         // Health Checks
         environment.healthChecks().register("AppHealthCheck", new AppHealthCheck());
-        environment.healthChecks().register("MongoHealthCheck", new MongoHealthCheck(mongoHelper.getMongoClient()));
+        environment.healthChecks().register("MongoHealthCheck", new MongoHealthCheck());
 
         // Exception Mappers
         environment.jersey().register(new ConnectionExceptionMapper());

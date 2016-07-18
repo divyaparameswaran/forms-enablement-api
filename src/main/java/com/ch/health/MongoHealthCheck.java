@@ -1,5 +1,6 @@
 package com.ch.health;
 
+import com.ch.helpers.MongoHelper;
 import com.codahale.metrics.health.HealthCheck;
 import com.mongodb.Mongo;
 
@@ -8,10 +9,9 @@ import com.mongodb.Mongo;
  */
 public class MongoHealthCheck extends HealthCheck {
 
-    private final Mongo mongo;
+    private final Mongo mongo = MongoHelper.getInstance().getMongoClient();
 
-    public MongoHealthCheck(Mongo mongo) {
-        this.mongo = mongo;
+    public MongoHealthCheck() {
     }
 
     @Override
