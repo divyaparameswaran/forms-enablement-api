@@ -9,4 +9,7 @@ public class FormServiceConstants {
 
   public static final String PACKAGE_IDENTIFIER_COUNT_KEY = "count";
 
+  public static final String PACKAGE_IDENTIFIER = "packageIdentifier";
+
+
 }

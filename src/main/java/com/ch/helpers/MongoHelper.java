@@ -1,5 +1,6 @@
 package com.ch.helpers;
 
+import com.ch.application.FormServiceConstants;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.model.FormStatus;
 import com.ch.model.FormsPackage;
@@ -14,8 +15,6 @@ import org.bson.Document;
  * Created by elliott.jenkins on 30/06/2016.
  */
 public final class MongoHelper {
-
-  private static final String PACKAGE_IDENTIFIER = "packageIdentifier";
   private static final String STATUS = "status";
   private static MongoHelper instance = new MongoHelper();
   private FormsServiceConfiguration configuration;
@@ -74,19 +73,25 @@ public final class MongoHelper {
   public Document getPackagesCollectionByPackageId(long packageId) {
     MongoDatabase database = getDatabase();
     return database.getCollection(configuration.getMongoDbPackagesCollectionName())
-      .find(new Document(PACKAGE_IDENTIFIER, packageId))
+      .find(new Document(FormServiceConstants.PACKAGE_IDENTIFIER, packageId))
       .first();
   }
 
   /**
-   * Get the packages collection by status, limit number to parameter, sort oldest first.
+   * Get the packages collection by status, limit number to parameter, sort oldest first. A count of 0, returns all packages.
    *
    * @return MongoCollection
    */
   public FindIterable<Document> getPackagesCollectionByStatus(String formStatus, int count) {
     MongoDatabase database = getDatabase();
-    return database.getCollection(configuration.getMongoDbPackagesCollectionName()).find(new Document(STATUS, formStatus))
-      .limit(count).sort(new Document("date", 1));
+
+    if (count == 0) {
+      return database.getCollection(configuration.getMongoDbPackagesCollectionName()).find(new Document(STATUS, formStatus))
+        .sort(new Document("date", 1));
+    } else {
+      return database.getCollection(configuration.getMongoDbPackagesCollectionName()).find(new Document(STATUS, formStatus))
+        .limit(count).sort(new Document("date", 1));
+    }
   }
 
   /**
@@ -107,7 +112,9 @@ public final class MongoHelper {
    */
   public FindIterable<Document> getFormsCollectionByPackageId(long packageId) {
     MongoDatabase database = getDatabase();
-    return database.getCollection(configuration.getMongoDbFormsCollectionName()).find(new Document(PACKAGE_IDENTIFIER, packageId));
+    return database.getCollection(configuration.getMongoDbFormsCollectionName()).find(new Document(FormServiceConstants
+      .PACKAGE_IDENTIFIER,
+      packageId));
   }
 
   /**
@@ -140,28 +147,6 @@ public final class MongoHelper {
       getFormsCollection().insertOne(transformedForm);
     }
   }
-
-//    private FormsPackage getPackageRequest(int count, String requestS//t//atus){
-//
-//        FindIterable<Document> documents = getPackagesCollectionByStatus(requestStatus, //c//o//u//n//t);
-//
-//
-//
-//
-//        //get all packages matching c//r//iteria
-//
-//        //for each //p//ackage
-//
-//        //search the database fo//r// forms
-//
-//        //package the matching forms and send t//o// chips
-//
-//        //////r//e//p//eat
-//
-//
-//
-//
-//    }
 
   private MongoClient setupMongoClient() {
     String uri = configuration.getMongoDbUri();
