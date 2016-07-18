@@ -6,4 +6,7 @@ package com.ch.application;
 public class FormServiceConstants {
 
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
+
+    public static final String PACKAGE_IDENTIFIER_COUNT_KEY = "count";
+
 }
