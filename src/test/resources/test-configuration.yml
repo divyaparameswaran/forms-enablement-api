@@ -30,7 +30,7 @@ log4jConfiguration:
   timeUnit: "HOURS"
 
 logging:
-  level: "DEBUG"
+  level: INFO
 
 fluentLogging:
   fluentLoggingOn: false
