@@ -22,7 +22,7 @@ public class QueueHelper {
 
   private MongoHelper helper = MongoHelper.getInstance();
 
-  public List<JSONObject> getCompletePackages(int count, String requestStatus){
+  public List<JSONObject> getCompletePackagesByStatus(int count, String requestStatus){
 
     List<JSONObject> completeForms = new ArrayList<>();
 
@@ -33,11 +33,28 @@ public class QueueHelper {
 
       //for each package search the database for forms matching the identifier
       ArrayList<Document> forms = helper.getFormsCollectionByPackageId((int) pack.get(FormServiceConstants.PACKAGE_IDENTIFIER))
-        .into(new ArrayList<Document>());
+        .into(new ArrayList<>());
 
       //create a complete package from the packagemetadata and it's acoompanying forms.
       completeForms.add(createPackage(new JSONObject(pack.toJson()),forms));
     }
+    return completeForms;
+  }
+
+  public List<JSONObject> getCompletePackagesById(long packageId){
+
+    List<JSONObject> completeForms = new ArrayList<>();
+
+    //get all packages matching criteria
+    Document pack = helper.getPackagesCollectionByPackageId(packageId);
+
+      //for each package search the database for forms matching the identifier
+      ArrayList<Document> forms = helper.getFormsCollectionByPackageId((int) pack.get(FormServiceConstants.PACKAGE_IDENTIFIER))
+        .into(new ArrayList<>());
+
+      //create a complete package from the packagemetadata and it's acoompanying forms.
+      completeForms.add(createPackage(new JSONObject(pack.toJson()),forms));
+
     return completeForms;
   }
 
