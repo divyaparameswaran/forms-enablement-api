@@ -21,7 +21,7 @@ public class FormsPackage {
         return packageMetaData;
     }
 
-    public JSONObject getPackageMetaDataJson(){
+    public JSONObject getPackageMetaDataJson() {
         return new JSONObject(packageMetaData);
     }
 

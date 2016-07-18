@@ -3,10 +3,8 @@ package com.ch.conversion.builders;
 import com.ch.application.FormServiceConstants;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.helpers.MultiPartHelper;
-import com.ch.exception.MissingRequiredDataException;
 import com.ch.exception.PackageContentsException;
 import com.ch.model.FormsPackage;
-import org.assertj.core.internal.cglib.core.Local;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.json.JSONObject;
 
@@ -69,7 +67,7 @@ public class JsonBuilder {
         int packageFormCount = (Integer) rawFormsPackage.getPackageMetaDataJson().get(FormServiceConstants
             .PACKAGE_IDENTIFIER_COUNT_KEY);
 
-        if(forms.size() != packageFormCount){
+        if (forms.size() != packageFormCount) {
             throw new PackageContentsException(FormServiceConstants.PACKAGE_IDENTIFIER_COUNT_KEY);
         }
 
