@@ -7,7 +7,9 @@ import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
 import com.ch.cucumber.FormServiceTestSuiteIT;
 import com.ch.model.FormsPackage;
+import com.google.common.collect.Lists;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.bson.Document;
@@ -36,10 +38,12 @@ public class MongoHelperTest extends TestHelper{
     @Before
     public void setUp() {
         config = new TransformConfig();
-        MongoHelper.init(FormServiceTestSuiteIT.RULE.getConfiguration());
+        MongoHelper.init(RULE.getConfiguration());
         helper =  MongoHelper.getInstance();
+        helper.dropCollection("forms");
+        helper.dropCollection("packages");
     }
-    
+
     @Test
     public void shouldReturnResultsOldestFirst() throws IOException {
 
@@ -65,13 +69,14 @@ public class MongoHelperTest extends TestHelper{
             valid_forms2.add(valid2);
         }
         // builder
-        FormsPackage formsPackage2 = new JsonBuilder(config, package_string2, valid_forms).getTransformedPackage();
+        FormsPackage formsPackage2 = new JsonBuilder(config, package_string2, valid_forms2).getTransformedPackage();
 
         helper.storeFormsPackage(formsPackage2);
 
-        FindIterable<Document> documents = helper.getPackagesCollectionByStatus("PENDING", 2);
+        ArrayList<Document> documents = helper.getPackagesCollectionByStatus("PENDING", 2).into(new ArrayList<Document>());
 
-        Assert.assertTrue(documents.first().get("packageIdentifier").equals("12345"));
+        Assert.assertTrue(documents.get(0).get("packageIdentifier").equals(12345));
+        Assert.assertTrue(documents.get(0).get("count").equals(2));
 
     }
 

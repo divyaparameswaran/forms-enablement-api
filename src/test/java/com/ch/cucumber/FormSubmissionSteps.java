@@ -43,7 +43,8 @@ public class FormSubmissionSteps extends TestHelper {
 
     @Before
     public void beforeScenario() {
-        mongoHelper = new MongoHelper(rule.getConfiguration());
+        MongoHelper.init(FormServiceTestSuiteIT.RULE.getConfiguration());
+        mongoHelper = MongoHelper.getInstance();
         // clear database before
         mongoHelper.getDatabase().drop();
     }
@@ -56,7 +57,7 @@ public class FormSubmissionSteps extends TestHelper {
             .build("submission client 2");
 
         CompaniesHouseConfiguration config = rule.getConfiguration().getCompaniesHouseConfiguration();
-        String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
+        String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
         String url = String.format("http://localhost:%d/submission", rule.getLocalPort());
 
         FormDataMultiPart multiPart = new FormDataMultiPart();
@@ -177,7 +178,7 @@ public class FormSubmissionSteps extends TestHelper {
             .build("submission client 4");
 
         CompaniesHouseConfiguration config = rule.getConfiguration().getCompaniesHouseConfiguration();
-        String encode = Base64.encodeAsString(config.getName() + ":" + config.getSecret());
+        String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
         String url = String.format("http://localhost:%d/submission", rule.getLocalPort());
 
         FormDataMultiPart multiPart = new FormDataMultiPart();

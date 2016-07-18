@@ -24,48 +24,48 @@ import javax.ws.rs.core.Response;
  */
 @Path("/activate")
 public class QueueResource {
-    private static final Timer timer = FormsServiceApplication.registry.timer("QueueResource");
-    private final ClientHelper client;
-    private final CompaniesHouseConfiguration configuration;
+  private static final Timer timer = FormsServiceApplication.registry.timer("QueueResource");
+  private final ClientHelper client;
+  private final CompaniesHouseConfiguration configuration;
 
-    public QueueResource(ClientHelper client, CompaniesHouseConfiguration configuration) {
-        this.configuration = configuration;
-        this.client = client;
-    }
-
-
-    /**
-     * Resource to request forms from the queue.
-     *
-     * @return json with response from CHIPS
-     */
-    @POST
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response postForms(@Auth
-                              QueueRequest request) {
-        final Timer.Context context = timer.time();
-        try {
-
-            //get params from request
-            String requestStatus = request.getFormStatus();
-            long count = request.getCount();
+  public QueueResource(ClientHelper client, CompaniesHouseConfiguration configuration) {
+    this.configuration = configuration;
+    this.client = client;
+  }
 
 
-//            //retrieve forms from db and rebuild
-//             MongoHelper.getInstance().(count, requestStatus);
-//
-//
-//            // post to CHIPS
-//            Response response = client.postJson(configuration.getChipsApiUrl(), forms);
-//            LoggingService.log(tag, INFO, "Response from CHIPS: " + response.toString(),
-//                FormSubmissionResource.class);
+  /**
+   * Resource to request forms from the queue.
+   *
+   * @return json with response from CHIPS
+   */
+  @POST
+  @Consumes(MediaType.MULTIPART_FORM_DATA)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response postForms(@Auth
+                            QueueRequest request) {
+    final Timer.Context context = timer.time();
+    try {
+
+      //get params from request
+//      String requestStatus = request.getFormStatus();
+//      long count = request.getCount();
+
+
+      //retrieve forms from db and rebuild
+//      MongoHelper.getInstance(). (count, requestStatus);
+
+
+      // post to CHIPS
+      Response response = client.postJson(configuration.getChipsApiUrl(), null);
+      LoggingService.log(tag, INFO, "Response from CHIPS: " + response.toString(),
+        FormSubmissionResource.class);
 //
 //            // return response from CHIPS
-            return null;
+      return null;
 
-        } finally {
-            context.stop();
-        }
+    } finally {
+      context.stop();
     }
+  }
 }

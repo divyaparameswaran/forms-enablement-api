@@ -9,20 +9,17 @@ import com.mongodb.Mongo;
  */
 public class MongoHealthCheck extends HealthCheck {
 
-    private final Mongo mongo = MongoHelper.getInstance().getMongoClient();
+  private final Mongo mongo = MongoHelper.getInstance().getMongoClient();
 
-    public MongoHealthCheck() {
+  @Override
+  protected Result check() throws Exception {
+    if (mongo.getConnectPoint() == null) {
+      return HealthCheck.Result.unhealthy("Cannot connect to "
+        + mongo.getUsedDatabases());
+    } else {
+      return Result.healthy();
     }
-
-    @Override
-    protected Result check() throws Exception {
-        if (mongo.getConnectPoint() == null) {
-            return HealthCheck.Result.unhealthy("Cannot connect to "
-                + mongo.getUsedDatabases());
-        } else {
-            return Result.healthy();
-        }
-    }
+  }
 }
 
 
