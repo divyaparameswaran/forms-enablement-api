@@ -8,6 +8,7 @@ import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.exception.mapper.ConnectionExceptionMapper;
 import com.ch.exception.mapper.ContentTypeExceptionMapper;
 import com.ch.exception.mapper.MissingRequiredDataExceptionMapper;
+import com.ch.exception.mapper.PackageContentsExceptionMapper;
 import com.ch.exception.mapper.XmlExceptionMapper;
 import com.ch.exception.mapper.XsdValidationExceptionMapper;
 import com.ch.filters.RateLimitFilter;
@@ -117,6 +118,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         environment.jersey().register(new MissingRequiredDataExceptionMapper());
         environment.jersey().register(new XmlExceptionMapper());
         environment.jersey().register(new XsdValidationExceptionMapper());
+        environment.jersey().register(new PackageContentsExceptionMapper());
 
         // Logging filter for input and output
         environment.jersey().register(new LoggingFilter(
