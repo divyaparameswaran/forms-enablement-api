@@ -87,11 +87,11 @@ public final class MongoHelper {
 
     if (count == 0) {
       return database.getCollection(configuration.getMongoDbPackagesCollectionName())
-        .find(new Document(FormServiceConstants.PACKAGE_STATUS_KEY, formStatus)).sort(new Document("date", 1));
+        .find(new Document(FormServiceConstants.PACKAGE_STATUS_KEY, formStatus)).sort(new Document("date", -1));
     } else {
       return database.getCollection(configuration.getMongoDbPackagesCollectionName())
         .find(new Document(FormServiceConstants.PACKAGE_STATUS_KEY, formStatus))
-        .limit(count).sort(new Document("date", 1));
+        .limit(count).sort(new Document("date", -1));
     }
   }
 
