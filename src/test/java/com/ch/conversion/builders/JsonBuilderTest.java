@@ -1,5 +1,6 @@
 package com.ch.conversion.builders;
 
+import com.ch.application.FormServiceConstants;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
 import com.ch.exception.MissingRequiredDataException;
@@ -7,13 +8,18 @@ import com.ch.helpers.TestHelper;
 import com.ch.model.FormsPackage;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.ws.rs.core.MediaType;
 
@@ -85,6 +91,47 @@ public class JsonBuilderTest extends TestHelper {
         // builder
         return new JsonBuilder(config, package_string, valid_forms);
     }
+
+    @Test
+    public void shouldAddValidSubmissionNumberToAllElements() throws Exception {
+        //Given a valid package is submitted
+        // valid package data
+        String package_string = getStringFromFile(PACKAGE_JSON_PATH);
+        // valid forms
+        String valid = getStringFromFile(FORM_ALL_JSON_PATH);
+        List<String> valid_forms = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            valid_forms.add(valid);
+        }
+
+        // when this package is transformed
+        FormsPackage pack =  new JsonBuilder(config, package_string, valid_forms).getTransformedPackage();
+
+        //all elements should contain the same submissionNumber
+
+        String packageSubmissionNumber  = pack.getPackageMetaDataJson().getString(FormServiceConstants.SUBMISSION_NUMBER_KEY);
+        String formOneSubmissionNumber = pack.getFormsJSon().get(0).getString(FormServiceConstants.SUBMISSION_NUMBER_KEY);
+        String formTwoSubmissionNumber = pack.getFormsJSon().get(1).getString(FormServiceConstants.SUBMISSION_NUMBER_KEY);
+
+
+        Assert.assertTrue(!packageSubmissionNumber.equals(null));
+        Assert.assertTrue(!formOneSubmissionNumber.equals(null));
+        Assert.assertTrue(!formTwoSubmissionNumber.equals(null));
+        Assert.assertTrue(formTwoSubmissionNumber.equals(packageSubmissionNumber));
+    }
+
+    @Test
+    public void shouldAddSubmissionNumbersToForms() throws Exception {
+        JsonBuilder builder = getValidJsonBuilder();
+        long packageId = 12345;
+        String submissionNumber = builder.getSubmissionNumber(packageId);
+
+        DateFormat dateFormat = new SimpleDateFormat(FormServiceConstants.DATE_TIME_FORMAT_SUBMISSION, Locale.ENGLISH);
+        String format = dateFormat.format(new Date());
+
+        Assert.assertTrue(submissionNumber.equals(packageId + "-" + format));
+    }
+
 
     private FormDataMultiPart getValidMultiPart() throws IOException {
         FormDataMultiPart multi = new FormDataMultiPart();

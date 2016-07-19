@@ -55,13 +55,13 @@ public class JsonBuilder {
    */
   public FormsPackage getTransformedPackage() {
     // 1. create list of transformed forms
-    List<String> forms = new ArrayList<>();
+    List<JSONObject> forms = new ArrayList<>();
 
     // 2. loop forms and transform
     for (String formJson : rawFormsPackage.getForms()) {
       FormJsonBuilder builder = new FormJsonBuilder(config, rawFormsPackage.getPackageMetaData(), formJson);
       JSONObject object = builder.getJson();
-      forms.add(object.toString());
+      forms.add(object);
     }
 
     //3. check the number of forms matches those prescribed in the package
@@ -72,25 +72,66 @@ public class JsonBuilder {
       throw new PackageContentsException(FormServiceConstants.PACKAGE_IDENTIFIER_COUNT_KEY);
     }
 
-    // 4. transform package meta data
-    String packageMetaData = getTransformedPackageMetaData();
+    // 4. Get the submission number for addition to all parts of the entity
+    String submissionNumber = getSubmissionNumber((Integer) rawFormsPackage.getPackageMetaDataJson().get(FormServiceConstants
+      .PACKAGE_IDENTIFIER));
 
-    // 5. return transformed package
-    return new FormsPackage(packageMetaData, forms);
+    // 5. transform package meta data
+    JSONObject packageMetaData = getTransformedPackageMetaData();
+
+    //6. add submission number to package
+    JSONObject transformedPackageMetaData = addSubmissionNumberToPackage(packageMetaData, submissionNumber);
+
+    //7. add submission number to forms
+    List<JSONObject> transformedForms = addSubmissionNumberToForms(forms,submissionNumber);
+
+    // 8. return transformed package
+    return new FormsPackage(transformedPackageMetaData.toString(), getFormsAsString(transformedForms));
   }
 
-  private String getTransformedPackageMetaData() {
+  private JSONObject getTransformedPackageMetaData() {
     JSONObject packageMetaData = new JSONObject(rawFormsPackage.getPackageMetaData());
 
     // 1. add datetime to package meta data
-    DateFormat dateFormat = new SimpleDateFormat(FormServiceConstants.DATE_TIME_FORMAT, Locale.ENGLISH);
-    String format = dateFormat.format(new Date());
-    packageMetaData.put(config.getPackageDatePropertyNameOut(), format);
+    packageMetaData.put(config.getPackageDatePropertyNameOut(), getDateTime());
 
     // 2. add pending status
     Object status = FormStatus.PENDING.toString();
     packageMetaData.put(config.getFormStatusPropertyNameOut(), status);
 
-    return packageMetaData.toString();
+    return packageMetaData;
+  }
+
+  protected String getSubmissionNumber(long packageId) {
+    DateFormat dateFormat = new SimpleDateFormat(FormServiceConstants.DATE_TIME_FORMAT_SUBMISSION, Locale.ENGLISH);
+    String format = dateFormat.format(new Date());
+    return packageId + "-" + format;
+  }
+
+  protected JSONObject addSubmissionNumberToPackage(JSONObject object, String submissionNumber) {
+    object.put(FormServiceConstants.SUBMISSION_NUMBER_KEY, submissionNumber);
+    return object;
+  }
+
+  protected List<JSONObject> addSubmissionNumberToForms(List<JSONObject> forms, String submissionNumber) {
+    List<JSONObject> formList = new ArrayList<>();
+    for (JSONObject form : forms) {
+      form.put(FormServiceConstants.SUBMISSION_NUMBER_KEY, submissionNumber);
+      formList.add(form);
+    }
+    return formList;
+  }
+
+  protected List<String> getFormsAsString(List<JSONObject> forms) {
+    List<String> formList = new ArrayList<>();
+    for (JSONObject form : forms) {
+      formList.add(form.toString());
+    }
+    return formList;
+  }
+
+  protected String getDateTime() {
+    DateFormat dateFormat = new SimpleDateFormat(FormServiceConstants.DATE_TIME_FORMAT_DB, Locale.ENGLISH);
+    return dateFormat.format(new Date());
   }
 }
