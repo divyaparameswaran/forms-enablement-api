@@ -3,6 +3,7 @@ package com.ch.model;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,11 +22,19 @@ public class FormsPackage {
     return packageMetaData;
   }
 
+  public List<String> getForms() {
+    return forms;
+  }
+
   public JSONObject getPackageMetaDataJson() {
     return new JSONObject(packageMetaData);
   }
 
-  public List<String> getForms() {
-    return forms;
+  public List<JSONObject> getFormsJSon() {
+    List<JSONObject> formsJson = new ArrayList<>();
+    for (String form : forms) {
+      formsJson.add(new JSONObject(form));
+    }
+    return formsJson;
   }
 }
