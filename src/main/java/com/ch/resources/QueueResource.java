@@ -3,14 +3,20 @@ package com.ch.resources;
 import static com.ch.service.LoggingService.LoggingLevel.INFO;
 import static com.ch.service.LoggingService.tag;
 
+import com.ch.application.FormServiceConstants;
 import com.ch.application.FormsServiceApplication;
 import com.ch.configuration.CompaniesHouseConfiguration;
+import com.ch.conversion.config.TransformConfig;
 import com.ch.helpers.ClientHelper;
-import com.ch.helpers.MongoHelper;
+import com.ch.helpers.QueueHelper;
+import com.ch.model.FormStatus;
 import com.ch.model.QueueRequest;
 import com.ch.service.LoggingService;
 import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
+import org.json.JSONObject;
+
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -27,6 +33,8 @@ public class QueueResource {
   private static final Timer timer = FormsServiceApplication.registry.timer("QueueResource");
   private final ClientHelper client;
   private final CompaniesHouseConfiguration configuration;
+  private QueueHelper helper = new QueueHelper(new TransformConfig());
+
 
   public QueueResource(ClientHelper client, CompaniesHouseConfiguration configuration) {
     this.configuration = configuration;
@@ -40,7 +48,7 @@ public class QueueResource {
    * @return json with response from CHIPS
    */
   @POST
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
+  @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response postForms(@Auth
                             QueueRequest request) {
@@ -48,21 +56,25 @@ public class QueueResource {
     try {
 
       //get params from request
-//      String requestStatus = request.getFormStatus();
-//      long count = request.getCount();
-
+      String requestStatus = request.getFormStatus();
+      int count = request.getCount();
 
       //retrieve forms from db and rebuild
-//      MongoHelper.getInstance(). (count, requestStatus);
+      List<JSONObject> packages = helper.getCompletePackagesByStatus(requestStatus, count);
 
 
-      // post to CHIPS
-      Response response = client.postJson(configuration.getChipsApiUrl(), null);
-      LoggingService.log(tag, INFO, "Response from CHIPS: " + response.toString(),
-        FormSubmissionResource.class);
-//
-//            // return response from CHIPS
-      return null;
+      for (JSONObject pack : packages) {
+
+        // post to CHIPS
+        Response response = client.postJson(configuration.getChipsApiUrl(), pack.toString());
+
+        LoggingService.log(tag, INFO, "Response from CHIPS: " + response.toString(),
+          FormSubmissionResource.class);
+
+        helper.processResponse(response, pack.getInt(FormServiceConstants.PACKAGE_IDENTIFIER_KEY));
+      }
+
+      return Response.ok("All packages have been processed").build();
 
     } finally {
       context.stop();
