@@ -11,5 +11,8 @@ public class FormServiceConstants {
 
   public static final String PACKAGE_IDENTIFIER = "packageIdentifier";
 
+  public static final String STATUS = "status";
+
+
 
 }

@@ -1,11 +1,11 @@
 package com.ch.helpers;
 
+import com.ch.application.FormServiceConstants;
 import com.ch.application.FormsServiceApplication;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.conversion.builders.JsonBuilder;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
-import com.ch.conversion.helpers.QueueHelper;
 import com.ch.model.FormsPackage;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
@@ -58,9 +58,9 @@ public class QueueHelperTest extends TestHelper {
 
     TransformConfig config = new TransformConfig();
 
-    QueueHelper helper = new QueueHelper(config);
+    QueueHelper queueHelper = new QueueHelper(config);
 
-    List<JSONObject> forms = helper.getCompletePackagesByStatus(1, "PENDING");
+    List<JSONObject> forms = queueHelper.getCompletePackagesByStatus("PENDING",1);
 
     Assert.assertTrue(forms.size() == 1);
     Assert.assertTrue(forms.get(0).getInt("count") == 5);
@@ -85,13 +85,15 @@ public class QueueHelperTest extends TestHelper {
 
     TransformConfig config = new TransformConfig();
 
-    QueueHelper helper = new QueueHelper(config);
+    QueueHelper queueHelper = new QueueHelper(config);
 
-    List<JSONObject> forms = helper.getCompletePackagesById(12435);
+    JSONObject form = queueHelper.getCompletePackageById(12435);
 
-    Assert.assertTrue(forms.size() == 1);
-    Assert.assertTrue(forms.get(0).getInt("count") == 3);
-    Assert.assertTrue(forms.get(0).getJSONArray(config.getFormsPropertyNameOut()).length() == 3);
+    Assert.assertTrue(form.getInt("count") == 3);
+    Assert.assertTrue(form.getJSONArray(config.getFormsPropertyNameOut()).length() == 3);
+    Assert.assertTrue(form.getJSONArray(config.getFormsPropertyNameOut()).getJSONObject(0)
+      .getInt(FormServiceConstants.PACKAGE_IDENTIFIER) == 12435);
+
   }
 
 }
