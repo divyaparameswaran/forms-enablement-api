@@ -49,6 +49,8 @@ testMode: false
 
 logging:
   level: ${env.LOGGING_LEVEL!"DEBUG"}
+  loggers:
+    "com.ch.health": TRACE
 
 fluentLogging:
   fluentLoggingOn: ${env.FLUENT_LOGGING_ON!"false"}
