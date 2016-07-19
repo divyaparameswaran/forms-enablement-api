@@ -169,7 +169,7 @@ public class MongoHelperTest extends TestHelper{
 
         Document pack = helper.getPackageByPackageId(12345);
 
-        Assert.assertTrue(pack.getString(FormServiceConstants.STATUS).equals("SUCCESS"));
+        Assert.assertTrue(pack.getString(FormServiceConstants.PACKAGE_STATUS_KEY).equals("SUCCESS"));
     }
 
     @Test
@@ -192,11 +192,11 @@ public class MongoHelperTest extends TestHelper{
 
         ArrayList<Document> forms = helper.getFormsCollectionByPackageId(12345).into(new ArrayList<>());
 
-        Assert.assertTrue(forms.get(0).getString(FormServiceConstants.STATUS).equals("FAILED"));
-        Assert.assertTrue(forms.get(1).getString(FormServiceConstants.STATUS).equals("FAILED"));
-        Assert.assertTrue(forms.get(2).getString(FormServiceConstants.STATUS).equals("FAILED"));
-        Assert.assertTrue(forms.get(3).getString(FormServiceConstants.STATUS).equals("FAILED"));
-        Assert.assertTrue(forms.get(4).getString(FormServiceConstants.STATUS).equals("FAILED"));
+        Assert.assertTrue(forms.get(0).getString(FormServiceConstants.PACKAGE_STATUS_KEY).equals("FAILED"));
+        Assert.assertTrue(forms.get(1).getString(FormServiceConstants.PACKAGE_STATUS_KEY).equals("FAILED"));
+        Assert.assertTrue(forms.get(2).getString(FormServiceConstants.PACKAGE_STATUS_KEY).equals("FAILED"));
+        Assert.assertTrue(forms.get(3).getString(FormServiceConstants.PACKAGE_STATUS_KEY).equals("FAILED"));
+        Assert.assertTrue(forms.get(4).getString(FormServiceConstants.PACKAGE_STATUS_KEY).equals("FAILED"));
 
     }
 

@@ -66,15 +66,15 @@ public class JsonBuilder {
 
     //3. check the number of forms matches those prescribed in the package
     int packageFormCount = (Integer) rawFormsPackage.getPackageMetaDataJson().get(FormServiceConstants
-      .PACKAGE_IDENTIFIER_COUNT_KEY);
+      .PACKAGE_COUNT_KEY);
 
     if (forms.size() != packageFormCount) {
-      throw new PackageContentsException(FormServiceConstants.PACKAGE_IDENTIFIER_COUNT_KEY);
+      throw new PackageContentsException(FormServiceConstants.PACKAGE_COUNT_KEY);
     }
 
     // 4. Get the submission number for addition to all parts of the entity
     String submissionNumber = getSubmissionNumber((Integer) rawFormsPackage.getPackageMetaDataJson().get(FormServiceConstants
-      .PACKAGE_IDENTIFIER));
+      .PACKAGE_IDENTIFIER_KEY));
 
     // 5. transform package meta data
     JSONObject packageMetaData = getTransformedPackageMetaData();
@@ -109,14 +109,14 @@ public class JsonBuilder {
   }
 
   protected JSONObject addSubmissionNumberToPackage(JSONObject object, String submissionNumber) {
-    object.put(FormServiceConstants.SUBMISSION_NUMBER_KEY, submissionNumber);
+    object.put(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY, submissionNumber);
     return object;
   }
 
   protected List<JSONObject> addSubmissionNumberToForms(List<JSONObject> forms, String submissionNumber) {
     List<JSONObject> formList = new ArrayList<>();
     for (JSONObject form : forms) {
-      form.put(FormServiceConstants.SUBMISSION_NUMBER_KEY, submissionNumber);
+      form.put(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY, submissionNumber);
       formList.add(form);
     }
     return formList;

@@ -73,7 +73,7 @@ public final class MongoHelper {
   public Document getPackageByPackageId(long packageId) {
     MongoDatabase database = getDatabase();
     return database.getCollection(configuration.getMongoDbPackagesCollectionName())
-      .find(new Document(FormServiceConstants.PACKAGE_IDENTIFIER, packageId))
+      .find(new Document(FormServiceConstants.PACKAGE_IDENTIFIER_KEY, packageId))
       .first();
   }
 
@@ -86,12 +86,11 @@ public final class MongoHelper {
     MongoDatabase database = getDatabase();
 
     if (count == 0) {
-      return database.getCollection(configuration.getMongoDbPackagesCollectionName()).find(new Document(FormServiceConstants.STATUS,
-        formStatus))
-        .sort(new Document("date", 1));
+      return database.getCollection(configuration.getMongoDbPackagesCollectionName())
+        .find(new Document(FormServiceConstants.PACKAGE_STATUS_KEY, formStatus)).sort(new Document("date", 1));
     } else {
-      return database.getCollection(configuration.getMongoDbPackagesCollectionName()).find(new Document(FormServiceConstants.STATUS,
-        formStatus))
+      return database.getCollection(configuration.getMongoDbPackagesCollectionName())
+        .find(new Document(FormServiceConstants.PACKAGE_STATUS_KEY, formStatus))
         .limit(count).sort(new Document("date", 1));
     }
   }
@@ -105,8 +104,8 @@ public final class MongoHelper {
     MongoDatabase database = getDatabase();
 
     long modifiedCount = database.getCollection(configuration.getMongoDbPackagesCollectionName()).updateOne(new Document
-        (FormServiceConstants.PACKAGE_IDENTIFIER, packageId),
-      new Document("$set", new Document(FormServiceConstants.STATUS, formStatus))).getModifiedCount();
+        (FormServiceConstants.PACKAGE_IDENTIFIER_KEY, packageId),
+      new Document("$set", new Document(FormServiceConstants.PACKAGE_STATUS_KEY, formStatus))).getModifiedCount();
 
     if (modifiedCount == 1) {
       return true;
@@ -135,7 +134,7 @@ public final class MongoHelper {
   public FindIterable<Document> getFormsCollectionByPackageId(long packageId) {
     MongoDatabase database = getDatabase();
     return database.getCollection(configuration.getMongoDbFormsCollectionName()).find(new Document(FormServiceConstants
-      .PACKAGE_IDENTIFIER,
+      .PACKAGE_IDENTIFIER_KEY,
       packageId));
   }
 
@@ -146,9 +145,8 @@ public final class MongoHelper {
    */
   public FindIterable<Document> getFormsCollectionByStatus(FormStatus status) {
     MongoDatabase database = getDatabase();
-    return database.getCollection(configuration.getMongoDbFormsCollectionName()).find(new Document(FormServiceConstants.STATUS,
-      status.toString()
-        .toLowerCase()));
+    return database.getCollection(configuration.getMongoDbFormsCollectionName())
+      .find(new Document(FormServiceConstants.PACKAGE_STATUS_KEY, status.toString().toLowerCase()));
   }
 
   /**
@@ -158,8 +156,9 @@ public final class MongoHelper {
    */
   public FindIterable<Document> getFormsCollectionByPackageIdAndStatus(long packageId, String status) {
     MongoDatabase database = getDatabase();
-    return database.getCollection(configuration.getMongoDbFormsCollectionName()).find(new Document(FormServiceConstants.STATUS,
-      status.toUpperCase()).append(FormServiceConstants.PACKAGE_IDENTIFIER, packageId));
+    return database.getCollection(configuration.getMongoDbFormsCollectionName())
+      .find(new Document(FormServiceConstants.PACKAGE_STATUS_KEY, status.toUpperCase())
+        .append(FormServiceConstants.PACKAGE_IDENTIFIER_KEY, packageId));
   }
 
   /**
@@ -171,8 +170,8 @@ public final class MongoHelper {
     MongoDatabase database = getDatabase();
 
     long modifiedCount = database.getCollection(configuration.getMongoDbFormsCollectionName()).updateMany(new Document
-        (FormServiceConstants.PACKAGE_IDENTIFIER, packageId),
-      new Document("$set", new Document(FormServiceConstants.STATUS, formStatus))).getModifiedCount();
+        (FormServiceConstants.PACKAGE_IDENTIFIER_KEY, packageId),
+      new Document("$set", new Document(FormServiceConstants.PACKAGE_STATUS_KEY, formStatus))).getModifiedCount();
 
     if (modifiedCount == 1) {
       return true;

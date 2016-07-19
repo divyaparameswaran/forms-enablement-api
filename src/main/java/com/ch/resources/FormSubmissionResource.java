@@ -46,7 +46,7 @@ public class FormSubmissionResource {
       MongoHelper.getInstance().storeFormsPackage(transformedPackage);
 
       // return 200
-      return Response.ok().build();
+      return Response.ok("Packages have been received and are queued").build();
 
     } finally {
       context.stop();

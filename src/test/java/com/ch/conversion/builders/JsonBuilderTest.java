@@ -109,9 +109,10 @@ public class JsonBuilderTest extends TestHelper {
 
         //all elements should contain the same submissionNumber
 
-        String packageSubmissionNumber  = pack.getPackageMetaDataJson().getString(FormServiceConstants.SUBMISSION_NUMBER_KEY);
-        String formOneSubmissionNumber = pack.getFormsJSon().get(0).getString(FormServiceConstants.SUBMISSION_NUMBER_KEY);
-        String formTwoSubmissionNumber = pack.getFormsJSon().get(1).getString(FormServiceConstants.SUBMISSION_NUMBER_KEY);
+        String packageSubmissionNumber  = pack.getPackageMetaDataJson()
+          .getString(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY);
+        String formOneSubmissionNumber = pack.getFormsJSon().get(0).getString(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY);
+        String formTwoSubmissionNumber = pack.getFormsJSon().get(1).getString(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY);
 
 
         Assert.assertTrue(!packageSubmissionNumber.equals(null));

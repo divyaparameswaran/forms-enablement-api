@@ -6,7 +6,7 @@ package com.ch.model;
 public class QueueRequest {
 
   private String formStatus;
-  private long count;
+  private int count;
 
 
   /**
@@ -19,7 +19,7 @@ public class QueueRequest {
   /**
    * Constructs an empty queue request.
    */
-  public QueueRequest(String formStatus, long count) {
+  public QueueRequest(String formStatus, int count) {
     this.formStatus = formStatus;
     this.count = count;
   }
@@ -28,7 +28,7 @@ public class QueueRequest {
     return formStatus;
   }
 
-  public long getCount() {
+  public int getCount() {
     return count;
   }
 }

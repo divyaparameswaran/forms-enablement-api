@@ -2,12 +2,15 @@ package com.ch.helpers;
 
 import com.ch.application.FormServiceConstants;
 import com.ch.conversion.config.ITransformConfig;
+import com.ch.model.FormStatus;
 import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.ws.rs.core.Response;
 
 /**
  * Created by Aaron.Witter on 18/07/2016.
@@ -32,7 +35,7 @@ public class QueueHelper {
 
       //for each package search the database for forms matching the identifier and status
       ArrayList<Document> forms = helper.getFormsCollectionByPackageIdAndStatus((int) pack
-        .get(FormServiceConstants.PACKAGE_IDENTIFIER), pack.getString(FormServiceConstants.STATUS))
+        .get(FormServiceConstants.PACKAGE_IDENTIFIER_KEY), pack.getString(FormServiceConstants.PACKAGE_STATUS_KEY))
         .into(new ArrayList<>());
 
       //create a complete package from the packagemetadata and it's acoompanying forms.
@@ -49,7 +52,7 @@ public class QueueHelper {
     Document pack = helper.getPackageByPackageId(packageId);
 
     //search the database for forms matching the identifier
-    ArrayList<Document> forms = helper.getFormsCollectionByPackageId((int) pack.get(FormServiceConstants.PACKAGE_IDENTIFIER))
+    ArrayList<Document> forms = helper.getFormsCollectionByPackageId((int) pack.get(FormServiceConstants.PACKAGE_IDENTIFIER_KEY))
       .into(new ArrayList<>());
 
     //create a complete package from the packagemetadata and it's acoompanying forms.
@@ -85,5 +88,16 @@ public class QueueHelper {
       formArray.put(new JSONObject(form.toJson()));
     }
     return pack.put(configuration.getFormsPropertyNameOut(), formArray);
+  }
+
+  public void processResponse(Response response, long packageId) {
+
+    int responseStatus = response.getStatus();
+
+    if (responseStatus == 202 || responseStatus == 200) {
+      updateCompletePackageById(packageId, FormStatus.SUCCESS.toString().toUpperCase());
+    } else {
+      updateCompletePackageById(packageId, FormStatus.FAILED.toString().toUpperCase());
+    }
   }
 }
