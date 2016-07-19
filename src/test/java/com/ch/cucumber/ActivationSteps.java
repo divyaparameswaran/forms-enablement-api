@@ -120,6 +120,6 @@ public class ActivationSteps extends TestHelper {
     Assert.assertTrue(packageTwo.getInt(FormServiceConstants.PACKAGE_IDENTIFIER_KEY) == (new JSONObject(packageTwoString)
       .getInt(FormServiceConstants.PACKAGE_IDENTIFIER_KEY)));
 
-
+    Assert.assertTrue(queueHelper.getCompletePackagesByStatus(FormStatus.PENDING.toString().toUpperCase(),0).size() == 1);
   }
 }
