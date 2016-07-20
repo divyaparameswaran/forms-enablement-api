@@ -4,3 +4,7 @@ Feature: activator request
     Given The queue contains 3 packages all pending
     When  I request 2 pending packages
     Then  Two packages status should be changed
+
+    Given The queue contains a failed package
+    When  I request the packages failed contents
+    Then  The failed packages status should be changed
