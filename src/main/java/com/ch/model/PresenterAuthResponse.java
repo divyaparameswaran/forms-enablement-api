@@ -11,7 +11,7 @@ public class PresenterAuthResponse {
 
   private String presenterAccountNumber;
 
-  public PresenterAuthResponse() {
+  public PresenterAuthResponse() {// empty constructor for de serialisation
   }
 
   public PresenterAuthResponse(String presenterAccountNumber) {
