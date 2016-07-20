@@ -79,7 +79,8 @@ public class TestResource {
 
   /**
    * Mock endpoint for Presenter authentication.
-   * @param presenterId form presenters id.
+   *
+   * @param presenterId   form presenters id.
    * @param presenterAuth form presenters authentication code.
    * @return presenter auth response object.
    */
@@ -89,13 +90,13 @@ public class TestResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response postVerdict(@QueryParam("id") String presenterId, @QueryParam("auth") String presenterAuth) {
 
-    if("12423".equals(presenterId)){
-    String accountNumber = "123456789";
+    if ("12423".equals(presenterId)) {
+      String accountNumber = "123456789";
 
       PresenterAuthResponse authResponse = new PresenterAuthResponse(accountNumber);
 
-    return Response.ok(authResponse).build();
-  }
+      return Response.ok(authResponse).build();
+    }
     throw new WebApplicationException(Response.Status.UNAUTHORIZED);
   }
 }
