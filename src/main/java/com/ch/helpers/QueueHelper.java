@@ -36,9 +36,9 @@ public class QueueHelper {
       //for each package search the database for forms matching the identifier and status
       ArrayList<Document> forms = helper.getFormsCollectionByPackageIdAndStatus((int) pack
         .get(FormServiceConstants.PACKAGE_IDENTIFIER_KEY), pack.getString(FormServiceConstants.PACKAGE_STATUS_KEY))
-        .into(new ArrayList<>());
+        .into(new ArrayList<Document>());
 
-      //create a complete package from the packagemetadata and it's acoompanying forms.
+      //create a complete package from the package metadata and it's accompanying forms.
       completeForms.add(createPackage(new JSONObject(pack.toJson()), forms));
     }
     return completeForms;
@@ -46,16 +46,14 @@ public class QueueHelper {
 
   public JSONObject getCompletePackageById(long packageId) {
 
-    List<JSONObject> completeForms = new ArrayList<>();
-
     //get package matching criteria
     Document pack = helper.getPackageByPackageId(packageId);
 
     //search the database for forms matching the identifier
     ArrayList<Document> forms = helper.getFormsCollectionByPackageId((int) pack.get(FormServiceConstants.PACKAGE_IDENTIFIER_KEY))
-      .into(new ArrayList<>());
+      .into(new ArrayList<Document>());
 
-    //create a complete package from the packagemetadata and it's acoompanying forms.
+    //create a complete package from the package metadata and it's accompanying forms.
     return createPackage(new JSONObject(pack.toJson()), forms);
   }
 

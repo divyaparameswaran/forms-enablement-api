@@ -190,14 +190,13 @@ public class MongoHelperTest extends TestHelper{
 
         helper.updateFormsStatusByPackageId(12345, "FAILED");
 
-        ArrayList<Document> forms = helper.getFormsCollectionByPackageId(12345).into(new ArrayList<>());
+        ArrayList<Document> forms = helper.getFormsCollectionByPackageId(12345).into(new ArrayList<Document>());
 
         Assert.assertTrue(forms.get(0).getString(FormServiceConstants.PACKAGE_STATUS_KEY).equals("FAILED"));
         Assert.assertTrue(forms.get(1).getString(FormServiceConstants.PACKAGE_STATUS_KEY).equals("FAILED"));
         Assert.assertTrue(forms.get(2).getString(FormServiceConstants.PACKAGE_STATUS_KEY).equals("FAILED"));
         Assert.assertTrue(forms.get(3).getString(FormServiceConstants.PACKAGE_STATUS_KEY).equals("FAILED"));
         Assert.assertTrue(forms.get(4).getString(FormServiceConstants.PACKAGE_STATUS_KEY).equals("FAILED"));
-
     }
 
 

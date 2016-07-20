@@ -11,6 +11,7 @@ import com.ch.helpers.TestHelper;
 import com.ch.model.FormStatus;
 import com.ch.model.FormsPackage;
 import com.ch.model.QueueRequest;
+import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -23,6 +24,7 @@ import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -39,7 +41,6 @@ public class ActivationSteps extends TestHelper {
   private String packageOneString;
   private String packageTwoString;
   private String packageThreeString;
-
 
 
   @Before
@@ -76,6 +77,7 @@ public class ActivationSteps extends TestHelper {
     }
     FormsPackage formsPackage2 = new JsonBuilder(config, packageTwoString, valid_forms2).getTransformedPackage();
     // insert package two into db
+    TimeUnit.SECONDS.sleep(1);
     helper.storeFormsPackage(formsPackage2);
 
     // package three
@@ -88,6 +90,7 @@ public class ActivationSteps extends TestHelper {
     }
     FormsPackage formsPackage3 = new JsonBuilder(config, packageThreeString, valid_forms3).getTransformedPackage();
     // insert package three into db
+    TimeUnit.SECONDS.sleep(1);
     helper.storeFormsPackage(formsPackage3);
   }
 
@@ -99,7 +102,7 @@ public class ActivationSteps extends TestHelper {
 
     CompaniesHouseConfiguration config = rule.getConfiguration().getCompaniesHouseConfiguration();
     String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
-    String url = String.format("http://localhost:%d/activate", rule.getLocalPort());
+    String url = String.format("http://localhost:%d/queue", rule.getLocalPort());
     client.target(url)
       .request()
       .header("Authorization", "Basic " + encode)
@@ -120,6 +123,7 @@ public class ActivationSteps extends TestHelper {
     Assert.assertTrue(packageTwo.getInt(FormServiceConstants.PACKAGE_IDENTIFIER_KEY) == (new JSONObject(packageTwoString)
       .getInt(FormServiceConstants.PACKAGE_IDENTIFIER_KEY)));
 
-    Assert.assertTrue(queueHelper.getCompletePackagesByStatus(FormStatus.PENDING.toString().toUpperCase(),0).size() == 1);
+    Assert.assertTrue(queueHelper.getCompletePackagesByStatus(FormStatus.PENDING.toString().toUpperCase(), 0).size() == 1);
   }
 }
+

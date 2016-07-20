@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by Aaron.Witter on 18/07/2016.
  */
-@Path("/activate")
+@Path("/queue")
 public class QueueResource {
   private static final Timer timer = FormsServiceApplication.registry.timer("QueueResource");
   private final ClientHelper client;
