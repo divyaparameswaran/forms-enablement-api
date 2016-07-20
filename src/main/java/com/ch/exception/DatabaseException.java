@@ -7,15 +7,15 @@ import javax.ws.rs.WebApplicationException;
  */
 public class DatabaseException extends WebApplicationException {
 
-    private final String message;
+  private final String message;
 
-    public DatabaseException(String message) {
-      this.message = message;
-    }
+  public DatabaseException(String message) {
+    this.message = message;
+  }
 
-    @Override
-    public String getMessage() {
-      return String.format("Unable to process your %s due to a database error. Please " +
-        "contact your administrator.", message);
-    }
+  @Override
+  public String getMessage() {
+    return String.format("Unable to process your %s due to a database error. Please "
+      + "contact your administrator.", message);
+  }
 }

@@ -23,6 +23,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Aaron.Witter on 18/07/2016.
@@ -77,8 +78,8 @@ public class MongoHelperTest extends TestHelper{
 
         ArrayList<Document> documents = helper.getPackagesCollectionByStatus("PENDING", 2).into(new ArrayList<Document>());
 
-        Assert.assertTrue(documents.get(0).get("packageIdentifier").equals(12345));
-        Assert.assertTrue(documents.get(0).get("count").equals(2));
+        Assert.assertTrue(documents.get(0).getInteger("packageIdentifier") == PACKAGE_JSON_ID);
+        Assert.assertTrue(documents.get(0).getInteger("count") == 2);
     }
 
     @Test
@@ -165,9 +166,9 @@ public class MongoHelperTest extends TestHelper{
 
         helper.storeFormsPackage(formsPackage);
 
-        helper.updatePackageStatusByPackageId(12345, "SUCCESS");
+        helper.updatePackageStatusByPackageId(PACKAGE_JSON_ID, "SUCCESS");
 
-        Document pack = helper.getPackageByPackageId(12345);
+        Document pack = helper.getPackageByPackageId(PACKAGE_JSON_ID);
 
         Assert.assertTrue(pack.getString(config.getFormStatusPropertyNameOut()).equals("SUCCESS"));
     }
@@ -188,9 +189,9 @@ public class MongoHelperTest extends TestHelper{
 
         helper.storeFormsPackage(formsPackage);
 
-        helper.updateFormsStatusByPackageId(12345, "FAILED");
+        helper.updateFormsStatusByPackageId(FIVE_PACKAGE_JSON_ID, "FAILED");
 
-        ArrayList<Document> forms = helper.getFormsCollectionByPackageId(12345).into(new ArrayList<Document>());
+        ArrayList<Document> forms = helper.getFormsCollectionByPackageId(FIVE_PACKAGE_JSON_ID).into(new ArrayList<Document>());
 
         Assert.assertTrue(forms.get(0).getString(config.getFormStatusPropertyNameOut()).equals("FAILED"));
         Assert.assertTrue(forms.get(1).getString(config.getFormStatusPropertyNameOut()).equals("FAILED"));

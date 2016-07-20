@@ -25,8 +25,8 @@ import java.util.Locale;
 public final class MongoHelper {
 
   private static MongoHelper instance = new MongoHelper();
-  private FormsServiceConfiguration configuration;
   private final ITransformConfig config = new TransformConfig();
+  private FormsServiceConfiguration configuration;
   private MongoClient client;
 
 
@@ -226,7 +226,7 @@ public final class MongoHelper {
         getFormsCollection().insertOne(transformedForm);
       }
       //check all forms are saved successfully, else throw exception
-      if(getFormsCollectionByPackageId(packageId).into(new ArrayList<Document>()).size() != forms.size()){
+      if (getFormsCollectionByPackageId(packageId).into(new ArrayList<Document>()).size() != forms.size()) {
         throw new DatabaseException(config.getFormsPropertyNameOut());
       }
       return true;

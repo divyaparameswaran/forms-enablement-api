@@ -12,7 +12,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 /**
  * Created by Aaron.Witter on 20/07/2016.
  */
-public class DatabaseExceptionMapper  implements ExceptionMapper<DatabaseException> {
+public class DatabaseExceptionMapper implements ExceptionMapper<DatabaseException> {
 
   /**
    * Returns an HTTP response containing the appropriate error message.
