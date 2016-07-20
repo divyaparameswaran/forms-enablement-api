@@ -4,6 +4,7 @@ import com.ch.application.FormServiceConstants;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
+import com.ch.exception.DatabaseException;
 import com.ch.model.FormStatus;
 import com.ch.model.FormsPackage;
 import com.mongodb.MongoClient;
@@ -14,6 +15,8 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -116,7 +119,6 @@ public final class MongoHelper {
     if (modifiedCount == 1) {
       return true;
     }
-    //TODO Database save exception
     return false;
   }
 
@@ -180,7 +182,6 @@ public final class MongoHelper {
     if (modifiedCount == 1) {
       return true;
     }
-    //TODO Database save exception
     return false;
   }
 
@@ -199,7 +200,6 @@ public final class MongoHelper {
     if (modifiedCount == 1) {
       return true;
     }
-    //TODO Database save exception
     return false;
   }
 
@@ -210,30 +210,30 @@ public final class MongoHelper {
    *
    * @param transformedPackage package to store
    */
-  public void storeFormsPackage(FormsPackage transformedPackage) {
-    //TODO verify save was successful
+  public boolean storeFormsPackage(FormsPackage transformedPackage) {
+
+    List<String> forms = transformedPackage.getForms();
 
     // add package to db
     Document packageMetaDataDocument = Document.parse(transformedPackage.getPackageMetaData());
     getPackagesCollection().insertOne(packageMetaDataDocument);
+    long packageId = packageMetaDataDocument.getInteger(config.getPackageIdentifierElementNameOut());
 
-    // add each form to db
-    for (String form : transformedPackage.getForms()) {
-      Document transformedForm = Document.parse(form);
-      getFormsCollection().insertOne(transformedForm);
+    if (getPackageByPackageId(packageId) != null) {
+      // add each form to db
+      for (String form : forms) {
+        Document transformedForm = Document.parse(form);
+        getFormsCollection().insertOne(transformedForm);
+      }
+      //check all forms are saved successfully, else throw exception
+      if(getFormsCollectionByPackageId(packageId).into(new ArrayList<Document>()).size() != forms.size()){
+        throw new DatabaseException(config.getFormsPropertyNameOut());
+      }
+      return true;
     }
+    //check package is saved successfully, else throw exception
+    throw new DatabaseException(FormServiceConstants.PACKAGE_METADATA_NAME);
   }
-
-//  public void storeForm(Document form) {
-//    //TODO verify save was successful
-//    getFormsCollection().insertOne(form);
-//  }
-//
-//  public void storePackage(String packageMetaData) {
-//    //TODO verify save was successful
-//    Document packageMetaDataDocument = Document.parse(packageMetaData);
-//    getPackagesCollection().insertOne(packageMetaDataDocument);  }
-
 
   private MongoClient setupMongoClient() {
     String uri = configuration.getMongoDbUri();

@@ -8,6 +8,7 @@ import com.ch.client.SalesforceClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.exception.mapper.ConnectionExceptionMapper;
 import com.ch.exception.mapper.ContentTypeExceptionMapper;
+import com.ch.exception.mapper.DatabaseExceptionMapper;
 import com.ch.exception.mapper.MissingRequiredDataExceptionMapper;
 import com.ch.exception.mapper.PackageContentsExceptionMapper;
 import com.ch.exception.mapper.XmlExceptionMapper;
@@ -132,6 +133,8 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new XmlExceptionMapper());
     environment.jersey().register(new XsdValidationExceptionMapper());
     environment.jersey().register(new PackageContentsExceptionMapper());
+    environment.jersey().register(new DatabaseExceptionMapper());
+
 
     // Logging filter for input and output
     environment.jersey().register(new LoggingFilter(
