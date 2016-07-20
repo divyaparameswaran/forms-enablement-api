@@ -22,6 +22,9 @@ companiesHouseConfiguration:
   apiKey: ${env.CHIPS_API_KEY}
   chipsApiUrl: ${env.CHIPS_API_URL}
   barcodeServiceUrl: ${env.CHIPS_BARCODE_SERVICE_URL}
+  jsonGatewayName: ${env.JSON_GATEWAY_NAME!""}
+  jsonGatewayPassword: ${env.JSON_GATEWAY_PASSWORD!""}
+
 
 jerseyClient:
   # The socket timeout value. If a read or write to the underlying
