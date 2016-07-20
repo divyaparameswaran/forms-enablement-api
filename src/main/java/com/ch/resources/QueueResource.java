@@ -6,6 +6,7 @@ import static com.ch.service.LoggingService.tag;
 import com.ch.application.FormServiceConstants;
 import com.ch.application.FormsServiceApplication;
 import com.ch.configuration.CompaniesHouseConfiguration;
+import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
 import com.ch.helpers.ClientHelper;
 import com.ch.helpers.QueueHelper;
@@ -33,7 +34,8 @@ public class QueueResource {
   private static final Timer timer = FormsServiceApplication.registry.timer("QueueResource");
   private final ClientHelper client;
   private final CompaniesHouseConfiguration configuration;
-  private QueueHelper helper = new QueueHelper(new TransformConfig());
+  private final ITransformConfig config = new TransformConfig();
+  private final QueueHelper helper = new QueueHelper(config);
 
 
   public QueueResource(ClientHelper client, CompaniesHouseConfiguration configuration) {
@@ -71,7 +73,7 @@ public class QueueResource {
         LoggingService.log(tag, INFO, "Response from CHIPS: " + response.toString(),
           FormSubmissionResource.class);
 
-        helper.processResponse(response, pack.getInt(FormServiceConstants.PACKAGE_IDENTIFIER_KEY));
+        helper.processResponse(response, pack.getInt(config.getPackageIdentifierElementNameOut()));
       }
 
       return Response.ok("All packages have been processed").build();

@@ -2,6 +2,8 @@ package com.ch.helpers;
 
 import com.ch.application.FormServiceConstants;
 import com.ch.configuration.FormsServiceConfiguration;
+import com.ch.conversion.config.ITransformConfig;
+import com.ch.conversion.config.TransformConfig;
 import com.ch.model.FormStatus;
 import com.ch.model.FormsPackage;
 import com.mongodb.MongoClient;
@@ -10,6 +12,9 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.bson.types.ObjectId;
+
+import java.util.Locale;
 
 /**
  * Created by elliott.jenkins on 30/06/2016.
@@ -18,6 +23,7 @@ public final class MongoHelper {
 
   private static MongoHelper instance = new MongoHelper();
   private FormsServiceConfiguration configuration;
+  private final ITransformConfig config = new TransformConfig();
   private MongoClient client;
 
 
@@ -73,7 +79,7 @@ public final class MongoHelper {
   public Document getPackageByPackageId(long packageId) {
     MongoDatabase database = getDatabase();
     return database.getCollection(configuration.getMongoDbPackagesCollectionName())
-      .find(new Document(FormServiceConstants.PACKAGE_IDENTIFIER_KEY, packageId))
+      .find(new Document(config.getPackageIdentifierElementNameOut(), packageId))
       .first();
   }
 
@@ -87,10 +93,10 @@ public final class MongoHelper {
 
     if (count == 0) {
       return database.getCollection(configuration.getMongoDbPackagesCollectionName())
-        .find(new Document(FormServiceConstants.PACKAGE_STATUS_KEY, formStatus)).sort(new Document("date", 1));
+        .find(new Document(config.getFormStatusPropertyNameOut(), formStatus)).sort(new Document("date", 1));
     } else {
       return database.getCollection(configuration.getMongoDbPackagesCollectionName())
-        .find(new Document(FormServiceConstants.PACKAGE_STATUS_KEY, formStatus))
+        .find(new Document(config.getFormStatusPropertyNameOut(), formStatus))
         .limit(count).sort(new Document("date", 1));
     }
   }
@@ -103,16 +109,15 @@ public final class MongoHelper {
   public boolean updatePackageStatusByPackageId(long packageId, String formStatus) {
     MongoDatabase database = getDatabase();
 
-    long modifiedCount = database.getCollection(configuration.getMongoDbPackagesCollectionName()).updateOne(new Document
-        (FormServiceConstants.PACKAGE_IDENTIFIER_KEY, packageId),
-      new Document("$set", new Document(FormServiceConstants.PACKAGE_STATUS_KEY, formStatus))).getModifiedCount();
+    long modifiedCount = database.getCollection(configuration.getMongoDbPackagesCollectionName()).updateOne(new Document(
+      config.getPackageIdentifierElementNameOut(), packageId), new Document("$set",
+      new Document(config.getFormStatusPropertyNameOut(), formStatus))).getModifiedCount();
 
     if (modifiedCount == 1) {
       return true;
-    } else {
-      //TODO Database save exception
-      return false;
     }
+    //TODO Database save exception
+    return false;
   }
 
   /**
@@ -133,9 +138,8 @@ public final class MongoHelper {
    */
   public FindIterable<Document> getFormsCollectionByPackageId(long packageId) {
     MongoDatabase database = getDatabase();
-    return database.getCollection(configuration.getMongoDbFormsCollectionName()).find(new Document(FormServiceConstants
-      .PACKAGE_IDENTIFIER_KEY,
-      packageId));
+    return database.getCollection(configuration.getMongoDbFormsCollectionName()).find(new Document(config
+      .getPackageIdentifierElementNameOut(), packageId));
   }
 
   /**
@@ -146,7 +150,7 @@ public final class MongoHelper {
   public FindIterable<Document> getFormsCollectionByStatus(FormStatus status) {
     MongoDatabase database = getDatabase();
     return database.getCollection(configuration.getMongoDbFormsCollectionName())
-      .find(new Document(FormServiceConstants.PACKAGE_STATUS_KEY, status.toString().toLowerCase()));
+      .find(new Document(config.getFormStatusPropertyNameOut(), status.toString().toLowerCase()));
   }
 
   /**
@@ -157,8 +161,8 @@ public final class MongoHelper {
   public FindIterable<Document> getFormsCollectionByPackageIdAndStatus(long packageId, String status) {
     MongoDatabase database = getDatabase();
     return database.getCollection(configuration.getMongoDbFormsCollectionName())
-      .find(new Document(FormServiceConstants.PACKAGE_STATUS_KEY, status.toUpperCase())
-        .append(FormServiceConstants.PACKAGE_IDENTIFIER_KEY, packageId));
+      .find(new Document(config.getFormStatusPropertyNameOut(), status.toUpperCase(Locale.ENGLISH))
+        .append(config.getPackageIdentifierElementNameOut(), packageId));
   }
 
   /**
@@ -169,17 +173,36 @@ public final class MongoHelper {
   public boolean updateFormsStatusByPackageId(long packageId, String formStatus) {
     MongoDatabase database = getDatabase();
 
-    long modifiedCount = database.getCollection(configuration.getMongoDbFormsCollectionName()).updateMany(new Document
-        (FormServiceConstants.PACKAGE_IDENTIFIER_KEY, packageId),
-      new Document("$set", new Document(FormServiceConstants.PACKAGE_STATUS_KEY, formStatus))).getModifiedCount();
+    long modifiedCount = database.getCollection(configuration.getMongoDbFormsCollectionName()).updateMany(new Document(
+        config.getPackageIdentifierElementNameOut(), packageId),
+      new Document("$set", new Document(config.getFormStatusPropertyNameOut(), formStatus))).getModifiedCount();
 
     if (modifiedCount == 1) {
       return true;
-    } else {
-      //TODO Database save exception
-      return false;
     }
+    //TODO Database save exception
+    return false;
   }
+
+  /**
+   * update matching form status by package Id.
+   *
+   * @return MongoCollection
+   */
+  public boolean updateFormStatusByPackageId(ObjectId formId, String formStatus) {
+    MongoDatabase database = getDatabase();
+
+    long modifiedCount = database.getCollection(configuration.getMongoDbFormsCollectionName()).updateMany(new Document(
+      FormServiceConstants.DATABASE_OBJECTID_KEY, formId), new Document("$set", new Document(config.getFormStatusPropertyNameOut(),
+      formStatus))).getModifiedCount();
+
+    if (modifiedCount == 1) {
+      return true;
+    }
+    //TODO Database save exception
+    return false;
+  }
+
 
   /**
    * Store a transformed package in the mongo database.
@@ -200,6 +223,17 @@ public final class MongoHelper {
       getFormsCollection().insertOne(transformedForm);
     }
   }
+
+//  public void storeForm(Document form) {
+//    //TODO verify save was successful
+//    getFormsCollection().insertOne(form);
+//  }
+//
+//  public void storePackage(String packageMetaData) {
+//    //TODO verify save was successful
+//    Document packageMetaDataDocument = Document.parse(packageMetaData);
+//    getPackagesCollection().insertOne(packageMetaDataDocument);  }
+
 
   private MongoClient setupMongoClient() {
     String uri = configuration.getMongoDbUri();

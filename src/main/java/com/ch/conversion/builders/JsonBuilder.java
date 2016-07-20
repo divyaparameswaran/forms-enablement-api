@@ -4,7 +4,6 @@ import com.ch.application.FormServiceConstants;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.helpers.MultiPartHelper;
 import com.ch.exception.PackageContentsException;
-import com.ch.model.FormStatus;
 import com.ch.model.FormsPackage;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.json.JSONObject;
@@ -65,16 +64,15 @@ public class JsonBuilder {
     }
 
     //3. check the number of forms matches those prescribed in the package
-    int packageFormCount = (Integer) rawFormsPackage.getPackageMetaDataJson().get(FormServiceConstants
-      .PACKAGE_COUNT_KEY);
+    int packageFormCount = (Integer) rawFormsPackage.getPackageMetaDataJson().get(config.getPackageCountPropertyNameIn());
 
     if (forms.size() != packageFormCount) {
-      throw new PackageContentsException(FormServiceConstants.PACKAGE_COUNT_KEY);
+      throw new PackageContentsException(config.getPackageCountPropertyNameIn());
     }
 
     // 4. Get the submission number for addition to all parts of the entity
-    String submissionNumber = getSubmissionNumber((Integer) rawFormsPackage.getPackageMetaDataJson().get(FormServiceConstants
-      .PACKAGE_IDENTIFIER_KEY));
+    String submissionNumber = getSubmissionNumber((Integer) rawFormsPackage.getPackageMetaDataJson()
+      .get(config.getPackageIdentifierElementNameOut()));
 
     // 5. transform package meta data
     JSONObject packageMetaData = getTransformedPackageMetaData();
@@ -83,7 +81,7 @@ public class JsonBuilder {
     JSONObject transformedPackageMetaData = addSubmissionNumberToPackage(packageMetaData, submissionNumber);
 
     //7. add submission number to forms
-    List<JSONObject> transformedForms = addSubmissionNumberToForms(forms,submissionNumber);
+    List<JSONObject> transformedForms = addSubmissionNumberToForms(forms, submissionNumber);
 
     // 8. return transformed package
     return new FormsPackage(transformedPackageMetaData.toString(), getFormsAsString(transformedForms));
@@ -95,8 +93,8 @@ public class JsonBuilder {
     // 1. add datetime to package meta data
     packageMetaData.put(config.getPackageDatePropertyNameOut(), getDateTime());
 
-    // 2. add pending status
-    Object status = FormStatus.PENDING.toString();
+    // 2. add default status
+    Object status = getDefaultStatus();
     packageMetaData.put(config.getFormStatusPropertyNameOut(), status);
 
     return packageMetaData;
@@ -108,12 +106,12 @@ public class JsonBuilder {
     return packageId + "-" + format;
   }
 
-  protected JSONObject addSubmissionNumberToPackage(JSONObject object, String submissionNumber) {
+  private JSONObject addSubmissionNumberToPackage(JSONObject object, String submissionNumber) {
     object.put(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY, submissionNumber);
     return object;
   }
 
-  protected List<JSONObject> addSubmissionNumberToForms(List<JSONObject> forms, String submissionNumber) {
+  private List<JSONObject> addSubmissionNumberToForms(List<JSONObject> forms, String submissionNumber) {
     List<JSONObject> formList = new ArrayList<>();
     for (JSONObject form : forms) {
       form.put(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY, submissionNumber);
@@ -122,7 +120,7 @@ public class JsonBuilder {
     return formList;
   }
 
-  protected List<String> getFormsAsString(List<JSONObject> forms) {
+  private List<String> getFormsAsString(List<JSONObject> forms) {
     List<String> formList = new ArrayList<>();
     for (JSONObject form : forms) {
       formList.add(form.toString());
@@ -130,7 +128,11 @@ public class JsonBuilder {
     return formList;
   }
 
-  protected String getDateTime() {
+  private String getDefaultStatus() {
+    return FormServiceConstants.PACKAGE_STATUS_DEFAULT;
+  }
+
+  private String getDateTime() {
     DateFormat dateFormat = new SimpleDateFormat(FormServiceConstants.DATE_TIME_FORMAT_DB, Locale.ENGLISH);
     return dateFormat.format(new Date());
   }

@@ -30,6 +30,10 @@ public class FormsPackage {
     return new JSONObject(packageMetaData);
   }
 
+  /**
+   * Gets the forms eement of the forms package as a list of JSON objects.
+   * @return list of json objects.
+   */
   public List<JSONObject> getFormsJSon() {
     List<JSONObject> formsJson = new ArrayList<>();
     for (String form : forms) {

@@ -83,7 +83,7 @@ public class QueueHelperTest extends TestHelper {
 
     helper.storeFormsPackage(formsPackage);
 
-    TransformConfig config = new TransformConfig();
+    ITransformConfig config = new TransformConfig();
 
     QueueHelper queueHelper = new QueueHelper(config);
 
@@ -92,7 +92,7 @@ public class QueueHelperTest extends TestHelper {
     Assert.assertTrue(form.getInt("count") == 3);
     Assert.assertTrue(form.getJSONArray(config.getFormsPropertyNameOut()).length() == 3);
     Assert.assertTrue(form.getJSONArray(config.getFormsPropertyNameOut()).getJSONObject(0)
-      .getInt(FormServiceConstants.PACKAGE_IDENTIFIER_KEY) == 12435);
+      .getInt(config.getPackageIdentifierElementNameOut()) == 12435);
 
   }
 
