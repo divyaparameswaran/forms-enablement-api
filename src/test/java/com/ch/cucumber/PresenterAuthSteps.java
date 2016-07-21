@@ -3,7 +3,6 @@ package com.ch.cucumber;
 import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.helpers.TestHelper;
-import com.ch.model.PresenterAuthResponse;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import io.dropwizard.client.JerseyClientBuilder;
