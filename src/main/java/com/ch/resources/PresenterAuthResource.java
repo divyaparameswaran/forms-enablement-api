@@ -54,7 +54,7 @@ public class PresenterAuthResource {
       LoggingService.log(tag, INFO, "Presenter Auth request from Salesforce: " + presenterId,
           PresenterAuthResource.class);
 
-      String url = getUrl(presenterId,presenterAuth);
+      String url = getUrl(presenterId, presenterAuth);
 
       final WebTarget target = client.target(url);
 
@@ -77,7 +77,7 @@ public class PresenterAuthResource {
     }
   }
 
-  private String getUrl(String presenterId, String presenterAuth){
+  private String getUrl(String presenterId, String presenterAuth) {
     return configuration.getPresenterAuthUrl() + "?id=" + presenterId + "&auth=" + presenterAuth;
   }
 }
