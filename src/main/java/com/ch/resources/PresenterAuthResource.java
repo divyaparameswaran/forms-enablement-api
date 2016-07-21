@@ -4,7 +4,6 @@ import static com.ch.service.LoggingService.LoggingLevel.INFO;
 import static com.ch.service.LoggingService.tag;
 
 import com.ch.application.FormsServiceApplication;
-import com.ch.client.ClientHelper;
 import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.model.PresenterAuthResponse;
 import com.ch.service.LoggingService;
@@ -13,7 +12,6 @@ import io.dropwizard.auth.Auth;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -38,7 +36,6 @@ public class PresenterAuthResource {
     this.configuration = configuration;
   }
 
-
   /**
    * Checks whether valid account exists for forms presenter.
    *
@@ -50,14 +47,14 @@ public class PresenterAuthResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response getPresenterAuth(@Auth @QueryParam("id") String presenterId, @QueryParam("auth") String presenterAuth) {
+
     final Timer.Context context = timer.time();
+
     try {
       LoggingService.log(tag, INFO, "Presenter Auth request from Salesforce: " + presenterId,
           PresenterAuthResource.class);
 
-      // POST to Presenter Auth Service
-
-      String url = configuration.getPresenterAuthUrl() + "?id=" + presenterId + "&auth=" + presenterAuth;
+      String url = getUrl(presenterId,presenterAuth);
 
       final WebTarget target = client.target(url);
 
@@ -68,7 +65,7 @@ public class PresenterAuthResource {
       if (presenterAuthResponse.getPresenterAccountNumber() != null) {
 
         LoggingService.log(tag, INFO, "Response from Presenter Auth Service " + response,
-            BarcodeResource.class);
+            PresenterAuthResource.class);
 
         return Response.ok().build();
       }
@@ -78,5 +75,9 @@ public class PresenterAuthResource {
     } finally {
       context.stop();
     }
+  }
+
+  private String getUrl(String presenterId, String presenterAuth){
+    return configuration.getPresenterAuthUrl() + "?id=" + presenterId + "&auth=" + presenterAuth;
   }
 }

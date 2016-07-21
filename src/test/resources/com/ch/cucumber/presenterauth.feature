@@ -5,4 +5,4 @@ Feature: presenter authentication from chips
     Then I should receive a successful response from the presenter auth endpoint
 
     Given I submit invalid credentials to the presenter auth endpoint
-    Then I should receive a unsuccessful response from the presenter auth endpoint
+    Then I should receive an unsuccessful response from the presenter auth endpoint
