@@ -2,6 +2,7 @@ package com.ch.conversion.builders;
 
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
+import com.ch.conversion.validation.XmlValidatorImpl;
 import com.ch.exception.MissingRequiredDataException;
 import com.ch.helpers.TestHelper;
 import org.json.JSONObject;
@@ -25,7 +26,7 @@ public class FormXmlBuilderTest extends TestHelper {
     public void throwsMissingRequiredDataExceptionWithValidJsonMissingRequiredData() throws Exception {
         String valid = getStringFromFile(VALID_JSON_PATH);
         JSONObject json = new JSONObject(valid);
-        FormXmlBuilder builder = new FormXmlBuilder(config, json, json, json);
+        FormXmlBuilder builder = new FormXmlBuilder(config, json, json, json, new XmlValidatorImpl());
         builder.getXML();
     }
 
@@ -47,6 +48,6 @@ public class FormXmlBuilderTest extends TestHelper {
         String form_string = getStringFromFile(FORM_JSON_PATH);
         JSONObject form_json = new JSONObject(form_string);
         // builder
-        return new FormXmlBuilder(config, package_json, meta_json, form_json);
+        return new FormXmlBuilder(config, package_json, meta_json, form_json, new XmlValidatorImpl());
     }
 }

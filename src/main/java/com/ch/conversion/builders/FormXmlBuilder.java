@@ -18,6 +18,7 @@ import org.json.XML;
 public class FormXmlBuilder {
 
   private final ITransformConfig config;
+  private final XmlValidator xmlValidator;
   private final JSONObject pack;
   private final JSONObject meta;
   private final JSONObject form;
@@ -30,11 +31,12 @@ public class FormXmlBuilder {
    * @param meta   form meta data
    * @param form   form data
    */
-  public FormXmlBuilder(ITransformConfig config, JSONObject pack, JSONObject meta, JSONObject form) {
+  public FormXmlBuilder(ITransformConfig config, JSONObject pack, JSONObject meta, JSONObject form, XmlValidator xmlValidator) {
     this.config = config;
     this.pack = pack;
     this.meta = meta;
     this.form = form;
+    this.xmlValidator = xmlValidator;
   }
 
   /**
@@ -85,8 +87,7 @@ public class FormXmlBuilder {
   }
 
   private void validateXml(String xml) {
-    XmlValidator validator = new XmlValidator(config, xml);
-    validator.validate();
+    xmlValidator.validate(config, xml);
   }
 
   private String encode(String xml) {

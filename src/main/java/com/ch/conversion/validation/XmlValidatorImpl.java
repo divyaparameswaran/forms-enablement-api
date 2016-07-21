@@ -18,7 +18,7 @@ import javax.xml.validation.SchemaFactory;
 /**
  * Created by elliott.jenkins on 21/04/2016.
  */
-public class XmlValidatorImpl implements Validator {
+public class XmlValidatorImpl implements XmlValidator {
 
   /**
    * Validate a forms xml against its schema.
