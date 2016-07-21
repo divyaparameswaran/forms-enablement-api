@@ -102,8 +102,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new HealthcheckResource());
     environment.jersey().register(new BarcodeResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
     environment.jersey().register(new PresenterAuthResource(client, configuration.getCompaniesHouseConfiguration()));
-
-
+    
     if (configuration.isTestMode()) {
       environment.jersey().register(new TestResource());
     }
