@@ -281,8 +281,7 @@ public final class LoggingFilter implements ContainerRequestFilter, ClientReques
   }
 
   private Level determineLogLevelForPath(String path) {
-    System.out.println("request path:" + path);
-    
+
     Level logLevel;
     if (this.fineLevelRequestPaths.contains(path)) {
       logLevel = Level.FINE;
