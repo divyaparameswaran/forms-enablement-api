@@ -16,6 +16,9 @@ salesforceConfiguration:
   authId: ${env.SALESFORCE_AUTH_ID}
   authSecret: ${env.SALESFORCE_AUTH_SECRET}
   clientUrl: ${env.SALESFORCE_CLIENT_URL}
+  apiProxyHost: ${env.SALESFORCE_PROXY_HOST!""}
+  apiProxyPort: ${env.SALESFORCE_PROXY_PORT!8080}
+  apiUseProxy: ${env.SALESFORCE_PROXY_ACTIVE!"false"}
 
 companiesHouseConfiguration:
   name: CHIPS
