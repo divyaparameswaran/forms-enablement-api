@@ -14,6 +14,7 @@ import com.ch.exception.mapper.MissingRequiredDataExceptionMapper;
 import com.ch.exception.mapper.XmlExceptionMapper;
 import com.ch.exception.mapper.XsdValidationExceptionMapper;
 import com.ch.filters.LoggingFilter;
+import com.ch.filters.PreventAccessFilter;
 import com.ch.filters.RateLimitFilter;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
@@ -161,6 +162,9 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.servlets().addFilter("RateLimitFilter", new RateLimitFilter(configuration.getRateLimit()))
         .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
+    environment.admin().addFilter("PreventAccessFilter", new PreventAccessFilter())
+      .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+    
     // Metrics
     startReporting(configuration);
   }
