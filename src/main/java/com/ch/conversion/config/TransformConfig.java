@@ -108,7 +108,7 @@ public class TransformConfig implements ITransformConfig {
     exceptions.add("/filingDetails/presenterDocumentReference");
     exceptions.add("/filingDetails/presenterDetails/presenterEmailIn");
     exceptions.add("/filingDetails/presenterDetails/presenterEmailOut");
-      
+
     return exceptions;
   }
 }

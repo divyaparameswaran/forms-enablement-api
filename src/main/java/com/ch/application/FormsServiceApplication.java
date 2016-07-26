@@ -13,6 +13,7 @@ import com.ch.exception.mapper.ContentTypeExceptionMapper;
 import com.ch.exception.mapper.MissingRequiredDataExceptionMapper;
 import com.ch.exception.mapper.XmlExceptionMapper;
 import com.ch.exception.mapper.XsdValidationExceptionMapper;
+import com.ch.filters.LoggingFilter;
 import com.ch.filters.RateLimitFilter;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
@@ -37,11 +38,12 @@ import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
-import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -147,9 +149,12 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new XsdValidationExceptionMapper());
 
     // Logging filter for input and output
+    List<String> fineLevelRequestPaths = new ArrayList<String>();
+    fineLevelRequestPaths.add("healthcheck");
     environment.jersey().register(new LoggingFilter(
         Logger.getLogger(LoggingFilter.class.getName()),
-        true)
+        true,
+        fineLevelRequestPaths)
     );
 
     //Filters
