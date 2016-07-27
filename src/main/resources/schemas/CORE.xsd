@@ -73,9 +73,6 @@
     <xs:element name="paymentMethod">
         <xs:simpleType>
             <xs:restriction base="xs:string">
-                <xs:enumeration value="ACCOUNT"/>
-                <xs:enumeration value="CREDITCARD"/>
-                <xs:enumeration value="PREPAID"/>
                 <xs:enumeration value="account"/>
                 <xs:enumeration value="creditcard"/>
                 <xs:enumeration value="prepaid"/>
