@@ -183,14 +183,12 @@ public final class LoggingFilter implements ContainerRequestFilter, ClientReques
     return sortedHeaders;
   }
 
+  @SuppressWarnings("PMD")
   private InputStream logInboundEntity(final StringBuilder builder, InputStream stream, final Charset charset) throws IOException {
-    InputStream markableStream;
-    if (stream.markSupported()) {
-      markableStream = stream;
-    } else {
-      markableStream = new BufferedInputStream(stream);
+    if (!stream.markSupported()) {
+      stream = new BufferedInputStream(stream);
     }
-    markableStream.mark(maxEntitySize + 1);
+    stream.mark(maxEntitySize + 1);
     final byte[] entity = new byte[maxEntitySize + 1];
     final int entitySize = stream.read(entity);
     builder.append(new String(entity, 0, Math.min(entitySize, maxEntitySize), charset));
@@ -198,8 +196,8 @@ public final class LoggingFilter implements ContainerRequestFilter, ClientReques
       builder.append("...more...");
     }
     builder.append('\n');
-    markableStream.reset();
-    return markableStream;
+    stream.reset();
+    return stream;
   }
 
   @Override
