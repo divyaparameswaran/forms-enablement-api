@@ -16,12 +16,18 @@ salesforceConfiguration:
   authId: ${env.SALESFORCE_AUTH_ID}
   authSecret: ${env.SALESFORCE_AUTH_SECRET}
   clientUrl: ${env.SALESFORCE_CLIENT_URL}
+  apiProxyHost: ${env.SALESFORCE_PROXY_HOST!""}
+  apiProxyPort: ${env.SALESFORCE_PROXY_PORT!8080}
+  apiUseProxy: ${env.SALESFORCE_PROXY_ACTIVE!"false"}
 
 companiesHouseConfiguration:
   name: CHIPS
   apiKey: ${env.CHIPS_API_KEY}
   chipsApiUrl: ${env.CHIPS_API_URL}
   barcodeServiceUrl: ${env.CHIPS_BARCODE_SERVICE_URL}
+  jsonGatewayName: ${env.JSON_GATEWAY_NAME!""}
+  jsonGatewayPassword: ${env.JSON_GATEWAY_PASSWORD!""}
+
 
 jerseyClient:
   # The socket timeout value. If a read or write to the underlying
@@ -45,8 +51,12 @@ log4jConfiguration:
   # Valid values are DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS
   timeUnit: ${env.CH_LOG_TIME_UNIT!"HOURS"}
 
+testMode: false
+
 logging:
   level: ${env.LOGGING_LEVEL!"DEBUG"}
+  loggers:
+    "com.ch.health": TRACE
 
 fluentLogging:
   fluentLoggingOn: ${env.FLUENT_LOGGING_ON!"false"}
