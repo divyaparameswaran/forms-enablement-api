@@ -28,6 +28,14 @@ public class CompaniesHouseConfiguration {
   @NotEmpty
   private String presenterAuthUrl;
 
+  @JsonProperty
+  @NotEmpty
+  private String jsonGatewayName;
+
+  @JsonProperty
+  @NotEmpty
+  private String jsonGatewayPassword;
+
   public String getName() {
     return name;
   }
@@ -46,5 +54,13 @@ public class CompaniesHouseConfiguration {
 
   public String getPresenterAuthUrl() {
     return presenterAuthUrl;
+  }
+
+  public String getJsonGatewayName() {
+    return jsonGatewayName;
+  }
+
+  public String getJsonGatewayPassword() {
+    return jsonGatewayPassword;
   }
 }

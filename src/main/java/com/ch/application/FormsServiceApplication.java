@@ -7,11 +7,14 @@ import com.ch.auth.FormsApiAuthenticator;
 import com.ch.client.ClientHelper;
 import com.ch.client.SalesforceClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
+import com.ch.configuration.SalesforceConfiguration;
 import com.ch.exception.mapper.ConnectionExceptionMapper;
 import com.ch.exception.mapper.ContentTypeExceptionMapper;
 import com.ch.exception.mapper.MissingRequiredDataExceptionMapper;
 import com.ch.exception.mapper.XmlExceptionMapper;
 import com.ch.exception.mapper.XsdValidationExceptionMapper;
+import com.ch.filters.LoggingFilter;
+import com.ch.filters.PreventAccessFilter;
 import com.ch.filters.RateLimitFilter;
 import com.ch.health.AppHealthCheck;
 import com.ch.model.FormsApiUser;
@@ -25,19 +28,24 @@ import com.ch.resources.TestResource;
 import com.ch.service.LoggingService;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Slf4jReporter;
+
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.client.JerseyClientConfiguration;
+import io.dropwizard.client.proxy.ProxyConfiguration;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.glassfish.jersey.filter.LoggingFilter;
+
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -51,6 +59,7 @@ import javax.ws.rs.client.Client;
 public class FormsServiceApplication extends Application<FormsServiceConfiguration> {
 
   public static final String NAME = "Forms API Service";
+
   public static final MetricRegistry registry = new MetricRegistry();
 
   public static void main(String[] args) throws Exception {
@@ -86,18 +95,41 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     AuthDynamicFeature feature = new AuthDynamicFeature(authFilter);
     environment.jersey().register(feature);
 
+    final JerseyClientConfiguration jerseyClientConfig = configuration.getJerseyClientConfiguration();
+    
     // Jersey Client
     final Client client = new JerseyClientBuilder(environment)
-        .using(configuration.getJerseyClientConfiguration())
+        .using(jerseyClientConfig)
         .withProvider(MultiPartFeature.class)
         .build(getName());
 
     final ClientHelper clientHelper = new ClientHelper(client);
-    final SalesforceClientHelper salesforceClientHelper = new SalesforceClientHelper(client);
+    
+    
+    SalesforceConfiguration salesForceConfiguration = configuration.getSalesforceConfiguration();
+    final SalesforceClientHelper salesforceClientHelper;
+    
+    if (salesForceConfiguration.isApiUseProxy()) {
+    
+      // Jersey client with proxy
+        
+      final ProxyConfiguration proxyConfiguration = new ProxyConfiguration(salesForceConfiguration.getApiProxyHost(), 
+          salesForceConfiguration.getApiProxyPort());
+        
+      jerseyClientConfig.setProxyConfiguration(proxyConfiguration);
+        
+      final Client proxyClient = new JerseyClientBuilder(environment)
+            .using(jerseyClientConfig)
+            .build(getName() + " Via Proxy");
+    
+      salesforceClientHelper = new SalesforceClientHelper(proxyClient);
+    } else {
+      salesforceClientHelper = new SalesforceClientHelper(client);
+    }
 
     // Resources
     environment.jersey().register(new FormSubmissionResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
-    environment.jersey().register(new FormResponseResource(salesforceClientHelper, configuration.getSalesforceConfiguration()));
+    environment.jersey().register(new FormResponseResource(salesforceClientHelper, salesForceConfiguration));
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
     environment.jersey().register(new BarcodeResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
@@ -120,15 +152,21 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new XsdValidationExceptionMapper());
 
     // Logging filter for input and output
+    List<String> fineLevelRequestPaths = new ArrayList<String>();
+    fineLevelRequestPaths.add("healthcheck");
     environment.jersey().register(new LoggingFilter(
         Logger.getLogger(LoggingFilter.class.getName()),
-        true)
+        true,
+        fineLevelRequestPaths)
     );
 
     //Filters
     environment.servlets().addFilter("RateLimitFilter", new RateLimitFilter(configuration.getRateLimit()))
         .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
+    environment.admin().addFilter("PreventAccessFilter", new PreventAccessFilter())
+      .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+    
     // Metrics
     startReporting(configuration);
   }

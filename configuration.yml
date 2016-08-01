@@ -16,6 +16,9 @@ salesforceConfiguration:
   authId: ${env.SALESFORCE_AUTH_ID}
   authSecret: ${env.SALESFORCE_AUTH_SECRET}
   clientUrl: ${env.SALESFORCE_CLIENT_URL}
+  apiProxyHost: ${env.SALESFORCE_PROXY_HOST!""}
+  apiProxyPort: ${env.SALESFORCE_PROXY_PORT!8080}
+  apiUseProxy: ${env.SALESFORCE_PROXY_ACTIVE!"false"}
 
 companiesHouseConfiguration:
   name: CHIPS
@@ -23,7 +26,8 @@ companiesHouseConfiguration:
   chipsApiUrl: ${env.CHIPS_API_URL}
   barcodeServiceUrl: ${env.CHIPS_BARCODE_SERVICE_URL}
   presenterAuthUrl: ${env.CHIPS_PRESENTER_AUTH_URL}
-
+  jsonGatewayName: ${env.JSON_GATEWAY_NAME!""}
+  jsonGatewayPassword: ${env.JSON_GATEWAY_PASSWORD!""}
 
 
 jerseyClient:
@@ -52,6 +56,8 @@ testMode: false
 
 logging:
   level: ${env.LOGGING_LEVEL!"DEBUG"}
+  loggers:
+    "com.ch.health": TRACE
 
 fluentLogging:
   fluentLoggingOn: ${env.FLUENT_LOGGING_ON!"false"}
