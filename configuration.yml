@@ -5,7 +5,7 @@ server:
   connector:
     type: http
     port: ${env.PORT!8080}
-
+    
 salesforceConfiguration:
   name: Salesforce
   apiKey: ${env.SALESFORCE_API_KEY}
@@ -30,6 +30,8 @@ companiesHouseConfiguration:
 
 
 jerseyClient:
+  tls:
+    protocol: TLSv1.2
   # The socket timeout value. If a read or write to the underlying
   # TCP/IP connection hasn't succeeded after this duration, a
   # timeout exception is thrown.
