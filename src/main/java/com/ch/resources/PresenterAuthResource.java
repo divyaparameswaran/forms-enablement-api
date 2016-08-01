@@ -4,6 +4,7 @@ import static com.ch.service.LoggingService.LoggingLevel.INFO;
 import static com.ch.service.LoggingService.tag;
 
 import com.ch.application.FormsServiceApplication;
+import com.ch.client.ClientHelper;
 import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.model.PresenterAuthResponse;
 import com.ch.service.LoggingService;
@@ -28,11 +29,11 @@ import javax.ws.rs.core.Response;
 public class PresenterAuthResource {
   private static final Timer timer = FormsServiceApplication.registry.timer("PresenterAuthResource");
 
-  private final Client client;
+  private final ClientHelper clientHelper;
   private final CompaniesHouseConfiguration configuration;
 
-  public PresenterAuthResource(Client client, CompaniesHouseConfiguration configuration) {
-    this.client = client;
+  public PresenterAuthResource(ClientHelper clientHelper, CompaniesHouseConfiguration configuration) {
+    this.clientHelper = clientHelper;
     this.configuration = configuration;
   }
 
@@ -56,10 +57,9 @@ public class PresenterAuthResource {
 
       String url = getUrl(presenterId, presenterAuth);
 
-      final WebTarget target = client.target(url);
+      Response response = clientHelper.getPresenterAccount(url);
 
-      Response response = target.request().get();
-
+      // Get auth response from entity
       PresenterAuthResponse presenterAuthResponse = response.readEntity(PresenterAuthResponse.class);
 
       if (presenterAuthResponse.getPresenterAccountNumber() != null) {
