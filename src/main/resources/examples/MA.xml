@@ -1,9 +1,10 @@
-<form type="DS01">
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="MA" xsi:noNamespaceSchemaLocation="../schemas/MA.xsd">
     <filingDetails>
         <method>enablement</method>
         <authoriser>director</authoriser>
-        <signDate>2016-03-31</signDate>
-        <receiptDate>2016-03-31</receiptDate>
+        <contactDetails/>
+        <signDate>2013-04-04</signDate>
+        <receiptDate>2013-04-10</receiptDate>
         <presenterDocumentReference>DS0009</presenterDocumentReference>
         <submissionReference>8c199ac6-369a-462d-8cfc-0f4b6d13fa7a</submissionReference>
         <barcode>J53W9DA1</barcode>
@@ -14,11 +15,6 @@
             <presenterAccountNumber>12345678901</presenterAccountNumber>
             <presenterEmailIn>sbowen@companieshouse.gov.uk</presenterEmailIn>
             <presenterEmailOut>sbowen@companieshouse.gov.uk</presenterEmailOut>
-            <presenterAddressLine1>Companies House</presenterAddressLine1>
-            <presenterAddressLine2>Crown Way</presenterAddressLine2>
-            <presenterAddressPostTown>Cardiff</presenterAddressPostTown>
-            <presenterAddressCountry>Wales</presenterAddressCountry>
-            <presenterAddressPostCode>CF3 4UZ</presenterAddressPostCode>
         </presenterDetails>
         <payment>
             <paymentMethod>account</paymentMethod>
@@ -26,17 +22,10 @@
         </payment>
     </filingDetails>
     <corporateBody>
-        <incorporationNumber>09450005</incorporationNumber>
-        <corporateBodyName>LIVERPOOL GIRL GEEKS LTD</corporateBodyName>
-        <officers>
-            <officer>
-                <personName>
-                    <forename>MICHAEL</forename>
-                    <middlenames>COSMAS</middlenames>
-                    <surname>MICHAEL</surname>
-                </personName>
-                <signDate>2016-03-31</signDate>
-            </officer>
-        </officers>
+        <incorporationNumber>02667727</incorporationNumber>
+        <corporateBodyName>NEWDATA LIMITED</corporateBodyName>
     </corporateBody>
+    <general>
+        <effectiveDate>2013-04-04</effectiveDate>
+    </general>
 </form>

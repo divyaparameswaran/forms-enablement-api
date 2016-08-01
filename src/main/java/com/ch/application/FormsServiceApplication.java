@@ -6,6 +6,7 @@ import static com.ch.service.LoggingService.tag;
 import com.ch.auth.FormsApiAuthenticator;
 import com.ch.client.SalesforceClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
+import com.ch.configuration.SalesforceConfiguration;
 import com.ch.exception.mapper.ConnectionExceptionMapper;
 import com.ch.exception.mapper.ContentTypeExceptionMapper;
 import com.ch.exception.mapper.DatabaseExceptionMapper;
@@ -13,6 +14,8 @@ import com.ch.exception.mapper.MissingRequiredDataExceptionMapper;
 import com.ch.exception.mapper.PackageContentsExceptionMapper;
 import com.ch.exception.mapper.XmlExceptionMapper;
 import com.ch.exception.mapper.XsdValidationExceptionMapper;
+import com.ch.filters.LoggingFilter;
+import com.ch.filters.PreventAccessFilter;
 import com.ch.filters.RateLimitFilter;
 import com.ch.health.AppHealthCheck;
 import com.ch.health.MongoHealthCheck;
@@ -34,15 +37,18 @@ import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.client.JerseyClientConfiguration;
+import io.dropwizard.client.proxy.ProxyConfiguration;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -57,6 +63,7 @@ import javax.ws.rs.client.Client;
 public class FormsServiceApplication extends Application<FormsServiceConfiguration> {
 
   public static final String NAME = "Forms API Service";
+
   public static final MetricRegistry registry = new MetricRegistry();
 
   public static void main(String[] args) throws Exception {
@@ -84,9 +91,9 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
     // Authentication Filter for resources
     BasicCredentialAuthFilter authFilter = new BasicCredentialAuthFilter.Builder<FormsApiUser>()
-        .setAuthenticator(new FormsApiAuthenticator(configuration))
-        .setRealm(getName())
-        .buildAuthFilter();
+      .setAuthenticator(new FormsApiAuthenticator(configuration))
+      .setRealm(getName())
+      .buildAuthFilter();
 
     AuthDynamicFeature feature = new AuthDynamicFeature(authFilter);
     environment.jersey().register(feature);
@@ -94,18 +101,42 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     // MongoDB
     MongoHelper.init(configuration);
 
+    final JerseyClientConfiguration jerseyClientConfig = configuration.getJerseyClientConfiguration();
+
     // Jersey Client
     final Client client = new JerseyClientBuilder(environment)
-        .using(configuration.getJerseyClientConfiguration())
-        .withProvider(MultiPartFeature.class)
-        .build(getName());
+      .using(jerseyClientConfig)
+      .withProvider(MultiPartFeature.class)
+      .build(getName());
 
     final ClientHelper clientHelper = new ClientHelper(client);
-    final SalesforceClientHelper salesforceClientHelper = new SalesforceClientHelper(client);
+
+
+    SalesforceConfiguration salesForceConfiguration = configuration.getSalesforceConfiguration();
+    final SalesforceClientHelper salesforceClientHelper;
+
+    if (salesForceConfiguration.isApiUseProxy()) {
+
+      // Jersey client with proxy
+
+      final ProxyConfiguration proxyConfiguration = new ProxyConfiguration(salesForceConfiguration.getApiProxyHost(),
+        salesForceConfiguration.getApiProxyPort());
+
+      jerseyClientConfig.setProxyConfiguration(proxyConfiguration);
+
+      final Client proxyClient = new JerseyClientBuilder(environment)
+        .using(jerseyClientConfig)
+        .build(getName() + " Via Proxy");
+
+      salesforceClientHelper = new SalesforceClientHelper(proxyClient);
+    } else {
+      salesforceClientHelper = new SalesforceClientHelper(client);
+    }
 
     // Resources
     environment.jersey().register(new FormSubmissionResource());
     environment.jersey().register(new FormResponseResource(salesforceClientHelper, configuration.getSalesforceConfiguration()));
+    environment.jersey().register(new FormResponseResource(salesforceClientHelper, salesForceConfiguration));
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
     environment.jersey().register(new BarcodeResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
@@ -123,7 +154,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
     // Health Checks
     final AppHealthCheck healthCheck =
-        new AppHealthCheck();
+      new AppHealthCheck();
     environment.healthChecks().register("AppHealthCheck", healthCheck);
 
     // Exception Mappers
@@ -137,14 +168,20 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
 
     // Logging filter for input and output
+    List<String> fineLevelRequestPaths = new ArrayList<String>();
+    fineLevelRequestPaths.add("healthcheck");
     environment.jersey().register(new LoggingFilter(
-        Logger.getLogger(LoggingFilter.class.getName()),
-        true)
+      Logger.getLogger(LoggingFilter.class.getName()),
+      true,
+      fineLevelRequestPaths)
     );
 
     //Filters
     environment.servlets().addFilter("RateLimitFilter", new RateLimitFilter(configuration.getRateLimit()))
-        .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+      .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+
+    environment.admin().addFilter("PreventAccessFilter", new PreventAccessFilter())
+      .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
     // Metrics
     startReporting(configuration);
@@ -153,12 +190,12 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
 
   private void startReporting(FormsServiceConfiguration configuration) {
     Slf4jReporter reporter = Slf4jReporter.forRegistry(registry)
-        .outputTo(LoggerFactory.getLogger(FormsServiceApplication.class))
-        .convertRatesTo(TimeUnit.SECONDS)
-        .convertDurationsTo(TimeUnit.MILLISECONDS)
-        .build();
+      .outputTo(LoggerFactory.getLogger(FormsServiceApplication.class))
+      .convertRatesTo(TimeUnit.SECONDS)
+      .convertDurationsTo(TimeUnit.MILLISECONDS)
+      .build();
     // report metrics to log every hour
     reporter.start(configuration.getLog4jConfiguration().getFrequency(), TimeUnit.valueOf(configuration.getLog4jConfiguration()
-        .getTimeUnit().toUpperCase()));
+      .getTimeUnit().toUpperCase()));
   }
 }

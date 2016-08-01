@@ -4,6 +4,7 @@ package com.ch.conversion.builders;
 import com.ch.application.FormServiceConstants;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.helpers.JsonHelper;
+import com.ch.conversion.validation.XmlValidatorImpl;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -81,8 +82,12 @@ public class FormJsonBuilder {
     return helper.getValueFromJson(pack, "", config.getPackageIdentifierPropertyNameIn());
   }
 
+  /**
+   * Gets the form as xml. Change the validation here if required. It must implement XmlValidator Interface.
+   * @return XML string.
+   */
   private String getFormXML() {
-    FormXmlBuilder builder = new FormXmlBuilder(config, pack, meta, form);
+    FormXmlBuilder builder = new FormXmlBuilder(config, pack, meta, form, new XmlValidatorImpl());
     return builder.getXML();
   }
 
