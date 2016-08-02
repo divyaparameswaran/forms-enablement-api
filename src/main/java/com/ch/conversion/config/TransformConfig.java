@@ -72,6 +72,31 @@ public class TransformConfig implements ITransformConfig {
     return "packageIdentifier";
   }
 
+
+  public String getPaymentPropertyNameIn() {
+    return "payment";
+  }
+
+  public String getPaymentElementNameOut() {
+    return "payment";
+  }
+
+  public String getPaymentMethodPropertyNameIn() {
+    return "paymentMethod";
+  }
+
+  public String getPaymentMethodElementNameOut() {
+    return "paymentMethod";
+  }
+
+  public String getAccountNumberPropertyNameIn() {
+    return "accountNumber";
+  }
+
+  public String getAccountNumberElementNameOut() {
+    return "accountNumber";
+  }
+
   public String getRootElementNameOut() {
     return "form";
   }
@@ -92,10 +117,11 @@ public class TransformConfig implements ITransformConfig {
     return "version";
   }
 
+
   public String getSchemasLocation() {
     return "schemas";
   }
-  
+
   /**
    * Return a list of JSON paths that should not be made uppercase.
    *
@@ -103,7 +129,7 @@ public class TransformConfig implements ITransformConfig {
    */
   public List<String> getCaseTransformExceptions() {
     List<String> exceptions = new ArrayList<String>();
-      
+
     exceptions.add("/filingDetails/payment/paymentMethod");
     exceptions.add("/filingDetails/presenterDocumentReference");
     exceptions.add("/filingDetails/presenterDetails/presenterEmailIn");
