@@ -5,6 +5,7 @@ import static com.ch.service.LoggingService.tag;
 
 import com.ch.application.FormsServiceApplication;
 import com.ch.client.ClientHelper;
+import com.ch.client.PresenterHelper;
 import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.conversion.builders.JsonBuilder;
 import com.ch.conversion.config.ITransformConfig;
@@ -28,11 +29,20 @@ import javax.ws.rs.core.Response;
 public class FormSubmissionResource {
   private static final Timer timer = FormsServiceApplication.registry.timer("FormSubmissionResource");
 
-  private final ClientHelper client;
+  private final ClientHelper clientHelper;
+  private final PresenterHelper presenterHelper;
   private final CompaniesHouseConfiguration configuration;
 
-  public FormSubmissionResource(ClientHelper client, CompaniesHouseConfiguration configuration) {
-    this.client = client;
+  /**
+   * Constructor for form submission resource.
+   * @param clientHelper helper for posting to chips.
+   * @param presenterHelper helper for getting presenter account numbers.
+   * @param configuration compnaies house config.
+   */
+  public FormSubmissionResource(ClientHelper clientHelper, PresenterHelper presenterHelper, CompaniesHouseConfiguration
+      configuration) {
+    this.clientHelper = clientHelper;
+    this.presenterHelper = presenterHelper;
     this.configuration = configuration;
   }
 
@@ -50,7 +60,7 @@ public class FormSubmissionResource {
     try {
       // convert input to json
       ITransformConfig config = new TransformConfig();
-      JsonBuilder builder = new JsonBuilder(config, multi);
+      JsonBuilder builder = new JsonBuilder(config, multi, presenterHelper);
       String forms = builder.getJson();
       LoggingService.log(tag, INFO, "Transformation output: " + forms,
         FormSubmissionResource.class);
@@ -59,9 +69,9 @@ public class FormSubmissionResource {
       Response response;
       String username = configuration.getJsonGatewayName();
       if (username != null && username.length() > 0) {
-        response = client.postJson(configuration.getChipsApiUrl(), forms, username, configuration.getJsonGatewayPassword());
+        response = clientHelper.postJson(configuration.getChipsApiUrl(), forms, username, configuration.getJsonGatewayPassword());
       } else {
-        response = client.postJson(configuration.getChipsApiUrl(), forms);
+        response = clientHelper.postJson(configuration.getChipsApiUrl(), forms);
       }
       LoggingService.log(tag, INFO, "Response from CHIPS: " + response.toString(),
         FormSubmissionResource.class);

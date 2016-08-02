@@ -1,4 +1,6 @@
 {
   "id": "some identifier",
-  "count": 3
+  "count": 3,
+  "presenterId": "12423",
+  "presenterAuth": "GV5QZUAY2AN"
 }
