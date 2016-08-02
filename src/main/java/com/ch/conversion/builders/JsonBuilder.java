@@ -16,7 +16,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 
-
 /**
  * Created by elliott.jenkins on 31/03/2016.
  */
@@ -79,7 +78,7 @@ public class JsonBuilder {
 
       //If no account number is returned from api, end submission
       if (presenterAuthResponse.getPresenterAccountNumber() == null) {
-        throw new PresenterAuthenticationException(presenterAuthRequest.getPresenterId(),presenterAuthRequest.getPresenterAuth());
+        throw new PresenterAuthenticationException(presenterAuthRequest.getPresenterId(), presenterAuthRequest.getPresenterAuth());
       }
 
       // 4. loop forms and transform with account numbers
@@ -117,8 +116,9 @@ public class JsonBuilder {
   }
 
   /**
-   *  Adds account number to json object if payment number is account.
-   * @param form form as json object.
+   * Adds account number to json object if payment number is account.
+   *
+   * @param form          form as json object.
    * @param accountNumber account number as string.
    * @return Form as string.
    */
@@ -129,7 +129,7 @@ public class JsonBuilder {
       JSONObject paymentProperty = form.getJSONObject(config.getFormPropertyNameIn())
           .getJSONObject(config.getFilingDetailsPropertyNameIn()).getJSONObject(config.getPaymentPropertyNameIn());
 
-      if("account".equals(paymentProperty.get(config.getPaymentMethodPropertyNameIn()))) {
+      if ("account".equals(paymentProperty.get(config.getPaymentMethodPropertyNameIn()))) {
         paymentProperty.put(config.getAccountNumberPropertyNameIn(), accountNumber);
 
         return form.toString();
@@ -141,8 +141,9 @@ public class JsonBuilder {
   }
 
   /**
-   *  Gets form json via form json builder, calls add accountNumber to the json if required.
-   * @param formJson form as string.
+   * Gets form json via form json builder, calls add accountNumber to the json if required.
+   *
+   * @param formJson      form as string.
    * @param accountNumber account number as string.
    * @return JSON object of transformed form.
    */
@@ -164,6 +165,7 @@ public class JsonBuilder {
 
   /**
    * Generate json object from string.
+   *
    * @param form form as string.
    * @return json object.
    */
