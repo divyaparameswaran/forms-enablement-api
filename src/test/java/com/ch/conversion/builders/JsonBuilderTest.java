@@ -124,25 +124,6 @@ public class JsonBuilderTest extends TestHelper {
             .get("accountNumber")));
     }
 
-    @Test
-    public void shouldNotAddAccountNumber() throws IOException {
-        FormDataMultiPart multi = getValidMultiPart();
-        JsonBuilder builder = new JsonBuilder(config, multi, helper);
-        String formWithoutAccountNumber = getStringFromFile(FORM_ALL_JSON_NO_ACC_NUMBER_PATH);
-        String accountNumber = "1234454";
-        JSONObject form = new JSONObject(formWithoutAccountNumber);
-
-        String formWithAccountString = builder.addAccountNumber(form, accountNumber);
-
-        JSONObject formWithAccount = new JSONObject(formWithAccountString);
-
-
-        Assert.assertTrue(accountNumber.equals(formWithAccount.getJSONObject(config.getFormPropertyNameIn())
-            .getJSONObject(config.getFilingDetailsPropertyNameIn())
-            .getJSONObject("payment")
-            .get("accountNumber")));
-    }
-
     private JsonBuilder getValidJsonBuilder() throws Exception {
         // valid package data
         String package_string = getStringFromFile(PACKAGE_JSON_PATH);
