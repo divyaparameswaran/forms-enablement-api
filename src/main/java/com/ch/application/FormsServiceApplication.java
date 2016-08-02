@@ -12,6 +12,7 @@ import com.ch.configuration.SalesforceConfiguration;
 import com.ch.exception.mapper.ConnectionExceptionMapper;
 import com.ch.exception.mapper.ContentTypeExceptionMapper;
 import com.ch.exception.mapper.MissingRequiredDataExceptionMapper;
+import com.ch.exception.mapper.PresenterAuthenticationExceptionMapper;
 import com.ch.exception.mapper.XmlExceptionMapper;
 import com.ch.exception.mapper.XsdValidationExceptionMapper;
 import com.ch.filters.LoggingFilter;
@@ -152,6 +153,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new MissingRequiredDataExceptionMapper());
     environment.jersey().register(new XmlExceptionMapper());
     environment.jersey().register(new XsdValidationExceptionMapper());
+    environment.jersey().register(new PresenterAuthenticationExceptionMapper());
 
     // Logging filter for input and output
     List<String> fineLevelRequestPaths = new ArrayList<String>();
