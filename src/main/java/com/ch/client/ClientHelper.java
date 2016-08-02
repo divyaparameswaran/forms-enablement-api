@@ -43,19 +43,6 @@ public final class ClientHelper {
     String encode = Base64.encodeAsString(name + ":" + password);
     return target.request().header("Authorization", "Basic " + encode).post(Entity.json(json));
   }
-
-  /**
-   * Send json to the desired url.
-   *
-   * @param url  destination
-   * @return response from url
-   */
-  public Response getPresenterAccount(String url) {
-    final WebTarget target = client.target(url);
-//    String encode = Base64.encodeAsString(name + ":" + password);
-    return target.request().get();
-
-  }
 }
 
 
