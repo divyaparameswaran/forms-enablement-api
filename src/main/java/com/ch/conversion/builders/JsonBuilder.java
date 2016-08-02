@@ -125,19 +125,17 @@ public class JsonBuilder {
   protected String addAccountNumber(JSONObject form, String accountNumber) {
 
     try {
-      if ("account".equals(form.getJSONObject(config.getFormPropertyNameIn())
-          .getJSONObject(config.getFilingDetailsPropertyNameIn())
-          .getJSONObject(config.getPaymentPropertyNameIn())
-          .get(config.getPaymentMethodPropertyNameIn()))) {
 
-        form.getJSONObject(config.getFormPropertyNameIn())
-            .getJSONObject(config.getFilingDetailsPropertyNameIn())
-            .getJSONObject(config.getPaymentPropertyNameIn()).put(config.getAccountNumberPropertyNameIn(), accountNumber);
+      JSONObject paymentProperty = form.getJSONObject(config.getFormPropertyNameIn())
+          .getJSONObject(config.getFilingDetailsPropertyNameIn()).getJSONObject(config.getPaymentPropertyNameIn());
+
+      if("account".equals(paymentProperty.get(config.getPaymentMethodPropertyNameIn()))) {
+        paymentProperty.put(config.getAccountNumberPropertyNameIn(), accountNumber);
 
         return form.toString();
       }
-    } catch (JSONException e) {
-      e.printStackTrace();
+    } catch (JSONException ex) {
+      ex.printStackTrace();
     }
     return form.toString();
   }

@@ -17,7 +17,7 @@ public class PresenterAuthenticationException extends WebApplicationException {
 
   @Override
   public String getMessage() {
-    return String.format("Error authentication the presenter using the given credentials: id: %s, auth: %s",
+    return String.format("Error authenticating the presenter using the given credentials: id: %s, auth: %s",
         id, auth);
   }
 }
