@@ -5,6 +5,7 @@ import static com.ch.service.LoggingService.tag;
 
 import com.ch.application.FormsServiceApplication;
 import com.ch.client.ClientHelper;
+import com.ch.client.PresenterHelper;
 import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.model.PresenterAuthResponse;
 import com.ch.service.LoggingService;
@@ -29,12 +30,10 @@ import javax.ws.rs.core.Response;
 public class PresenterAuthResource {
   private static final Timer timer = FormsServiceApplication.registry.timer("PresenterAuthResource");
 
-  private final ClientHelper clientHelper;
-  private final CompaniesHouseConfiguration configuration;
+  private final PresenterHelper presenterHelper;
 
-  public PresenterAuthResource(ClientHelper clientHelper, CompaniesHouseConfiguration configuration) {
-    this.clientHelper = clientHelper;
-    this.configuration = configuration;
+  public PresenterAuthResource(PresenterHelper presenterHelper) {
+    this.presenterHelper = presenterHelper;
   }
 
   /**
@@ -55,17 +54,12 @@ public class PresenterAuthResource {
       LoggingService.log(tag, INFO, "Presenter Auth request from Salesforce: " + presenterId,
           PresenterAuthResource.class);
 
-      String url = getUrl(presenterId, presenterAuth);
-
-      Response response = clientHelper.getPresenterAccount(url);
-
       // Get auth response from entity
-      PresenterAuthResponse presenterAuthResponse = response.readEntity(PresenterAuthResponse.class);
+      PresenterAuthResponse presenterAuthResponse = presenterHelper.getPresenterResponse(presenterId, presenterAuth);
 
       if (presenterAuthResponse.getPresenterAccountNumber() != null) {
 
-        LoggingService.log(tag, INFO, "Response from Presenter Auth Service " + response,
-            PresenterAuthResource.class);
+        LoggingService.log(tag, INFO, "Response from Presenter Auth Service " + presenterAuthResponse, PresenterAuthResource.class);
 
         return Response.ok().build();
       }
@@ -75,9 +69,5 @@ public class PresenterAuthResource {
     } finally {
       context.stop();
     }
-  }
-
-  private String getUrl(String presenterId, String presenterAuth) {
-    return configuration.getPresenterAuthUrl() + "?id=" + presenterId + "&auth=" + presenterAuth;
   }
 }
