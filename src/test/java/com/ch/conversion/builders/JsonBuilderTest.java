@@ -124,6 +124,24 @@ public class JsonBuilderTest extends TestHelper {
             .get("accountNumber")));
     }
 
+    @Test(expected = JSONException.class)
+    public void shouldThrowJsonExceptionIsAbsenceOfProperty() throws IOException {
+        FormDataMultiPart multi = getValidMultiPart();
+        JsonBuilder builder = new JsonBuilder(config, multi, helper);
+        String formWithoutPayment = getStringFromFile(FORM_ALL_JSON_NO_PAYMENT_PATH);
+        String accountNumber = "1234454";
+        JSONObject form = new JSONObject(formWithoutPayment);
+
+        String formWithoutPaymentString = builder.addAccountNumber(form, accountNumber);
+
+        JSONObject formWithoutPaymentObject = new JSONObject(formWithoutPaymentString);
+
+        accountNumber.equals(formWithoutPaymentObject.getJSONObject(config.getFormPropertyNameIn())
+            .getJSONObject(config.getFilingDetailsPropertyNameIn())
+            .getJSONObject(config.getPaymentPropertyNameIn())
+            .get(config.getPaymentMethodPropertyNameIn()));
+    }
+
     private JsonBuilder getValidJsonBuilder() throws Exception {
         // valid package data
         String package_string = getStringFromFile(PACKAGE_JSON_PATH);
