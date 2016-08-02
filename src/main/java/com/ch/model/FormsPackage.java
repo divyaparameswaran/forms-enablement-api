@@ -1,5 +1,9 @@
 package com.ch.model;
 
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,5 +24,21 @@ public class FormsPackage {
 
   public List<String> getForms() {
     return forms;
+  }
+
+  public JSONObject getPackageMetaDataJson() {
+    return new JSONObject(packageMetaData);
+  }
+
+  /**
+   * Gets the forms element of the forms package as a list of JSON objects.
+   * @return list of json objects.
+   */
+  public List<JSONObject> getFormsJSon() {
+    List<JSONObject> formsJson = new ArrayList<>();
+    for (String form : forms) {
+      formsJson.add(new JSONObject(form));
+    }
+    return formsJson;
   }
 }

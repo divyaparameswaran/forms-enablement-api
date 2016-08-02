@@ -76,8 +76,11 @@ public final class MultiPartHelper {
       return part.getValue();
 
     } else if (type.equals(MediaType.APPLICATION_JSON_TYPE)) {
-      return part.getEntity().toString();
-
+      try {
+        return part.getEntityAs(String.class);
+      } catch (IllegalStateException e) {
+        return part.getEntity().toString();
+      }
     } else {
       throw new ContentTypeException(type.toString());
     }
