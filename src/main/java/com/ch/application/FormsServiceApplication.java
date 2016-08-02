@@ -5,6 +5,7 @@ import static com.ch.service.LoggingService.tag;
 
 import com.ch.auth.FormsApiAuthenticator;
 import com.ch.client.ClientHelper;
+import com.ch.client.PresenterHelper;
 import com.ch.client.SalesforceClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.configuration.SalesforceConfiguration;
@@ -104,8 +105,8 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         .build(getName());
 
     final ClientHelper clientHelper = new ClientHelper(client);
-    
-    
+    final PresenterHelper presenterHelper = new PresenterHelper(client, configuration.getCompaniesHouseConfiguration());
+
     SalesforceConfiguration salesForceConfiguration = configuration.getSalesforceConfiguration();
     final SalesforceClientHelper salesforceClientHelper;
     
@@ -128,12 +129,13 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     }
 
     // Resources
-    environment.jersey().register(new FormSubmissionResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
+    environment.jersey().register(new FormSubmissionResource(clientHelper, presenterHelper, configuration
+        .getCompaniesHouseConfiguration()));
     environment.jersey().register(new FormResponseResource(salesforceClientHelper, salesForceConfiguration));
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
     environment.jersey().register(new BarcodeResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
-    environment.jersey().register(new PresenterAuthResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
+    environment.jersey().register(new PresenterAuthResource(presenterHelper));
     
     if (configuration.isTestMode()) {
       environment.jersey().register(new TestResource());
