@@ -30,7 +30,9 @@ public class PresenterAuthSteps extends TestHelper{
   private Response responseTwo;
   private Response responseThree;
   private Response responseFour;
+  private Response responseFive;
   private String formEntity;
+  private String formEntityTwo;
   private DropwizardAppRule<FormsServiceConfiguration> rule = FormServiceTestSuiteIT.RULE;
   private ITransformConfig transformConfig = new TransformConfig();
   public Client client = new JerseyClientBuilder(rule.getEnvironment())
@@ -138,6 +140,44 @@ public class PresenterAuthSteps extends TestHelper{
   @Then("^An exception should be thrown and no submision should take place$")
   public void an_exception_should_be_thrown_and_no_submision_should_take_place() throws Throwable {
     Assert.assertTrue(responseFour.getStatus() == 400);
+  }
+
+  @Given("^I submit a package with no presenter credentials$")
+  public void i_submit_a_package_with_no_presenter_credentials() throws Throwable {
+    CompaniesHouseConfiguration config = rule.getConfiguration().getCompaniesHouseConfiguration();
+    String encode = Base64.encodeAsString(config.getName() + ":" + config.getApiKey());
+    String url = String.format("http://localhost:%d/submission", rule.getLocalPort());
+
+    FormDataMultiPart multi = new FormDataMultiPart();
+    // forms package data
+    String pack = getStringFromFile(PACKAGE_NO_CREDENTIALS_PATH);
+    multi.field(transformConfig.getPackageMultiPartName(), pack, MediaType.APPLICATION_JSON_TYPE);
+    // form json
+    String form = getStringFromFile(FORM_ALL_JSON_NO_ACC_NUMBER_PATH);
+    multi.field("form1", form, MediaType.APPLICATION_JSON_TYPE);
+
+    responseFive = client.target(url)
+        .register(MultiPartFeature.class)
+        .request()
+        .header("Authorization", "Basic " + encode)
+        .post(Entity.entity(multi, MediaType.MULTIPART_FORM_DATA_TYPE));
+
+    formEntityTwo = responseFive.readEntity(String.class);
+
+  }
+
+  @Then("^The forms should have no account numbers$")
+  public void the_forms_should_have_no_account_numbers() throws Throwable {
+    Assert.assertTrue(responseFive.getStatus() == 202);
+
+    JSONObject formJson = new JSONObject(formEntityTwo);
+
+    String xml = formJson.getJSONArray(transformConfig.getFormsPropertyNameOut()).getJSONObject(0).get(transformConfig
+        .getXmlPropertyNameOut()).toString();
+
+    String decodedXml = decode(xml);
+
+    Assert.assertFalse(decodedXml.contains("<accountNumber>"));
   }
 
   private String decode(String xml) {

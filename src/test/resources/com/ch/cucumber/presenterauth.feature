@@ -15,3 +15,6 @@ Feature: presenter authentication from chips
 
     Given I submit a package with invalid presenter credentials
     Then An exception should be thrown and no submision should take place
+
+    Given I submit a package with no presenter credentials
+    Then The forms should have no account numbers
