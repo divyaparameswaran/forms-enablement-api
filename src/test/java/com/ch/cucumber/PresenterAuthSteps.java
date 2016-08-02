@@ -5,7 +5,6 @@ import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
 import com.ch.helpers.TestHelper;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import io.dropwizard.client.JerseyClientBuilder;
@@ -139,7 +138,7 @@ public class PresenterAuthSteps extends TestHelper{
 
   @Then("^An exception should be thrown and no submision should take place$")
   public void an_exception_should_be_thrown_and_no_submision_should_take_place() throws Throwable {
-    Assert.assertTrue(responseFour.getStatus() == 400);
+    Assert.assertTrue(responseFour.getStatus() == 401);
   }
 
   @Given("^I submit a package with no presenter credentials$")

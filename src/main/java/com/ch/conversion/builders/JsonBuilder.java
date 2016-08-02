@@ -4,6 +4,7 @@ package com.ch.conversion.builders;
 import com.ch.client.PresenterHelper;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.helpers.MultiPartHelper;
+import com.ch.exception.PresenterAuthenticationException;
 import com.ch.model.FormsPackage;
 import com.ch.model.PresenterAuthRequest;
 import com.ch.model.PresenterAuthResponse;
@@ -14,8 +15,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+
 
 /**
  * Created by elliott.jenkins on 31/03/2016.
@@ -61,7 +61,7 @@ public class JsonBuilder {
     // 1. create root JSON object
     JSONObject root = new JSONObject();
 
-    // 2. create initial JSON array
+    // 2. create JSON array
     JSONArray array = new JSONArray();
 
     // 3. Check for auth credentials
@@ -69,46 +69,33 @@ public class JsonBuilder {
 
     PresenterAuthRequest presenterAuthRequest = getAuthRequest(transformedPackageMetaData);
 
+    //if there are credentials make call to presenter auth api
     if (presenterAuthRequest != null) {
 
-      //TODO what if nothing is received from presenter
       //get Account number
-      // Get auth response from entity
       PresenterAuthResponse presenterAuthResponse = presenterHelper.getPresenterResponse(
           presenterAuthRequest.getPresenterId(),
           presenterAuthRequest.getPresenterAuth());
 
-      //If has credentials but no account numbers
+      //If no account number is returned from api, end submission
       if (presenterAuthResponse.getPresenterAccountNumber() == null) {
-        //TODO create custom exception
-        throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        throw new PresenterAuthenticationException(presenterAuthRequest.getPresenterId(),presenterAuthRequest.getPresenterAuth());
       }
 
-      // 3. loop forms and transform
+      // 4. loop forms and transform with account numbers
       for (String formJson : formsPackage.getForms()) {
-
-        JSONObject formJsonObject = toJsonOBject(formJson);
-
-        String accountJson = addAccountNumber(formJsonObject, presenterAuthResponse.getPresenterAccountNumber());
-
-        FormJsonBuilder builder = new FormJsonBuilder(config, formsPackage.getPackageMetaData(), accountJson);
-
-        JSONObject finalObject = builder.getJson();
-
+        JSONObject finalObject = getFormJson(formJson, presenterAuthResponse.getPresenterAccountNumber());
         array.put(finalObject);
-
       }
       root.put(config.getFormsPropertyNameOut(), array);
       return root.toString();
     }
 
 
-    // 3. loop forms and transform
+    // 5. loop forms and transform without account numbers
     for (String formJson : formsPackage.getForms()) {
-      FormJsonBuilder builder = new FormJsonBuilder(config, formsPackage.getPackageMetaData(), formJson);
-      JSONObject object = builder.getJson();
+      JSONObject object = getFormJson(formJson, null);
       array.put(object);
-
     }
     // 4. add array to root
     root.put(config.getFormsPropertyNameOut(), array);
@@ -117,8 +104,7 @@ public class JsonBuilder {
 
 
   protected PresenterAuthRequest getAuthRequest(JSONObject packageMetaData) {
-    String presenterId = null;
-    String presenterAuth = null;
+    String presenterId, presenterAuth;
 
     try {
       presenterId = packageMetaData.getString("presenterId");
@@ -130,21 +116,23 @@ public class JsonBuilder {
     return new PresenterAuthRequest(presenterId, presenterAuth);
   }
 
-  private JSONObject toJsonOBject(String form) {
-    return new JSONObject(form);
-  }
-
+  /**
+   *  Adds account number to json object if payment number is account.
+   * @param form form as json object.
+   * @param accountNumber account number as string.
+   * @return Form as string.
+   */
   protected String addAccountNumber(JSONObject form, String accountNumber) {
 
     try {
       if ("account".equals(form.getJSONObject(config.getFormPropertyNameIn())
           .getJSONObject(config.getFilingDetailsPropertyNameIn())
-          .getJSONObject("payment")
-          .get("paymentMethod"))) {
+          .getJSONObject(config.getPaymentPropertyNameIn())
+          .get(config.getPaymentMethodPropertyNameIn()))) {
 
         form.getJSONObject(config.getFormPropertyNameIn())
             .getJSONObject(config.getFilingDetailsPropertyNameIn())
-            .getJSONObject("payment").put("accountNumber", accountNumber);
+            .getJSONObject(config.getPaymentPropertyNameIn()).put(config.getAccountNumberPropertyNameIn(), accountNumber);
 
         return form.toString();
       }
@@ -153,6 +141,38 @@ public class JsonBuilder {
     }
     return form.toString();
   }
+
+  /**
+   *  Gets form json via form json builder, calls add accountNumber to the json if required.
+   * @param formJson form as string.
+   * @param accountNumber account number as string.
+   * @return JSON object of transformed form.
+   */
+  private JSONObject getFormJson(String formJson, String accountNumber) {
+
+    String newJson = formJson;
+
+    if (accountNumber != null) {
+
+      JSONObject formJsonObject = toJsonObject(formJson);
+
+      newJson = addAccountNumber(formJsonObject, accountNumber);
+    }
+
+    FormJsonBuilder builder = new FormJsonBuilder(config, formsPackage.getPackageMetaData(), newJson);
+
+    return builder.getJson();
+  }
+
+  /**
+   * Generate json object from string.
+   * @param form form as string.
+   * @return json object.
+   */
+  private JSONObject toJsonObject(String form) {
+    return new JSONObject(form);
+  }
+
 }
 
 
