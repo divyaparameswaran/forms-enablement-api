@@ -1,5 +1,6 @@
 package com.ch.helpers;
 
+import com.ch.model.PresenterAuthResponse;
 import org.glassfish.jersey.internal.util.Base64;
 
 import javax.ws.rs.client.Client;

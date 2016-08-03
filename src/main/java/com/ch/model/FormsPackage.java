@@ -31,7 +31,7 @@ public class FormsPackage {
   }
 
   /**
-   * Gets the forms eement of the forms package as a list of JSON objects.
+   * Gets the forms element of the forms package as a list of JSON objects.
    * @return list of json objects.
    */
   public List<JSONObject> getFormsJSon() {
@@ -42,3 +42,4 @@ public class FormsPackage {
     return formsJson;
   }
 }
+

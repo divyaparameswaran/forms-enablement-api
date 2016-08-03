@@ -26,6 +26,10 @@ public class CompaniesHouseConfiguration {
 
   @JsonProperty
   @NotEmpty
+  private String presenterAuthUrl;
+
+  @JsonProperty
+  @NotEmpty
   private String jsonGatewayName;
 
   @JsonProperty
@@ -46,6 +50,10 @@ public class CompaniesHouseConfiguration {
 
   public String getChipsApiUrl() {
     return chipsApiUrl;
+  }
+
+  public String getPresenterAuthUrl() {
+    return presenterAuthUrl;
   }
 
   public String getJsonGatewayName() {

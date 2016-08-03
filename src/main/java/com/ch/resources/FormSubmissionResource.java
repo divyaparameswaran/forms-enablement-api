@@ -1,6 +1,8 @@
 package com.ch.resources;
 
 import com.ch.application.FormsServiceApplication;
+
+import com.ch.client.PresenterHelper;
 import com.ch.conversion.builders.JsonBuilder;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
@@ -25,6 +27,16 @@ public class FormSubmissionResource {
 
   private static final Timer timer = FormsServiceApplication.registry.timer("FormSubmissionResource");
 
+  private final PresenterHelper presenterHelper;
+
+  /**
+   * Constructor for form submission resource.
+   * @param presenterHelper helper for getting presenter account numbers.
+   */
+  public FormSubmissionResource(PresenterHelper presenterHelper) {
+    this.presenterHelper = presenterHelper;
+  }
+
   /**
    * Resource to post forms from Salesforce to CHIPS.
    *
@@ -39,15 +51,19 @@ public class FormSubmissionResource {
     try {
       // convert input to json
       ITransformConfig config = new TransformConfig();
-      JsonBuilder builder = new JsonBuilder(config, multi);
+      JsonBuilder builder = new JsonBuilder(config, multi, presenterHelper);
       FormsPackage transformedPackage = builder.getTransformedPackage();
 
       // insert into mongodb
-      MongoHelper.getInstance().storeFormsPackage(transformedPackage);
+      boolean isSaved = MongoHelper.getInstance().storeFormsPackage(transformedPackage);
 
+      if (isSaved){
       // return 200
       return Response.ok("Packages have been received and are queued").build();
-
+      }
+      else{
+        return Response.serverError().build();
+      }
     } finally {
       context.stop();
     }

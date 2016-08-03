@@ -5,7 +5,7 @@ server:
   connector:
     type: http
     port: ${env.PORT!8080}
-
+    
 salesforceConfiguration:
   name: Salesforce
   apiKey: ${env.SALESFORCE_API_KEY}
@@ -25,12 +25,15 @@ companiesHouseConfiguration:
   apiKey: ${env.CHIPS_API_KEY}
   chipsApiUrl: ${env.CHIPS_API_URL}
   barcodeServiceUrl: ${env.CHIPS_BARCODE_SERVICE_URL}
+  presenterAuthUrl: ${env.CHIPS_PRESENTER_AUTH_URL}
   jsonGatewayName: ${env.JSON_GATEWAY_NAME!""}
   jsonGatewayPassword: ${env.JSON_GATEWAY_PASSWORD!""}
 
 
 
 jerseyClient:
+  tls:
+    protocol: TLSv1.2
   # The socket timeout value. If a read or write to the underlying
   # TCP/IP connection hasn't succeeded after this duration, a
   # timeout exception is thrown.

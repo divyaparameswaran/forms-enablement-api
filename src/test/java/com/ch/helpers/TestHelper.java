@@ -23,8 +23,12 @@ public class TestHelper {
     protected static final String FIVE_PACKAGE_JSON_PATH = "json/five_package.json";
     protected static final long FIVE_PACKAGE_JSON_ID = 12355;
     protected static final String THREE_PACKAGE_JSON_PATH = "json/three_package.json";
+    protected static final String PACKAGE_NO_CREDENTIALS_PATH = "json/package_no_credentials.json";
+    protected static final String PACKAGE_INVALID_CREDENTIALS_JSON_PATH = "json/package_invalid_credentials.json";
     protected static final String FORM_JSON_PATH = "json/form.json";
     protected static final String FORM_ALL_JSON_PATH = "json/form_all.json";
+    protected static final String FORM_ALL_JSON_NO_ACC_NUMBER_PATH = "json/form_no_account_number.json";
+    protected static final String FORM_ALL_JSON_NO_PAYMENT_PATH = "json/form_no_payment.json";
     protected static final String INVALID_FORM_JSON_PATH = "json/invalid_form_all.json";
     protected static final String META_PATH = "json/meta.json";
     protected static final String LOWERCASE_JSON_PATH = "json/lower_case.json";
@@ -43,6 +47,8 @@ public class TestHelper {
 
     public static final long TEST_PACKAGE_ID = 12345;
     protected static final String SALESFORCE_ACCESS_TOKEN = "Bearer abcdefghijklmnopqrstuvwxyz";
+    protected static final String TEST_PRESENTER_ACCOUNT = "98756122";
+
 
 
     public String getStringFromFile(String filename) throws IOException {

@@ -1,11 +1,14 @@
 package com.ch.conversion.builders;
 
 import com.ch.application.FormServiceConstants;
+import com.ch.client.PresenterHelper;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
 import com.ch.exception.MissingRequiredDataException;
 import com.ch.helpers.TestHelper;
 import com.ch.model.FormsPackage;
+import com.ch.model.PresenterAuthRequest;
+import com.ch.model.PresenterAuthResponse;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,16 +26,26 @@ import java.util.Locale;
 
 import javax.ws.rs.core.MediaType;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+
 /**
  * Created by elliott.jenkins on 31/03/2016.
  */
 public class JsonBuilderTest extends TestHelper {
 
     ITransformConfig config;
+    PresenterHelper helper;
 
     @Before
     public void setUp() {
+
         config = new TransformConfig();
+        helper = mock(PresenterHelper.class);
+        when(helper.getPresenterResponse(anyString(), anyString())).thenReturn(new PresenterAuthResponse("1234567"));
+
     }
 
     @Test(expected = JSONException.class)
@@ -42,7 +55,7 @@ public class JsonBuilderTest extends TestHelper {
         for (int i = 0; i < 2; i++) {
             invalid_forms.add(invalid);
         }
-        JsonBuilder builder = new JsonBuilder(config, invalid, invalid_forms);
+        JsonBuilder builder = new JsonBuilder(config, invalid, invalid_forms, helper);
         builder.getTransformedPackage();
     }
 
@@ -53,7 +66,7 @@ public class JsonBuilderTest extends TestHelper {
         for (int i = 0; i < 2; i++) {
             valid_json_forms.add(valid);
         }
-        JsonBuilder builder = new JsonBuilder(config, valid, valid_json_forms);
+        JsonBuilder builder = new JsonBuilder(config, valid, valid_json_forms, helper);
         builder.getTransformedPackage();
     }
 
@@ -67,17 +80,37 @@ public class JsonBuilderTest extends TestHelper {
     @Test(expected = Exception.class)
     public void throwsExceptionWithEmptyMultiPart() throws Exception {
         FormDataMultiPart multi = new FormDataMultiPart();
-        JsonBuilder builder = new JsonBuilder(config, multi);
+        JsonBuilder builder = new JsonBuilder(config, multi,helper);
         builder.getTransformedPackage();
     }
 
     @Test
     public void createStringForValidMultiPart() throws Exception {
         FormDataMultiPart multi = getValidMultiPart();
-        JsonBuilder builder = new JsonBuilder(config, multi);
+        JsonBuilder builder = new JsonBuilder(config, multi, helper);
         FormsPackage transformedPackage = builder.getTransformedPackage();
         Assert.assertNotNull(transformedPackage);
     }
+
+    @Test
+    public void shouldReturnNullObject() throws IOException {
+        FormDataMultiPart multi = getValidMultiPart();
+        JsonBuilder builder = new JsonBuilder(config, multi, helper);
+        JSONObject object = new JSONObject();
+        Assert.assertFalse(builder.getAuthRequest(object) instanceof PresenterAuthRequest);
+    }
+
+    @Test
+    public void shouldReturnPresenterAuthRequest() throws IOException {
+        FormDataMultiPart multi = getValidMultiPart();
+        JsonBuilder builder = new JsonBuilder(config, multi, helper);
+        JSONObject object = new JSONObject();
+        object.put("presenterId", "1234567");
+        object.put("presenterAuth", "1234567");
+        Assert.assertTrue(builder.getAuthRequest(object) instanceof PresenterAuthRequest);
+    }
+
+
 
     private JsonBuilder getValidJsonBuilder() throws Exception {
         // valid package data
@@ -89,7 +122,7 @@ public class JsonBuilderTest extends TestHelper {
             valid_forms.add(valid);
         }
         // builder
-        return new JsonBuilder(config, package_string, valid_forms);
+        return new JsonBuilder(config, package_string, valid_forms, helper);
     }
 
     @Test
@@ -105,7 +138,7 @@ public class JsonBuilderTest extends TestHelper {
         }
 
         // when this package is transformed
-        FormsPackage pack =  new JsonBuilder(config, package_string, valid_forms).getTransformedPackage();
+        FormsPackage pack =  new JsonBuilder(config, package_string, valid_forms, helper).getTransformedPackage();
 
         //all elements should contain the same submissionNumber
 
@@ -144,4 +177,6 @@ public class JsonBuilderTest extends TestHelper {
         multi.field("form1", form, MediaType.APPLICATION_JSON_TYPE);
         return multi;
     }
+
+
 }
