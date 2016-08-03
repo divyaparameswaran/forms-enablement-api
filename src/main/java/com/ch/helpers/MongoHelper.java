@@ -114,6 +114,17 @@ public final class MongoHelper {
   }
 
   /**
+   * Remove packages collection by submission number.
+   *
+   * @return MongoCollection
+   */
+  public void removePackageByPackageId(long packageId) {
+    MongoDatabase database = getDatabase();
+    database.getCollection(configuration.getMongoDbPackagesCollectionName())
+      .deleteOne(new Document(config.getPackageIdentifierElementNameOut(), packageId));
+  }
+
+  /**
    * update a package status by package Id.
    *
    * @return MongoCollection
@@ -177,6 +188,17 @@ public final class MongoHelper {
   }
 
   /**
+   * Remove the forms collection by packageId.
+   *
+   * @return MongoCollection
+   */
+  public void removeFormsCollectionByPackageId(long packageId) {
+    MongoDatabase database = getDatabase();
+    database.getCollection(configuration.getMongoDbFormsCollectionName()).deleteMany(new Document(config
+      .getPackageIdentifierElementNameOut(), packageId));
+  }
+
+  /**
    * update matching forms status by package Id.
    *
    * @return MongoCollection
@@ -234,8 +256,10 @@ public final class MongoHelper {
         Document transformedForm = Document.parse(form);
         getFormsCollection().insertOne(transformedForm);
       }
-      //check all forms are saved successfully, else throw exception
+      //check all forms are saved successfully, else remove those which were saved, if any, throw exception
       if (getFormsCollectionByPackageId(packageId).into(new ArrayList<Document>()).size() != forms.size()) {
+        removePackageByPackageId(packageId);
+        removeFormsCollectionByPackageId(packageId);
         throw new DatabaseException(config.getFormsPropertyNameOut());
       }
       return true;
