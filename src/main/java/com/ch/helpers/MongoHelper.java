@@ -37,6 +37,10 @@ public final class MongoHelper {
     instance.setConfiguration(configuration);
   }
 
+  public static void init(FormsServiceConfiguration configuration, MongoClient client) {
+    instance.setTestConfiguration(configuration, client);
+  }
+
   public static MongoHelper getInstance() {
     return instance;
   }
@@ -44,6 +48,11 @@ public final class MongoHelper {
   private void setConfiguration(FormsServiceConfiguration configuration) {
     this.configuration = configuration;
     this.client = setupMongoClient();
+  }
+
+  private void setTestConfiguration(FormsServiceConfiguration configuration, MongoClient client) {
+    this.configuration = configuration;
+    this.client = client;
   }
 
   /**

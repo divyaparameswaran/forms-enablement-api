@@ -71,6 +71,12 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.mongo</artifactId>
+            <version>1.50.5</version>
+        </dependency>
+
         <!-- Application -->
         <dependency>
             <groupId>io.dropwizard</groupId>
@@ -145,7 +151,7 @@
                 <directory>${project.basedir}/src/test/resources</directory>
             </testResource>
         </testResources>
-        <plugins>  
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
