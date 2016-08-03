@@ -4,6 +4,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.ch.application.FormServiceConstants;
 import com.ch.client.PresenterHelper;
 import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.configuration.FormsServiceConfiguration;
@@ -48,19 +49,18 @@ public class PresenterAuthSteps extends TestHelper{
   private DropwizardAppRule<FormsServiceConfiguration> rule = FormServiceTestSuiteIT.RULE;
   private ITransformConfig transformConfig = new TransformConfig();
   public Client client;
-
   private static final String TEST_PRESENTER_ACCOUNT_NUMBER = "1234567";
 
   @Before
   public void setUp() {
     MongoHelper.init(rule.getConfiguration());
     helper = MongoHelper.getInstance();
-    helper.dropCollection("forms");
-    helper.dropCollection("packages");
+    helper.dropCollection(FormServiceConstants.DATABASE_FORMS_COLLECTION_NAME);
+    helper.dropCollection(FormServiceConstants.DATABASE_PACKAGES_COLLECTION_NAME);
     presenterHelper = mock(PresenterHelper.class);
-    when(presenterHelper.getPresenterResponse("12423", "GV5QZUAY2AN"))
+    when(presenterHelper.getPresenterResponse(PACKAGE_JSON_PRESENTER_ID, PACKAGE_JSON_PRESENTER_AUTH))
       .thenReturn(new PresenterAuthResponse(TEST_PRESENTER_ACCOUNT_NUMBER));
-    when(presenterHelper.getPresenterResponse("124235", "GV5QZUAY2AN"))
+    when(presenterHelper.getPresenterResponse(PACKAGE_INVALID_CREDENTIALS_PRESENTER_ID, PACKAGE_INVALID_CREDENTIALS_PRESENTER_AUTH))
       .thenReturn(new PresenterAuthResponse(null));
   }
 
@@ -109,8 +109,8 @@ public class PresenterAuthSteps extends TestHelper{
 
   @Given("^I submit a package with valid presenter credentials$")
   public void i_submit_a_package_with_valid_presenter_credentials() throws Throwable {
-    helper.dropCollection("forms");
-    helper.dropCollection("packages");
+    helper.dropCollection(FormServiceConstants.DATABASE_FORMS_COLLECTION_NAME);
+    helper.dropCollection(FormServiceConstants.DATABASE_PACKAGES_COLLECTION_NAME);
 
     FormDataMultiPart multi = new FormDataMultiPart();
     // forms package data
@@ -146,8 +146,8 @@ public class PresenterAuthSteps extends TestHelper{
 
   @Given("^I submit a package with invalid presenter credentials$")
   public void i_submit_a_package_with_invalid_presenter_credentials() throws Throwable {
-    helper.dropCollection("forms");
-    helper.dropCollection("packages");
+    helper.dropCollection(FormServiceConstants.DATABASE_FORMS_COLLECTION_NAME);
+    helper.dropCollection(FormServiceConstants.DATABASE_PACKAGES_COLLECTION_NAME);
 
     multi = new FormDataMultiPart();
     // forms package data
@@ -176,8 +176,8 @@ public class PresenterAuthSteps extends TestHelper{
 
   @Given("^I submit a package with no presenter credentials$")
   public void i_submit_a_package_with_no_presenter_credentials() throws Throwable {
-    helper.dropCollection("forms");
-    helper.dropCollection("packages");
+    helper.dropCollection(FormServiceConstants.DATABASE_FORMS_COLLECTION_NAME);
+    helper.dropCollection(FormServiceConstants.DATABASE_PACKAGES_COLLECTION_NAME);
 
     FormDataMultiPart multi = new FormDataMultiPart();
     // forms package data

@@ -53,16 +53,18 @@ public class ActivationSteps extends TestHelper {
   private String packageThreeString;
   private String packageFourString;
   private long packageId;
+  private static final String TEST_PRESENTER_ACCOUNT_NUMBER = "1234567";
 
   @Before
   public void setUp() {
     config = new TransformConfig();
     MongoHelper.init(rule.getConfiguration());
     helper = MongoHelper.getInstance();
-    helper.dropCollection("forms");
-    helper.dropCollection("packages");
+    helper.dropCollection(FormServiceConstants.DATABASE_FORMS_COLLECTION_NAME);
+    helper.dropCollection(FormServiceConstants.DATABASE_PACKAGES_COLLECTION_NAME);
     presenterHelper = mock(PresenterHelper.class);
-    when(presenterHelper.getPresenterResponse(anyString(), anyString())).thenReturn(new PresenterAuthResponse("1234567"));
+    when(presenterHelper.getPresenterResponse(anyString(), anyString()))
+      .thenReturn(new PresenterAuthResponse(TEST_PRESENTER_ACCOUNT_NUMBER));
 
   }
 
@@ -142,8 +144,8 @@ public class ActivationSteps extends TestHelper {
 
   @Given("^The queue contains a failed package$")
   public void the_queue_contains_a_failed_package_where_only_one_of_the_forms_has_a_failed_status() throws Throwable {
-    helper.dropCollection("forms");
-    helper.dropCollection("packages");
+    helper.dropCollection(FormServiceConstants.DATABASE_FORMS_COLLECTION_NAME);
+    helper.dropCollection(FormServiceConstants.DATABASE_PACKAGES_COLLECTION_NAME);
 
     // package one
     packageFourString = getStringFromFile(PACKAGE_JSON_PATH);

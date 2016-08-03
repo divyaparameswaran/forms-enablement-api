@@ -17,4 +17,8 @@ public class FormServiceConstants {
   public static final String PACKAGE_STATUS_DEFAULT = FormStatus.PENDING.toString().toUpperCase(Locale.ENGLISH);
 
   public static final String DATABASE_OBJECTID_KEY = "_id";
+  public static final String DATABASE_FORMS_COLLECTION_NAME = "forms";
+  public static final String DATABASE_PACKAGES_COLLECTION_NAME = "packages";
+
+
 }

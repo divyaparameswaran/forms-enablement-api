@@ -12,6 +12,7 @@ import com.ch.conversion.builders.JsonBuilder;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
 import com.ch.cucumber.FormServiceTestSuiteIT;
+import com.ch.model.FormStatus;
 import com.ch.model.FormsPackage;
 import com.ch.model.PresenterAuthResponse;
 import com.google.common.collect.Lists;
@@ -29,6 +30,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 public class MongoHelperTest extends TestHelper{
 
     private MongoHelper helper;
+    private static final String TEST_PRESENTER_ACCOUNT_NUMBER = "1234567";
     ITransformConfig config;
     PresenterHelper presenterHelper;
 
@@ -51,10 +54,11 @@ public class MongoHelperTest extends TestHelper{
         config = new TransformConfig();
         MongoHelper.init(RULE.getConfiguration());
         helper =  MongoHelper.getInstance();
-        helper.dropCollection("forms");
-        helper.dropCollection("packages");
+        helper.dropCollection(FormServiceConstants.DATABASE_FORMS_COLLECTION_NAME);
+        helper.dropCollection(FormServiceConstants.DATABASE_PACKAGES_COLLECTION_NAME);
         presenterHelper = mock(PresenterHelper.class);
-        when(presenterHelper.getPresenterResponse(anyString(), anyString())).thenReturn(new PresenterAuthResponse("1234567"));
+        when(presenterHelper.getPresenterResponse(anyString(), anyString()))
+          .thenReturn(new PresenterAuthResponse(TEST_PRESENTER_ACCOUNT_NUMBER));
     }
 
     @Test
@@ -86,10 +90,11 @@ public class MongoHelperTest extends TestHelper{
 
         helper.storeFormsPackage(formsPackage2);
 
-        ArrayList<Document> documents = helper.getPackagesCollectionByStatus("PENDING", 2).into(new ArrayList<Document>());
+        ArrayList<Document> documents = helper.getPackagesCollectionByStatus(FormStatus.PENDING.toString()
+          .toUpperCase(Locale.ENGLISH), 2).into(new ArrayList<Document>());
 
-        Assert.assertTrue(documents.get(0).getInteger("packageIdentifier") == PACKAGE_JSON_ID);
-        Assert.assertTrue(documents.get(0).getInteger("count") == 2);
+        Assert.assertTrue(documents.get(0).getInteger(config.getPackageIdentifierPropertyNameIn()) == PACKAGE_JSON_ID);
+        Assert.assertTrue(documents.get(0).getInteger(config.getPackageCountPropertyNameIn()) == 2);
     }
 
     @Test
@@ -121,7 +126,8 @@ public class MongoHelperTest extends TestHelper{
 
         helper.storeFormsPackage(formsPackage2);
 
-        ArrayList<Document> documents = helper.getPackagesCollectionByStatus("PENDING", 0).into(new ArrayList<Document>());
+        ArrayList<Document> documents = helper.getPackagesCollectionByStatus(FormStatus.PENDING.toString()
+          .toUpperCase(Locale.ENGLISH), 0).into(new ArrayList<Document>());
 
         Assert.assertTrue(documents.size() == 2);
     }
@@ -155,7 +161,8 @@ public class MongoHelperTest extends TestHelper{
 
         helper.storeFormsPackage(formsPackage2);
 
-        ArrayList<Document> documents = helper.getPackagesCollectionByStatus("PENDING", 1).into(new ArrayList<Document>());
+        ArrayList<Document> documents = helper.getPackagesCollectionByStatus(FormStatus.PENDING.toString()
+          .toUpperCase(Locale.ENGLISH), 1).into(new ArrayList<Document>());
 
         Assert.assertTrue(documents.size() == 1);
     }
@@ -176,11 +183,12 @@ public class MongoHelperTest extends TestHelper{
 
         helper.storeFormsPackage(formsPackage);
 
-        helper.updatePackageStatusByPackageId(PACKAGE_JSON_ID, "SUCCESS");
+        helper.updatePackageStatusByPackageId(PACKAGE_JSON_ID, FormStatus.SUCCESS.toString().toUpperCase(Locale.ENGLISH));
 
         Document pack = helper.getPackageByPackageId(PACKAGE_JSON_ID);
 
-        Assert.assertTrue(pack.getString(config.getFormStatusPropertyNameOut()).equals("SUCCESS"));
+        Assert.assertTrue(pack.getString(config.getFormStatusPropertyNameOut()).equals(FormStatus.SUCCESS.toString()
+          .toUpperCase(Locale.ENGLISH)));
     }
 
     @Test
@@ -199,15 +207,20 @@ public class MongoHelperTest extends TestHelper{
 
         helper.storeFormsPackage(formsPackage);
 
-        helper.updateFormsStatusByPackageId(FIVE_PACKAGE_JSON_ID, "FAILED");
+        helper.updateFormsStatusByPackageId(FIVE_PACKAGE_JSON_ID, FormStatus.FAILED.toString().toUpperCase(Locale.ENGLISH));
 
         ArrayList<Document> forms = helper.getFormsCollectionByPackageId(FIVE_PACKAGE_JSON_ID).into(new ArrayList<Document>());
 
-        Assert.assertTrue(forms.get(0).getString(config.getFormStatusPropertyNameOut()).equals("FAILED"));
-        Assert.assertTrue(forms.get(1).getString(config.getFormStatusPropertyNameOut()).equals("FAILED"));
-        Assert.assertTrue(forms.get(2).getString(config.getFormStatusPropertyNameOut()).equals("FAILED"));
-        Assert.assertTrue(forms.get(3).getString(config.getFormStatusPropertyNameOut()).equals("FAILED"));
-        Assert.assertTrue(forms.get(4).getString(config.getFormStatusPropertyNameOut()).equals("FAILED"));
+        Assert.assertTrue(forms.get(0).getString(config.getFormStatusPropertyNameOut()).equals(FormStatus.FAILED.toString()
+          .toUpperCase(Locale.ENGLISH)));
+        Assert.assertTrue(forms.get(1).getString(config.getFormStatusPropertyNameOut()).equals(FormStatus.FAILED.toString()
+          .toUpperCase(Locale.ENGLISH)));
+        Assert.assertTrue(forms.get(2).getString(config.getFormStatusPropertyNameOut()).equals(FormStatus.FAILED.toString()
+          .toUpperCase(Locale.ENGLISH)));
+        Assert.assertTrue(forms.get(3).getString(config.getFormStatusPropertyNameOut()).equals(FormStatus.FAILED.toString()
+          .toUpperCase(Locale.ENGLISH)));
+        Assert.assertTrue(forms.get(4).getString(config.getFormStatusPropertyNameOut()).equals(FormStatus.FAILED.toString()
+          .toUpperCase(Locale.ENGLISH)));
     }
 
 
