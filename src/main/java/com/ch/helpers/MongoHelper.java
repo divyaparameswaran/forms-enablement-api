@@ -114,9 +114,7 @@ public final class MongoHelper {
   }
 
   /**
-   * Remove packages collection by submission number.
-   *
-   * @return MongoCollection
+   * Remove packages collection by submission number.*
    */
   public void removePackageByPackageId(long packageId) {
     MongoDatabase database = getDatabase();
@@ -127,7 +125,7 @@ public final class MongoHelper {
   /**
    * update a package status by package Id.
    *
-   * @return MongoCollection
+   * @return boolean depending on success.
    */
   public boolean updatePackageStatusByPackageId(long packageId, String formStatus) {
     MongoDatabase database = getDatabase();
@@ -189,9 +187,7 @@ public final class MongoHelper {
 
   /**
    * Remove the forms collection by packageId.
-   *
-   * @return MongoCollection
-   */
+   **/
   public void removeFormsCollectionByPackageId(long packageId) {
     MongoDatabase database = getDatabase();
     database.getCollection(configuration.getMongoDbFormsCollectionName()).deleteMany(new Document(config
