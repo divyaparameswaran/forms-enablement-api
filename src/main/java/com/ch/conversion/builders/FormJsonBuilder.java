@@ -6,6 +6,7 @@ import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.helpers.JsonHelper;
 import com.ch.conversion.validation.XmlValidatorImpl;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -28,17 +29,21 @@ public class FormJsonBuilder {
    * @param packageJson package data json
    * @param formJson    form data json
    */
-  public FormJsonBuilder(ITransformConfig config, String packageJson, String formJson) {
+  public FormJsonBuilder(ITransformConfig config, String packageJson, String formJson, String presenterAccountNumber) {
     this.config = config;
     this.helper = JsonHelper.getInstance();
-
     this.pack = new JSONObject(packageJson);
+
     JSONObject form = new JSONObject(formJson);
 
     this.meta = helper.getObjectFromJson(form, "parent json object (form body part)", config.getMetaPropertyNameIn());
     this.form = helper.getObjectFromJson(form, "parent json object (form body part)", config.getFormPropertyNameIn());
     this.attachments = helper.getArrayFromJson(form, "parent json object (form body part)",
       config.getAttachmentsPropertyNameIn());
+
+    if(presenterAccountNumber != null){
+      addAccountNumber(presenterAccountNumber);
+    }
   }
 
   /**
@@ -93,6 +98,34 @@ public class FormJsonBuilder {
 
   private String getDefaultStatus() {
     return FormServiceConstants.PACKAGE_STATUS_DEFAULT;
+  }
+
+  /**
+   * Adds account number to json object if payment number is account.
+   *
+   * @param accountNumber account number as string.
+   * @return Form as string.
+   */
+  protected JSONObject addAccountNumber(String accountNumber) {
+
+    try {
+
+      JSONObject paymentProperty = form.getJSONObject(config.getFilingDetailsPropertyNameIn())
+        .getJSONObject(config.getPaymentPropertyNameIn());
+
+      if ("account".equals(paymentProperty.get(config.getPaymentMethodPropertyNameIn()))) {
+        paymentProperty.put(config.getAccountNumberPropertyNameIn(), accountNumber);
+
+        return form;
+      }
+    } catch (JSONException ex) {
+      ex.printStackTrace();
+    }
+    return form;
+  }
+
+  protected JSONObject getForm(){
+    return form;
   }
 
 }
