@@ -108,7 +108,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     if (configuration.isTestMode()) {
       MongodForTestsFactory factory = MongodForTestsFactory.with(Version.Main.PRODUCTION);
       MongoClient mongo = factory.newMongo();
-      MongoHelper.init(configuration, mongo);
+      MongoHelper.testInit(configuration, mongo);
     } else {
       MongoHelper.init(configuration);
     }

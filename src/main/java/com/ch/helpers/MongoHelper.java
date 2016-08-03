@@ -37,7 +37,7 @@ public final class MongoHelper {
     instance.setConfiguration(configuration);
   }
 
-  public static void init(FormsServiceConfiguration configuration, MongoClient client) {
+  public static void testInit(FormsServiceConfiguration configuration, MongoClient client) {
     instance.setTestConfiguration(configuration, client);
   }
 
