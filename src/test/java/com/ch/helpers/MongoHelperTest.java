@@ -1,13 +1,19 @@
 package com.ch.helpers;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.ch.application.FormServiceConstants;
 import com.ch.application.FormsServiceApplication;
+import com.ch.client.PresenterHelper;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.conversion.builders.JsonBuilder;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
 import com.ch.cucumber.FormServiceTestSuiteIT;
 import com.ch.model.FormsPackage;
+import com.ch.model.PresenterAuthResponse;
 import com.google.common.collect.Lists;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -32,6 +38,8 @@ public class MongoHelperTest extends TestHelper{
 
     private MongoHelper helper;
     ITransformConfig config;
+    PresenterHelper presenterHelper;
+
 
     @ClassRule
     public static final DropwizardAppRule<FormsServiceConfiguration> RULE =
@@ -45,6 +53,8 @@ public class MongoHelperTest extends TestHelper{
         helper =  MongoHelper.getInstance();
         helper.dropCollection("forms");
         helper.dropCollection("packages");
+        presenterHelper = mock(PresenterHelper.class);
+        when(presenterHelper.getPresenterResponse(anyString(), anyString())).thenReturn(new PresenterAuthResponse("1234567"));
     }
 
     @Test
@@ -59,7 +69,7 @@ public class MongoHelperTest extends TestHelper{
             valid_forms.add(valid);
         }
         // builder
-        FormsPackage formsPackage = new JsonBuilder(config, package_string, valid_forms).getTransformedPackage();
+        FormsPackage formsPackage = new JsonBuilder(config, package_string, valid_forms, presenterHelper).getTransformedPackage();
 
         helper.storeFormsPackage(formsPackage);
 
@@ -72,7 +82,7 @@ public class MongoHelperTest extends TestHelper{
             valid_forms2.add(valid2);
         }
         // builder
-        FormsPackage formsPackage2 = new JsonBuilder(config, package_string2, valid_forms2).getTransformedPackage();
+        FormsPackage formsPackage2 = new JsonBuilder(config, package_string2, valid_forms2, presenterHelper).getTransformedPackage();
 
         helper.storeFormsPackage(formsPackage2);
 
@@ -94,7 +104,7 @@ public class MongoHelperTest extends TestHelper{
             valid_forms.add(valid);
         }
         // builder
-        FormsPackage formsPackage = new JsonBuilder(config, package_string, valid_forms).getTransformedPackage();
+        FormsPackage formsPackage = new JsonBuilder(config, package_string, valid_forms, presenterHelper).getTransformedPackage();
 
         helper.storeFormsPackage(formsPackage);
 
@@ -107,7 +117,7 @@ public class MongoHelperTest extends TestHelper{
             valid_forms2.add(valid2);
         }
         // builder
-        FormsPackage formsPackage2 = new JsonBuilder(config, package_string2, valid_forms2).getTransformedPackage();
+        FormsPackage formsPackage2 = new JsonBuilder(config, package_string2, valid_forms2, presenterHelper).getTransformedPackage();
 
         helper.storeFormsPackage(formsPackage2);
 
@@ -128,7 +138,7 @@ public class MongoHelperTest extends TestHelper{
             valid_forms.add(valid);
         }
         // builder
-        FormsPackage formsPackage = new JsonBuilder(config, package_string, valid_forms).getTransformedPackage();
+        FormsPackage formsPackage = new JsonBuilder(config, package_string, valid_forms, presenterHelper).getTransformedPackage();
 
         helper.storeFormsPackage(formsPackage);
 
@@ -141,7 +151,7 @@ public class MongoHelperTest extends TestHelper{
             valid_forms2.add(valid2);
         }
         // builder
-        FormsPackage formsPackage2 = new JsonBuilder(config, package_string2, valid_forms2).getTransformedPackage();
+        FormsPackage formsPackage2 = new JsonBuilder(config, package_string2, valid_forms2, presenterHelper).getTransformedPackage();
 
         helper.storeFormsPackage(formsPackage2);
 
@@ -162,7 +172,7 @@ public class MongoHelperTest extends TestHelper{
             valid_forms.add(valid);
         }
         // builder
-        FormsPackage formsPackage = new JsonBuilder(config, package_string, valid_forms).getTransformedPackage();
+        FormsPackage formsPackage = new JsonBuilder(config, package_string, valid_forms, presenterHelper).getTransformedPackage();
 
         helper.storeFormsPackage(formsPackage);
 
@@ -185,7 +195,7 @@ public class MongoHelperTest extends TestHelper{
             valid_forms.add(valid);
         }
         // builder
-        FormsPackage formsPackage = new JsonBuilder(config, package_string, valid_forms).getTransformedPackage();
+        FormsPackage formsPackage = new JsonBuilder(config, package_string, valid_forms, presenterHelper).getTransformedPackage();
 
         helper.storeFormsPackage(formsPackage);
 

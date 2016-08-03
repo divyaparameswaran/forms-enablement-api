@@ -24,7 +24,9 @@ public class TestHelper {
     protected static final long FIVE_PACKAGE_JSON_ID = 12355;
     protected static final String THREE_PACKAGE_JSON_PATH = "json/three_package.json";
     protected static final String PACKAGE_NO_CREDENTIALS_PATH = "json/package_no_credentials.json";
+    protected static final long PACKAGE_NO_CREDENTIALS_ID = 12543;
     protected static final String PACKAGE_INVALID_CREDENTIALS_JSON_PATH = "json/package_invalid_credentials.json";
+    protected static final long PACKAGE_INVALID_CREDENTIALS_ID = 54321;
     protected static final String FORM_JSON_PATH = "json/form.json";
     protected static final String FORM_ALL_JSON_PATH = "json/form_all.json";
     protected static final String FORM_ALL_JSON_NO_ACC_NUMBER_PATH = "json/form_no_account_number.json";

@@ -1,6 +1,11 @@
 package com.ch.cucumber;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.ch.application.FormServiceConstants;
+import com.ch.client.PresenterHelper;
 import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.conversion.builders.JsonBuilder;
@@ -10,6 +15,7 @@ import com.ch.helpers.QueueHelper;
 import com.ch.helpers.TestHelper;
 import com.ch.model.FormStatus;
 import com.ch.model.FormsPackage;
+import com.ch.model.PresenterAuthResponse;
 import com.ch.model.QueueRequest;
 import cucumber.api.PendingException;
 import cucumber.api.java.Before;
@@ -41,6 +47,7 @@ public class ActivationSteps extends TestHelper {
   private TransformConfig config = new TransformConfig();
   private DropwizardAppRule<FormsServiceConfiguration> rule = FormServiceTestSuiteIT.RULE;
   private QueueHelper queueHelper = new QueueHelper(config);
+  private PresenterHelper presenterHelper;
   private String packageOneString;
   private String packageTwoString;
   private String packageThreeString;
@@ -54,6 +61,9 @@ public class ActivationSteps extends TestHelper {
     helper = MongoHelper.getInstance();
     helper.dropCollection("forms");
     helper.dropCollection("packages");
+    presenterHelper = mock(PresenterHelper.class);
+    when(presenterHelper.getPresenterResponse(anyString(), anyString())).thenReturn(new PresenterAuthResponse("1234567"));
+
   }
 
   @Given("^The queue contains (\\d+) packages all pending$")
@@ -67,7 +77,7 @@ public class ActivationSteps extends TestHelper {
     for (int i = 0; i < 2; i++) {
       valid_forms.add(valid);
     }
-    FormsPackage formsPackage = new JsonBuilder(config, packageOneString, valid_forms).getTransformedPackage();
+    FormsPackage formsPackage = new JsonBuilder(config, packageOneString, valid_forms,presenterHelper).getTransformedPackage();
     // insert package one into db
     helper.storeFormsPackage(formsPackage);
 
@@ -79,7 +89,7 @@ public class ActivationSteps extends TestHelper {
     for (int i = 0; i < 1; i++) {
       valid_forms2.add(valid2);
     }
-    FormsPackage formsPackage2 = new JsonBuilder(config, packageTwoString, valid_forms2).getTransformedPackage();
+    FormsPackage formsPackage2 = new JsonBuilder(config, packageTwoString, valid_forms2, presenterHelper).getTransformedPackage();
     // insert package two into db
     TimeUnit.SECONDS.sleep(1);
     helper.storeFormsPackage(formsPackage2);
@@ -92,7 +102,7 @@ public class ActivationSteps extends TestHelper {
     for (int i = 0; i < 5; i++) {
       valid_forms3.add(valid3);
     }
-    FormsPackage formsPackage3 = new JsonBuilder(config, packageThreeString, valid_forms3).getTransformedPackage();
+    FormsPackage formsPackage3 = new JsonBuilder(config, packageThreeString, valid_forms3, presenterHelper).getTransformedPackage();
     // insert package three into db
     TimeUnit.SECONDS.sleep(1);
     helper.storeFormsPackage(formsPackage3);
@@ -143,7 +153,7 @@ public class ActivationSteps extends TestHelper {
     for (int i = 0; i < 2; i++) {
       valid_forms4.add(valid4);
     }
-    FormsPackage formsPackage = new JsonBuilder(config, packageFourString, valid_forms4).getTransformedPackage();
+    FormsPackage formsPackage = new JsonBuilder(config, packageFourString, valid_forms4, presenterHelper).getTransformedPackage();
     // insert package one into db
     helper.storeFormsPackage(formsPackage);
 
