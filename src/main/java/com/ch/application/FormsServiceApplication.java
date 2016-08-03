@@ -4,7 +4,6 @@ import static com.ch.service.LoggingService.LoggingLevel.INFO;
 import static com.ch.service.LoggingService.tag;
 
 import com.ch.auth.FormsApiAuthenticator;
-
 import com.ch.client.PresenterHelper;
 import com.ch.client.SalesforceClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
@@ -30,8 +29,8 @@ import com.ch.resources.FormResponseResource;
 import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HealthcheckResource;
 import com.ch.resources.HomeResource;
-import com.ch.resources.QueueResource;
 import com.ch.resources.PresenterAuthResource;
+import com.ch.resources.QueueResource;
 import com.ch.resources.TestResource;
 import com.ch.service.LoggingService;
 import com.codahale.metrics.MetricRegistry;
@@ -146,7 +145,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new BarcodeResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
     environment.jersey().register(new QueueResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
     environment.jersey().register(new PresenterAuthResource(presenterHelper));
-    
+
     if (configuration.isTestMode()) {
       environment.jersey().register(new TestResource());
     }

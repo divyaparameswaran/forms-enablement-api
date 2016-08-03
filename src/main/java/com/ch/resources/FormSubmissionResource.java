@@ -1,7 +1,6 @@
 package com.ch.resources;
 
 import com.ch.application.FormsServiceApplication;
-
 import com.ch.client.PresenterHelper;
 import com.ch.conversion.builders.JsonBuilder;
 import com.ch.conversion.config.ITransformConfig;
@@ -31,6 +30,7 @@ public class FormSubmissionResource {
 
   /**
    * Constructor for form submission resource.
+   *
    * @param presenterHelper helper for getting presenter account numbers.
    */
   public FormSubmissionResource(PresenterHelper presenterHelper) {
@@ -57,11 +57,10 @@ public class FormSubmissionResource {
       // insert into mongodb
       boolean isSaved = MongoHelper.getInstance().storeFormsPackage(transformedPackage);
 
-      if (isSaved){
-      // return 200
-      return Response.ok("Packages have been received and are queued").build();
-      }
-      else{
+      if (isSaved) {
+        // return 200
+        return Response.ok("Packages have been received and are queued").build();
+      } else {
         return Response.serverError().build();
       }
     } finally {

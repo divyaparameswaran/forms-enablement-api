@@ -41,7 +41,7 @@ public class FormJsonBuilder {
     this.attachments = helper.getArrayFromJson(form, "parent json object (form body part)",
       config.getAttachmentsPropertyNameIn());
 
-    if(presenterAccountNumber != null){
+    if (presenterAccountNumber != null) {
       addAccountNumber(presenterAccountNumber);
     }
   }
@@ -89,6 +89,7 @@ public class FormJsonBuilder {
 
   /**
    * Gets the form as xml. Change the validation here if required. It must implement XmlValidator Interface.
+   *
    * @return XML string.
    */
   private String getFormXML() {
@@ -119,12 +120,12 @@ public class FormJsonBuilder {
         return form;
       }
     } catch (JSONException ex) {
-      ex.printStackTrace();
+      return form;
     }
     return form;
   }
 
-  protected JSONObject getForm(){
+  protected JSONObject getForm() {
     return form;
   }
 

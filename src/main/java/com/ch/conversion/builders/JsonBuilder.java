@@ -1,20 +1,17 @@
 package com.ch.conversion.builders;
 
-import org.json.JSONObject;
-
 import com.ch.application.FormServiceConstants;
+import com.ch.client.PresenterHelper;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.helpers.MultiPartHelper;
 import com.ch.exception.PackageContentsException;
-
-import com.ch.client.PresenterHelper;
 import com.ch.exception.PresenterAuthenticationException;
 import com.ch.model.FormsPackage;
 import com.ch.model.PresenterAuthRequest;
 import com.ch.model.PresenterAuthResponse;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -79,27 +76,27 @@ public class JsonBuilder {
     PresenterAuthRequest presenterAuthRequest = getAuthRequest(packageMetaData);
 
     // 5. if there are credentials make call to presenter auth api
-    if (presenterAuthRequest != null) {
+    if (presenterAuthRequest == null) {
 
-      //6. Get the presenters account number
+      // 6. if there are no presenter credentials loop and transform without the account number
+      for (String formJson : formsPackage.getForms()) {
+        forms.add(getBuilderJson(formJson, null));
+      }
+    } else {
+
+      //7. Get the presenters account number
       PresenterAuthResponse presenterAuthResponse = presenterHelper.getPresenterResponse(
         presenterAuthRequest.getPresenterId(),
         presenterAuthRequest.getPresenterAuth());
 
-      //7. If no account number is returned from api, end submission with exception
+      //8. If no account number is returned from api, end submission with exception
       if (presenterAuthResponse.getPresenterAccountNumber() == null) {
         throw new PresenterAuthenticationException(presenterAuthRequest.getPresenterId(), presenterAuthRequest.getPresenterAuth());
       }
 
-      // 8. loop forms and transform
+      // 9. loop forms and transform
       for (String formJson : formsPackage.getForms()) {
         forms.add(getBuilderJson(formJson, presenterAuthResponse.getPresenterAccountNumber()));
-      }
-    } else {
-
-    // 9. if there are no presenter credentials loop and transform without the account number
-    for (String formJson : formsPackage.getForms()) {
-        forms.add(getBuilderJson(formJson, null));
       }
     }
 
@@ -146,13 +143,12 @@ public class JsonBuilder {
       presenterId = packageMetaData.getString("presenterId");
       presenterAuth = packageMetaData.getString("presenterAuth");
     } catch (JSONException e) {
-      e.printStackTrace();
       return null;
     }
     return new PresenterAuthRequest(presenterId, presenterAuth);
   }
 
-  protected JSONObject getBuilderJson(String json, String presenterAccountNumber){
+  protected JSONObject getBuilderJson(String json, String presenterAccountNumber) {
     FormJsonBuilder builder = new FormJsonBuilder(config, formsPackage.getPackageMetaData(), json, presenterAccountNumber);
     return builder.getJson();
   }
