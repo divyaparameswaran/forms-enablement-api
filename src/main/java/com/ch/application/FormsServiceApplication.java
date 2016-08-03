@@ -5,12 +5,14 @@ import static com.ch.service.LoggingService.tag;
 
 import com.ch.auth.FormsApiAuthenticator;
 import com.ch.client.ClientHelper;
+import com.ch.client.PresenterHelper;
 import com.ch.client.SalesforceClientHelper;
 import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.configuration.SalesforceConfiguration;
 import com.ch.exception.mapper.ConnectionExceptionMapper;
 import com.ch.exception.mapper.ContentTypeExceptionMapper;
 import com.ch.exception.mapper.MissingRequiredDataExceptionMapper;
+import com.ch.exception.mapper.PresenterAuthenticationExceptionMapper;
 import com.ch.exception.mapper.XmlExceptionMapper;
 import com.ch.exception.mapper.XsdValidationExceptionMapper;
 import com.ch.filters.LoggingFilter;
@@ -23,6 +25,7 @@ import com.ch.resources.FormResponseResource;
 import com.ch.resources.FormSubmissionResource;
 import com.ch.resources.HealthcheckResource;
 import com.ch.resources.HomeResource;
+import com.ch.resources.PresenterAuthResource;
 import com.ch.resources.TestResource;
 import com.ch.service.LoggingService;
 import com.codahale.metrics.MetricRegistry;
@@ -103,8 +106,8 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
         .build(getName());
 
     final ClientHelper clientHelper = new ClientHelper(client);
-    
-    
+    final PresenterHelper presenterHelper = new PresenterHelper(client, configuration.getCompaniesHouseConfiguration());
+
     SalesforceConfiguration salesForceConfiguration = configuration.getSalesforceConfiguration();
     final SalesforceClientHelper salesforceClientHelper;
     
@@ -127,12 +130,14 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     }
 
     // Resources
-    environment.jersey().register(new FormSubmissionResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
+    environment.jersey().register(new FormSubmissionResource(clientHelper, presenterHelper, configuration
+        .getCompaniesHouseConfiguration()));
     environment.jersey().register(new FormResponseResource(salesforceClientHelper, salesForceConfiguration));
     environment.jersey().register(new HomeResource());
     environment.jersey().register(new HealthcheckResource());
     environment.jersey().register(new BarcodeResource(clientHelper, configuration.getCompaniesHouseConfiguration()));
-
+    environment.jersey().register(new PresenterAuthResource(presenterHelper));
+    
     if (configuration.isTestMode()) {
       environment.jersey().register(new TestResource());
     }
@@ -148,6 +153,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(new MissingRequiredDataExceptionMapper());
     environment.jersey().register(new XmlExceptionMapper());
     environment.jersey().register(new XsdValidationExceptionMapper());
+    environment.jersey().register(new PresenterAuthenticationExceptionMapper());
 
     // Logging filter for input and output
     List<String> fineLevelRequestPaths = new ArrayList<String>();

@@ -41,6 +41,19 @@ public interface ITransformConfig {
 
   String getPackageIdentifierElementNameOut();
 
+  String getPaymentPropertyNameIn();
+
+  String getPaymentElementNameOut();
+
+  String getPaymentMethodPropertyNameIn();
+
+  String getPaymentMethodElementNameOut();
+
+  String getAccountNumberPropertyNameIn();
+
+  String getAccountNumberElementNameOut();
+
+
   // meta data
   String getRootElementNameOut();
 

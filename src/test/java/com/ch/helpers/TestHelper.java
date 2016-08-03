@@ -17,8 +17,12 @@ public class TestHelper {
     protected static final String INVALID_JSON_PATH = "json/invalid.json";
     protected static final String VALID_JSON_PATH = "json/valid.json";
     protected static final String PACKAGE_JSON_PATH = "json/package.json";
+    protected static final String PACKAGE_NO_CREDENTIALS_PATH = "json/package_no_credentials.json";
+    protected static final String PACKAGE_INVALID_CREDENTIALS_JSON_PATH = "json/package_invalid_credentials.json";
     protected static final String FORM_JSON_PATH = "json/form.json";
     protected static final String FORM_ALL_JSON_PATH = "json/form_all.json";
+    protected static final String FORM_ALL_JSON_NO_ACC_NUMBER_PATH = "json/form_no_account_number.json";
+    protected static final String FORM_ALL_JSON_NO_PAYMENT_PATH = "json/form_no_payment.json";
     protected static final String INVALID_FORM_JSON_PATH = "json/invalid_form_all.json";
     protected static final String META_PATH = "json/meta.json";
     protected static final String LOWERCASE_JSON_PATH = "json/lower_case.json";

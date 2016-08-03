@@ -22,6 +22,8 @@ companiesHouseConfiguration:
   apiKey: "password"
   chipsApiUrl: "http://localhost:8000/test/submission"
   barcodeServiceUrl: "http://localhost:8000/test/barcode"
+  presenterAuthUrl: "http://localhost:8000/test/presenterauth"
+
 
 jerseyClient:
   timeout: 10s
