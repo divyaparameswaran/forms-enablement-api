@@ -35,9 +35,6 @@ import com.ch.resources.TestResource;
 import com.ch.service.LoggingService;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Slf4jReporter;
-import com.mongodb.MongoClient;
-import de.flapdoodle.embed.mongo.distribution.Version;
-import de.flapdoodle.embed.mongo.tests.MongodForTestsFactory;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
@@ -105,13 +102,7 @@ public class FormsServiceApplication extends Application<FormsServiceConfigurati
     environment.jersey().register(feature);
 
     // MongoDB
-    if (configuration.isTestMode()) {
-      MongodForTestsFactory factory = MongodForTestsFactory.with(Version.Main.PRODUCTION);
-      MongoClient mongo = factory.newMongo();
-      MongoHelper.testInit(configuration, mongo);
-    } else {
-      MongoHelper.init(configuration);
-    }
+    MongoHelper.init(configuration);
 
     final JerseyClientConfiguration jerseyClientConfig = configuration.getJerseyClientConfiguration();
 
