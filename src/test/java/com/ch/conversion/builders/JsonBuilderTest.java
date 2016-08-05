@@ -1,10 +1,12 @@
 package com.ch.conversion.builders;
 
+import com.ch.application.FormServiceConstants;
 import com.ch.client.PresenterHelper;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
 import com.ch.exception.MissingRequiredDataException;
 import com.ch.helpers.TestHelper;
+import com.ch.model.FormsPackage;
 import com.ch.model.PresenterAuthRequest;
 import com.ch.model.PresenterAuthResponse;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -15,8 +17,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.ws.rs.core.MediaType;
 
@@ -46,46 +52,44 @@ public class JsonBuilderTest extends TestHelper {
     public void throwsJSONExceptionWithInvalidJson() throws Exception {
         String invalid = getStringFromFile(INVALID_JSON_PATH);
         List<String> invalid_forms = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             invalid_forms.add(invalid);
         }
         JsonBuilder builder = new JsonBuilder(config, invalid, invalid_forms, helper);
-        builder.getJson();
+        builder.getTransformedPackage();
     }
 
-    // TODO: is this the desired behaviour?
     @Test(expected = MissingRequiredDataException.class)
     public void throwsMissingRequiredDataExceptionWithValidJsonMissingRequiredData() throws Exception {
         String valid = getStringFromFile(VALID_JSON_PATH);
         List<String> valid_json_forms = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             valid_json_forms.add(valid);
         }
         JsonBuilder builder = new JsonBuilder(config, valid, valid_json_forms, helper);
-        builder.getJson();
+        builder.getTransformedPackage();
     }
 
-    // TODO: what to assert?
     @Test
     public void createStringForValidJson() throws Exception {
         JsonBuilder builder = getValidJsonBuilder();
-        String json = builder.getJson();
-        Assert.assertNotNull(json);
+        FormsPackage transformedPackage = builder.getTransformedPackage();
+        Assert.assertNotNull(transformedPackage);
     }
 
     @Test(expected = Exception.class)
     public void throwsExceptionWithEmptyMultiPart() throws Exception {
         FormDataMultiPart multi = new FormDataMultiPart();
         JsonBuilder builder = new JsonBuilder(config, multi,helper);
-        builder.getJson();
+        builder.getTransformedPackage();
     }
 
     @Test
     public void createStringForValidMultiPart() throws Exception {
         FormDataMultiPart multi = getValidMultiPart();
         JsonBuilder builder = new JsonBuilder(config, multi, helper);
-        String json = builder.getJson();
-        Assert.assertNotNull(json);
+        FormsPackage transformedPackage = builder.getTransformedPackage();
+        Assert.assertNotNull(transformedPackage);
     }
 
     @Test
@@ -106,41 +110,7 @@ public class JsonBuilderTest extends TestHelper {
         Assert.assertTrue(builder.getAuthRequest(object) instanceof PresenterAuthRequest);
     }
 
-    @Test
-    public void shouldAddAccountNumber() throws IOException {
-        FormDataMultiPart multi = getValidMultiPart();
-        JsonBuilder builder = new JsonBuilder(config, multi, helper);
-        String formWithoutAccountNumber = getStringFromFile(FORM_ALL_JSON_NO_ACC_NUMBER_PATH);
-        String accountNumber = "1234454";
-        JSONObject form = new JSONObject(formWithoutAccountNumber);
 
-        String formWithAccountString = builder.addAccountNumber(form, accountNumber);
-
-        JSONObject formWithAccount = new JSONObject(formWithAccountString);
-
-        Assert.assertTrue(accountNumber.equals(formWithAccount.getJSONObject(config.getFormPropertyNameIn())
-            .getJSONObject(config.getFilingDetailsPropertyNameIn())
-            .getJSONObject("payment")
-            .get("accountNumber")));
-    }
-
-    @Test(expected = JSONException.class)
-    public void shouldThrowJsonExceptionIsAbsenceOfProperty() throws IOException {
-        FormDataMultiPart multi = getValidMultiPart();
-        JsonBuilder builder = new JsonBuilder(config, multi, helper);
-        String formWithoutPayment = getStringFromFile(FORM_ALL_JSON_NO_PAYMENT_PATH);
-        String accountNumber = "1234454";
-        JSONObject form = new JSONObject(formWithoutPayment);
-
-        String formWithoutPaymentString = builder.addAccountNumber(form, accountNumber);
-
-        JSONObject formWithoutPaymentObject = new JSONObject(formWithoutPaymentString);
-
-        accountNumber.equals(formWithoutPaymentObject.getJSONObject(config.getFormPropertyNameIn())
-            .getJSONObject(config.getFilingDetailsPropertyNameIn())
-            .getJSONObject(config.getPaymentPropertyNameIn())
-            .get(config.getPaymentMethodPropertyNameIn()));
-    }
 
     private JsonBuilder getValidJsonBuilder() throws Exception {
         // valid package data
@@ -148,17 +118,59 @@ public class JsonBuilderTest extends TestHelper {
         // valid forms
         String valid = getStringFromFile(FORM_ALL_JSON_PATH);
         List<String> valid_forms = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             valid_forms.add(valid);
         }
         // builder
         return new JsonBuilder(config, package_string, valid_forms, helper);
     }
 
+    @Test
+    public void shouldAddValidSubmissionNumberToAllElements() throws Exception {
+        //Given a valid package is submitted
+        // valid package data
+        String package_string = getStringFromFile(PACKAGE_JSON_PATH);
+        // valid forms
+        String valid = getStringFromFile(FORM_ALL_JSON_PATH);
+        List<String> valid_forms = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            valid_forms.add(valid);
+        }
+
+        // when this package is transformed
+        FormsPackage pack =  new JsonBuilder(config, package_string, valid_forms, helper).getTransformedPackage();
+
+        //all elements should contain the same submissionNumber
+
+        String packageSubmissionNumber  = pack.getPackageMetaDataJson()
+          .getString(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY);
+        String formOneSubmissionNumber = pack.getFormsJSon().get(0).getString(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY);
+        String formTwoSubmissionNumber = pack.getFormsJSon().get(1).getString(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY);
+
+
+        Assert.assertTrue(!packageSubmissionNumber.equals(null));
+        Assert.assertTrue(!formOneSubmissionNumber.equals(null));
+        Assert.assertTrue(!formTwoSubmissionNumber.equals(null));
+        Assert.assertTrue(formTwoSubmissionNumber.equals(packageSubmissionNumber));
+    }
+
+    @Test
+    public void shouldAddSubmissionNumbersToForms() throws Exception {
+        JsonBuilder builder = getValidJsonBuilder();
+        long packageId = 12345;
+        String submissionNumber = builder.getSubmissionNumber(packageId);
+
+        DateFormat dateFormat = new SimpleDateFormat(FormServiceConstants.DATE_TIME_FORMAT_SUBMISSION, Locale.ENGLISH);
+        String format = dateFormat.format(new Date());
+
+        Assert.assertTrue(submissionNumber.equals(packageId + "-" + format));
+    }
+
+
     private FormDataMultiPart getValidMultiPart() throws IOException {
         FormDataMultiPart multi = new FormDataMultiPart();
         // forms package data
-        String pack = getStringFromFile(PACKAGE_JSON_PATH);
+        String pack = getStringFromFile(SINGLE_PACKAGE_JSON_PATH);
         multi.field(config.getPackageMultiPartName(), pack, MediaType.APPLICATION_JSON_TYPE);
         // form json
         String form = getStringFromFile(FORM_ALL_JSON_PATH);

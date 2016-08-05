@@ -1,3 +1,7 @@
+dependencies:
+  pre:
+    - sudo service mongodb stop && curl -L -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1404-3.0.2.tgz && tar xvzf mongodb-linux-x86_64-ubuntu1404-3.0.2.tgz && sudo mv mongodb-linux-x86_64-ubuntu1404-3.0.2/bin/* /usr/bin/ && sudo service mongodb start
+
 machine:
   java:
     version: oraclejdk8

@@ -1,6 +1,6 @@
 {
-  "id": "some identifier",
-  "count": 3,
+  "packageIdentifier": 12345,
+  "count": 2,
   "presenterId": "12423",
   "presenterAuth": "GV5QZUAY2AN"
 }

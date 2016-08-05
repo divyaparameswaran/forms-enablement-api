@@ -1,16 +1,12 @@
 package com.ch.resources;
 
-import static com.ch.service.LoggingService.LoggingLevel.INFO;
-import static com.ch.service.LoggingService.tag;
-
 import com.ch.application.FormsServiceApplication;
-import com.ch.client.ClientHelper;
 import com.ch.client.PresenterHelper;
-import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.conversion.builders.JsonBuilder;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
-import com.ch.service.LoggingService;
+import com.ch.helpers.MongoHelper;
+import com.ch.model.FormsPackage;
 import com.codahale.metrics.Timer;
 import io.dropwizard.auth.Auth;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -27,29 +23,24 @@ import javax.ws.rs.core.Response;
  */
 @Path("/submission")
 public class FormSubmissionResource {
+
   private static final Timer timer = FormsServiceApplication.registry.timer("FormSubmissionResource");
 
-  private final ClientHelper clientHelper;
   private final PresenterHelper presenterHelper;
-  private final CompaniesHouseConfiguration configuration;
 
   /**
    * Constructor for form submission resource.
-   * @param clientHelper helper for posting to chips.
+   *
    * @param presenterHelper helper for getting presenter account numbers.
-   * @param configuration compnaies house config.
    */
-  public FormSubmissionResource(ClientHelper clientHelper, PresenterHelper presenterHelper, CompaniesHouseConfiguration
-      configuration) {
-    this.clientHelper = clientHelper;
+  public FormSubmissionResource(PresenterHelper presenterHelper) {
     this.presenterHelper = presenterHelper;
-    this.configuration = configuration;
   }
 
   /**
    * Resource to post forms from Salesforce to CHIPS.
    *
-   * @return json with response from CHIPS
+   * @return json with response from forms api.
    */
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -61,24 +52,17 @@ public class FormSubmissionResource {
       // convert input to json
       ITransformConfig config = new TransformConfig();
       JsonBuilder builder = new JsonBuilder(config, multi, presenterHelper);
-      String forms = builder.getJson();
-      LoggingService.log(tag, INFO, "Transformation output: " + forms,
-        FormSubmissionResource.class);
+      FormsPackage transformedPackage = builder.getTransformedPackage();
 
-      // post to CHIPS
-      Response response;
-      String username = configuration.getJsonGatewayName();
-      if (username != null && username.length() > 0) {
-        response = clientHelper.postJson(configuration.getChipsApiUrl(), forms, username, configuration.getJsonGatewayPassword());
+      // insert into mongodb
+      boolean isSaved = MongoHelper.getInstance().storeFormsPackage(transformedPackage);
+
+      if (isSaved) {
+        // return 200
+        return Response.ok("Packages have been received and are queued").build();
       } else {
-        response = clientHelper.postJson(configuration.getChipsApiUrl(), forms);
+        return Response.serverError().build();
       }
-      LoggingService.log(tag, INFO, "Response from CHIPS: " + response.toString(),
-        FormSubmissionResource.class);
-
-      // return response from CHIPS
-      return response;
-
     } finally {
       context.stop();
     }
