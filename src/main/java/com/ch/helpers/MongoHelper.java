@@ -15,7 +15,6 @@ import com.mongodb.client.MongoDatabase;
 
 import de.flapdoodle.embed.mongo.Command;
 import de.flapdoodle.embed.mongo.MongodExecutable;
-import de.flapdoodle.embed.mongo.MongodProcess;
 import de.flapdoodle.embed.mongo.MongodStarter;
 import de.flapdoodle.embed.mongo.config.DownloadConfigBuilder;
 import de.flapdoodle.embed.mongo.config.ExtractedArtifactStoreBuilder;
@@ -24,7 +23,6 @@ import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.config.RuntimeConfigBuilder;
 import de.flapdoodle.embed.mongo.distribution.Version;
-import de.flapdoodle.embed.mongo.tests.MongodForTestsFactory;
 import de.flapdoodle.embed.process.config.IRuntimeConfig;
 import de.flapdoodle.embed.process.config.store.HttpProxyFactory;
 import de.flapdoodle.embed.process.runtime.Network;
@@ -71,6 +69,7 @@ public final class MongoHelper {
 
           Command command = Command.MongoD;
   
+          @SuppressWarnings("deprecation")
           IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder()
               .defaults(command)
               .artifactStore(new ExtractedArtifactStoreBuilder()
@@ -92,15 +91,12 @@ public final class MongoHelper {
           .net(new Net(port, Network.localhostIsIPv6()))
           .build();
 
-        MongodExecutable mongodExecutable = null;
-      
-        mongodExecutable = starter.prepare(mongodConfig);
-        
+        MongodExecutable mongodExecutable = starter.prepare(mongodConfig);
         mongodExecutable.start();
         
         MongoClient testMongoClient = new MongoClient("localhost", port);
 
-        testInit(configuration, testMongoClient);
+        instance.setConfiguration(configuration, testMongoClient);
       } catch (IOException ie) {
         ie.printStackTrace();
       }
@@ -109,10 +105,6 @@ public final class MongoHelper {
       instance.setConfiguration(configuration);
     }
     
-  }
-
-  public static void testInit(FormsServiceConfiguration configuration, MongoClient client) {
-    instance.setTestConfiguration(configuration, client);
   }
 
   public static MongoHelper getInstance() {
@@ -124,7 +116,7 @@ public final class MongoHelper {
     this.client = setupMongoClient();
   }
 
-  private void setTestConfiguration(FormsServiceConfiguration configuration, MongoClient client) {
+  private void setConfiguration(FormsServiceConfiguration configuration, MongoClient client) {
     this.configuration = configuration;
     this.client = client;
   }
