@@ -12,9 +12,27 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+
+import de.flapdoodle.embed.mongo.Command;
+import de.flapdoodle.embed.mongo.MongodExecutable;
+import de.flapdoodle.embed.mongo.MongodProcess;
+import de.flapdoodle.embed.mongo.MongodStarter;
+import de.flapdoodle.embed.mongo.config.DownloadConfigBuilder;
+import de.flapdoodle.embed.mongo.config.ExtractedArtifactStoreBuilder;
+import de.flapdoodle.embed.mongo.config.IMongodConfig;
+import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
+import de.flapdoodle.embed.mongo.config.Net;
+import de.flapdoodle.embed.mongo.config.RuntimeConfigBuilder;
+import de.flapdoodle.embed.mongo.distribution.Version;
+import de.flapdoodle.embed.mongo.tests.MongodForTestsFactory;
+import de.flapdoodle.embed.process.config.IRuntimeConfig;
+import de.flapdoodle.embed.process.config.store.HttpProxyFactory;
+import de.flapdoodle.embed.process.runtime.Network;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -29,12 +47,68 @@ public final class MongoHelper {
   private FormsServiceConfiguration configuration;
   private MongoClient client;
 
+  private static String EMBEDDED_MONGO_PROXY_HOST_KEY = "embeddedMongoProxyHost";
+  private static String EMBEDDED_MONGO_PROXY_PORT_KEY = "embeddedMongoProxyPort";
 
   private MongoHelper() {
   }
 
+  /**
+   * Init with the supplied config.
+   *
+   */
   public static void init(FormsServiceConfiguration configuration) {
-    instance.setConfiguration(configuration);
+    
+    if (configuration.isTestMode()) {
+      try {
+        
+        MongodStarter starter;
+
+        String proxyHost = System.getProperty(EMBEDDED_MONGO_PROXY_HOST_KEY);
+        Integer proxyPort = Integer.parseInt(System.getProperty(EMBEDDED_MONGO_PROXY_PORT_KEY, "8080"));
+
+        if (proxyHost != null && proxyHost.length() > 0) {
+
+          Command command = Command.MongoD;
+  
+          IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder()
+              .defaults(command)
+              .artifactStore(new ExtractedArtifactStoreBuilder()
+                  .defaults(command)
+                  .download(new DownloadConfigBuilder()
+                      .defaultsForCommand(command)
+                      .proxyFactory(new HttpProxyFactory(proxyHost, proxyPort))))
+                  .build();
+          
+          starter = MongodStarter.getInstance(runtimeConfig);
+        } else {
+          starter = MongodStarter.getDefaultInstance();
+        }
+        
+        int port = Network.getFreeServerPort();
+       
+        IMongodConfig mongodConfig = new MongodConfigBuilder()
+          .version(Version.Main.PRODUCTION)
+          .net(new Net(port, Network.localhostIsIPv6()))
+          .build();
+
+        MongodExecutable mongodExecutable = null;
+      
+        mongodExecutable = starter.prepare(mongodConfig);
+        
+        mongodExecutable.start();
+        
+        MongoClient testMongoClient = new MongoClient("localhost", port);
+
+        testInit(configuration, testMongoClient);
+      } catch (IOException ie) {
+        ie.printStackTrace();
+      }
+        
+    } else {
+      instance.setConfiguration(configuration);
+    }
+    
   }
 
   public static void testInit(FormsServiceConfiguration configuration, MongoClient client) {
