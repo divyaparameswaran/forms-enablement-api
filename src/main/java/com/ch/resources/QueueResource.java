@@ -73,7 +73,7 @@ public class QueueResource {
         LoggingService.log(tag, INFO, "Response from CHIPS: " + response.toString(),
           FormSubmissionResource.class);
 
-        helper.processResponse(response, pack.getInt(config.getPackageIdentifierElementNameOut()));
+        helper.processResponse(response, pack.getString(config.getPackageIdentifierElementNameOut()));
       }
 
       return Response.ok("All packages have been processed").build();

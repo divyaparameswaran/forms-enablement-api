@@ -42,7 +42,7 @@ public class QueueHelper {
     for (Document pack : packages) {
 
       //for each package search the database for forms matching the identifier and status
-      ArrayList<Document> forms = helper.getFormsCollectionByPackageIdAndStatus((int) pack
+      ArrayList<Document> forms = helper.getFormsCollectionByPackageIdAndStatus((String) pack
         .get(configuration.getPackageIdentifierElementNameOut()), pack.getString(configuration.getFormStatusPropertyNameOut()))
         .into(new ArrayList<Document>());
 
@@ -58,13 +58,13 @@ public class QueueHelper {
    * @param packageId the id of the package requested.
    * @return a complete package as a json object.
    */
-  public JSONObject getCompletePackageById(long packageId) {
+  public JSONObject getCompletePackageById(String packageId) {
 
     //get package matching criteria
     Document pack = helper.getPackageByPackageId(packageId);
 
     //search the database for forms matching the identifier
-    ArrayList<Document> forms = helper.getFormsCollectionByPackageId((int) pack
+    ArrayList<Document> forms = helper.getFormsCollectionByPackageId((String)pack
       .get(configuration.getPackageIdentifierElementNameOut())).into(new ArrayList<Document>());
 
     //create a complete package from the package metadata and it's accompanying forms.
@@ -78,7 +78,7 @@ public class QueueHelper {
    * @param requestStatus the status of the packages requested.
    * @return true if both the package and forms are updated successfully.
    */
-  public boolean updateCompletePackageById(long packageId, String requestStatus) {
+  public boolean updateCompletePackageById(String packageId, String requestStatus) {
 
     boolean updatePackage = updatePackageStatusById(packageId, requestStatus);
 
@@ -98,7 +98,7 @@ public class QueueHelper {
    * @param requestStatus the status of the packages requested.
    * @return true if the package is updated successfully.
    */
-  public boolean updatePackageStatusById(long packageId, String requestStatus) {
+  public boolean updatePackageStatusById(String packageId, String requestStatus) {
     return helper.updatePackageStatusByPackageId(packageId, requestStatus);
   }
 
@@ -109,7 +109,7 @@ public class QueueHelper {
    * @param requestStatus the status of the packages requested.
    * @return true if the form is updated successfully.
    */
-  public boolean updateFormsStatusById(long packageId, String requestStatus) {
+  public boolean updateFormsStatusById(String packageId, String requestStatus) {
     return helper.updateFormsStatusByPackageId(packageId, requestStatus);
   }
 
@@ -129,7 +129,7 @@ public class QueueHelper {
    * @param response  response from CHIPS.
    * @param packageId the id of the package which triggered the response.
    */
-  public void processResponse(Response response, long packageId) {
+  public void processResponse(Response response, String packageId) {
 
     int responseStatus = response.getStatus();
 

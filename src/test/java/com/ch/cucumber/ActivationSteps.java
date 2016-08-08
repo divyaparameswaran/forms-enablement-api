@@ -52,7 +52,7 @@ public class ActivationSteps extends TestHelper {
   private String packageTwoString;
   private String packageThreeString;
   private String packageFourString;
-  private long packageId;
+  private String packageId;
   private static final String TEST_PRESENTER_ACCOUNT_NUMBER = "1234567";
 
   @Before
@@ -159,7 +159,7 @@ public class ActivationSteps extends TestHelper {
     // insert package one into db
     helper.storeFormsPackage(formsPackage);
 
-    packageId = formsPackage.getPackageMetaDataJson().getInt(config
+    packageId = formsPackage.getPackageMetaDataJson().getString(config
         .getPackageIdentifierElementNameOut());
 
 

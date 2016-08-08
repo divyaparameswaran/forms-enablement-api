@@ -92,9 +92,12 @@ public class MongoHelperTest extends TestHelper{
 
         ArrayList<Document> documents = helper.getPackagesCollectionByStatus(FormStatus.PENDING.toString()
           .toUpperCase(Locale.ENGLISH), 2).into(new ArrayList<Document>());
-
-        Assert.assertTrue(documents.get(0).getInteger(config.getPackageIdentifierPropertyNameIn()) == PACKAGE_JSON_ID);
-        Assert.assertTrue(documents.get(0).getInteger(config.getPackageCountPropertyNameIn()) == 2);
+        
+        String packageIdentifier = documents.get(0).getString(config.getPackageIdentifierPropertyNameIn());
+        Assert.assertEquals(packageIdentifier,  PACKAGE_JSON_ID);
+        
+        Integer count = documents.get(0).getInteger(config.getPackageCountPropertyNameIn());
+        Assert.assertTrue(count == 2);
     }
 
     @Test
