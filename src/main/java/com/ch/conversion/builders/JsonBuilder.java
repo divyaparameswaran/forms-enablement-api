@@ -66,7 +66,7 @@ public class JsonBuilder {
     List<JSONObject> forms = new ArrayList<>();
 
     // 2. Get the submission number for addition to all parts of the entity
-    String submissionNumber = getSubmissionNumber((Integer) formsPackage.getPackageMetaDataJson()
+    String submissionNumber = getSubmissionNumber((String) formsPackage.getPackageMetaDataJson()
       .get(config.getPackageIdentifierElementNameOut()));
 
     // 3. transform package meta data
@@ -130,7 +130,7 @@ public class JsonBuilder {
     return packageMetaData;
   }
 
-  protected String getSubmissionNumber(long packageId) {
+  protected String getSubmissionNumber(String packageId) {
     DateFormat dateFormat = new SimpleDateFormat(FormServiceConstants.DATE_TIME_FORMAT_SUBMISSION, Locale.ENGLISH);
     String format = dateFormat.format(new Date());
     return packageId + "-" + format;

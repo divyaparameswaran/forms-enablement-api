@@ -154,7 +154,7 @@ public final class MongoHelper {
    *
    * @return MongoCollection
    */
-  public Document getPackageByPackageId(long packageId) {
+  public Document getPackageByPackageId(String packageId) {
     MongoDatabase database = getDatabase();
     return database.getCollection(configuration.getMongoDbPackagesCollectionName())
       .find(new Document(config.getPackageIdentifierElementNameOut(), packageId))
@@ -182,7 +182,7 @@ public final class MongoHelper {
   /**
    * Remove packages collection by submission number.*
    */
-  public void removePackageByPackageId(long packageId) {
+  public void removePackageByPackageId(String packageId) {
     MongoDatabase database = getDatabase();
     database.getCollection(configuration.getMongoDbPackagesCollectionName())
       .deleteOne(new Document(config.getPackageIdentifierElementNameOut(), packageId));
@@ -193,7 +193,7 @@ public final class MongoHelper {
    *
    * @return boolean depending on success.
    */
-  public boolean updatePackageStatusByPackageId(long packageId, String formStatus) {
+  public boolean updatePackageStatusByPackageId(String packageId, String formStatus) {
     MongoDatabase database = getDatabase();
 
     long modifiedCount = database.getCollection(configuration.getMongoDbPackagesCollectionName()).updateOne(new Document(
@@ -222,7 +222,7 @@ public final class MongoHelper {
    *
    * @return MongoCollection
    */
-  public FindIterable<Document> getFormsCollectionByPackageId(long packageId) {
+  public FindIterable<Document> getFormsCollectionByPackageId(String packageId) {
     MongoDatabase database = getDatabase();
     return database.getCollection(configuration.getMongoDbFormsCollectionName()).find(new Document(config
       .getPackageIdentifierElementNameOut(), packageId));
@@ -244,7 +244,7 @@ public final class MongoHelper {
    *
    * @return MongoCollection
    */
-  public FindIterable<Document> getFormsCollectionByPackageIdAndStatus(long packageId, String status) {
+  public FindIterable<Document> getFormsCollectionByPackageIdAndStatus(String packageId, String status) {
     MongoDatabase database = getDatabase();
     return database.getCollection(configuration.getMongoDbFormsCollectionName())
       .find(new Document(config.getFormStatusPropertyNameOut(), status.toUpperCase(Locale.ENGLISH))
@@ -254,7 +254,7 @@ public final class MongoHelper {
   /**
    * Remove the forms collection by packageId.
    **/
-  public void removeFormsCollectionByPackageId(long packageId) {
+  public void removeFormsCollectionByPackageId(String packageId) {
     MongoDatabase database = getDatabase();
     database.getCollection(configuration.getMongoDbFormsCollectionName()).deleteMany(new Document(config
       .getPackageIdentifierElementNameOut(), packageId));
@@ -265,7 +265,7 @@ public final class MongoHelper {
    *
    * @return MongoCollection
    */
-  public boolean updateFormsStatusByPackageId(long packageId, String formStatus) {
+  public boolean updateFormsStatusByPackageId(String packageId, String formStatus) {
     MongoDatabase database = getDatabase();
 
     long modifiedCount = database.getCollection(configuration.getMongoDbFormsCollectionName()).updateMany(new Document(
@@ -310,7 +310,7 @@ public final class MongoHelper {
     // add package to db
     Document packageMetaDataDocument = Document.parse(transformedPackage.getPackageMetaData());
     getPackagesCollection().insertOne(packageMetaDataDocument);
-    long packageId = packageMetaDataDocument.getInteger(config.getPackageIdentifierElementNameOut());
+    String packageId = packageMetaDataDocument.getString(config.getPackageIdentifierElementNameOut());
 
     if (getPackageByPackageId(packageId) != null) {
       // add each form to db

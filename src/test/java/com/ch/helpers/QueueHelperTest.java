@@ -14,8 +14,11 @@ import com.ch.conversion.config.TransformConfig;
 import com.ch.model.FormStatus;
 import com.ch.model.FormsPackage;
 import com.ch.model.PresenterAuthResponse;
+
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -102,12 +105,14 @@ public class QueueHelperTest extends TestHelper {
 
     QueueHelper queueHelper = new QueueHelper(config);
 
-    JSONObject form = queueHelper.getCompletePackageById(12435);
+    JSONObject form = queueHelper.getCompletePackageById("12435");
 
     Assert.assertTrue(form.getInt(config.getPackageCountPropertyNameIn()) == 3);
     Assert.assertTrue(form.getJSONArray(config.getFormsPropertyNameOut()).length() == 3);
-    Assert.assertTrue(form.getJSONArray(config.getFormsPropertyNameOut()).getJSONObject(0)
-      .getInt(config.getPackageIdentifierElementNameOut()) == 12435);
+    
+    JSONArray array = form.getJSONArray(config.getFormsPropertyNameOut());
+    String packageIdentifier = array.getJSONObject(0).getString(config.getPackageIdentifierElementNameOut());
+    Assert.assertEquals(packageIdentifier, "12435");
 
   }
 

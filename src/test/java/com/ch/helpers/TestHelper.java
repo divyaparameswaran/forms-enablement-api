@@ -18,9 +18,9 @@ public class TestHelper {
   protected static final String VALID_JSON_PATH = "json/valid.json";
   protected static final String PACKAGE_JSON_PATH = "json/package.json";
 
-  protected static final long PACKAGE_JSON_ID = 12345;
-  protected static final long FIVE_PACKAGE_JSON_ID = 12355;
-  protected static final long PACKAGE_NO_CREDENTIALS_ID = 12543;
+  protected static final String PACKAGE_JSON_ID = "12345";
+  protected static final String FIVE_PACKAGE_JSON_ID = "12355";
+  protected static final String PACKAGE_NO_CREDENTIALS_ID = "12543";
 
   protected static final String PACKAGE_JSON_PRESENTER_ID = "12423";
   protected static final String PACKAGE_JSON_PRESENTER_AUTH = "GV5QZUAY2AN";

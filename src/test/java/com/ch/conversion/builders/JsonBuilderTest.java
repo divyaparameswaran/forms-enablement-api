@@ -157,7 +157,7 @@ public class JsonBuilderTest extends TestHelper {
     @Test
     public void shouldAddSubmissionNumbersToForms() throws Exception {
         JsonBuilder builder = getValidJsonBuilder();
-        long packageId = 12345;
+        String packageId = "12345";
         String submissionNumber = builder.getSubmissionNumber(packageId);
 
         DateFormat dateFormat = new SimpleDateFormat(FormServiceConstants.DATE_TIME_FORMAT_SUBMISSION, Locale.ENGLISH);
