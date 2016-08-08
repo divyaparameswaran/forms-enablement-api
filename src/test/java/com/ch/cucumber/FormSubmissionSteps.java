@@ -140,7 +140,7 @@ public class FormSubmissionSteps extends TestHelper {
 
     @Then("^I should get a success response from the API$")
     public void i_should_get_a_success_response_from_the_API() throws Throwable {
-        Assert.assertEquals("Correct HTTP status code.", 200, validResponse.getStatus());
+        Assert.assertEquals("Correct HTTP status code.", 202, validResponse.getStatus());
     }
 
 
