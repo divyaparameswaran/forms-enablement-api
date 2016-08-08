@@ -58,8 +58,8 @@ public class FormSubmissionResource {
       boolean isSaved = MongoHelper.getInstance().storeFormsPackage(transformedPackage);
 
       if (isSaved) {
-        // return 200
-        return Response.ok("Packages have been received and are queued").build();
+        // return 202
+        return Response.status(202).build();
       } else {
         return Response.serverError().build();
       }
