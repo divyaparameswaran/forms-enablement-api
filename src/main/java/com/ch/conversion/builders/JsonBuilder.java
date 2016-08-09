@@ -132,8 +132,7 @@ public class JsonBuilder {
   }
 
   protected JSONObject getBuilderJson(String json, String presenterAccountNumber, String packageIdentifier) {
-    FormJsonBuilder builder = new FormJsonBuilder(config, formsPackage.getPackageMetaData(), json, 
-      presenterAccountNumber, packageIdentifier);
+    FormJsonBuilder builder = new FormJsonBuilder(config, formsPackage.getPackageMetaData(), json, presenterAccountNumber);
     return builder.getJson();
   }
 

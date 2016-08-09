@@ -30,8 +30,7 @@ public class FormJsonBuilder {
    * @param packageJson package data json
    * @param formJson    form data json
    */
-  public FormJsonBuilder(ITransformConfig config, String packageJson, String formJson, String presenterAccountNumber, 
-    String packageIdentifier) {
+  public FormJsonBuilder(ITransformConfig config, String packageJson, String formJson, String presenterAccountNumber) {
     this.config = config;
     this.helper = JsonHelper.getInstance();
     this.pack = new JSONObject(packageJson);
@@ -46,8 +45,6 @@ public class FormJsonBuilder {
     if (presenterAccountNumber != null) {
       addAccountNumber(presenterAccountNumber);
     }
-    
-    addSubmissionReference(packageIdentifier);
     
   }
 
@@ -73,6 +70,7 @@ public class FormJsonBuilder {
     
     // 5. add submissionReference
     String submissionReference = getSubmissionReference(packageIdentifier.toString(), barcode.toString());
+    addSubmissionReference(submissionReference);
     output.put(config.getSubmissionReferenceElementNameOut(), submissionReference);
 
     // 6. add default status
@@ -137,18 +135,15 @@ public class FormJsonBuilder {
   /**
    * Adds submission reference to json object
    *
-   * @param packageIdentifier as string.
+   * @param submissionReference as string.
    * @return Form as JSONObject.
    */
-  protected JSONObject addSubmissionReference(String packageIdentifier) {
+  protected JSONObject addSubmissionReference(String submissionReference) {
     try {
-
-      String barcode = (String) getFormBarcode();
       
       JSONObject filingDetails = form.getJSONObject(config.getFilingDetailsPropertyNameIn());
       
-      filingDetails.put(config.getSubmissionReferencePropertyNameIn(), 
-        getSubmissionReference(packageIdentifier, barcode));
+      filingDetails.put(config.getSubmissionReferencePropertyNameIn(), submissionReference);
 
       return form;
         

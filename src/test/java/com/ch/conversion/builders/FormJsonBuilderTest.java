@@ -39,14 +39,14 @@ public class FormJsonBuilderTest extends TestHelper {
     @Test(expected = JSONException.class)
     public void throwsJSONExceptionWithInvalidJson() throws Exception {
         String invalid = getStringFromFile(INVALID_JSON_PATH);
-        FormJsonBuilder builder = new FormJsonBuilder(config, invalid, invalid,TEST_PRESENTER_ACCOUNT, PACKAGE_JSON_PRESENTER_ID);
+        FormJsonBuilder builder = new FormJsonBuilder(config, invalid, invalid,TEST_PRESENTER_ACCOUNT);
         builder.getJson();
     }
 
     @Test(expected = MissingRequiredDataException.class)
     public void throwsMissingRequiredDataExceptionWithValidJsonMissingRequiredData() throws Exception {
         String valid = getStringFromFile(VALID_JSON_PATH);
-        FormJsonBuilder builder = new FormJsonBuilder(config, valid, valid, TEST_PRESENTER_ACCOUNT, PACKAGE_JSON_PRESENTER_ID);
+        FormJsonBuilder builder = new FormJsonBuilder(config, valid, valid, TEST_PRESENTER_ACCOUNT);
         builder.getJson();
     }
 
@@ -73,7 +73,7 @@ public class FormJsonBuilderTest extends TestHelper {
         // valid form data
         String form_string = getStringFromFile(FORM_ALL_JSON_NO_ACC_NUMBER_PATH);
         // builder
-        return new FormJsonBuilder(config, package_string, form_string, TEST_PRESENTER_ACCOUNT, PACKAGE_JSON_PRESENTER_ID);
+        return new FormJsonBuilder(config, package_string, form_string, TEST_PRESENTER_ACCOUNT);
     }
 
 
