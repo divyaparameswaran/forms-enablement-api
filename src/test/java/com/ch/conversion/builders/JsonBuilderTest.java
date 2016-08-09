@@ -9,6 +9,8 @@ import com.ch.helpers.TestHelper;
 import com.ch.model.FormsPackage;
 import com.ch.model.PresenterAuthRequest;
 import com.ch.model.PresenterAuthResponse;
+
+import org.apache.commons.codec.binary.Base64;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -133,39 +135,35 @@ public class JsonBuilderTest extends TestHelper {
         // valid forms
         String valid = getStringFromFile(FORM_ALL_JSON_PATH);
         List<String> valid_forms = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            valid_forms.add(valid);
-        }
+        valid_forms.add(valid);
+        valid_forms.add(valid.replaceAll("J53W9DA1", "J53W9DA2"));
 
         // when this package is transformed
         FormsPackage pack =  new JsonBuilder(config, package_string, valid_forms, helper).getTransformedPackage();
 
-        //all elements should contain the same submissionNumber
+        //all elements should contain a unique submissionReference
+        String formOneBarcode = pack.getFormsJSon().get(0).getString(config.getBarcodePropertyNameOut());
+        String formTwoBarcode = pack.getFormsJSon().get(1).getString(config.getBarcodePropertyNameOut());
+        
+        String formOnePackageIdentifier = pack.getFormsJSon().get(0).getString(config.getPackageIdentifierElementNameOut());
+        String formTwoPackageIdentifier = pack.getFormsJSon().get(1).getString(config.getPackageIdentifierElementNameOut());
 
-        String packageSubmissionNumber  = pack.getPackageMetaDataJson()
-          .getString(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY);
-        String formOneSubmissionNumber = pack.getFormsJSon().get(0).getString(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY);
-        String formTwoSubmissionNumber = pack.getFormsJSon().get(1).getString(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY);
+        String formOneSubmissionReference = pack.getFormsJSon().get(0).getString(config.getSubmissionReferenceElementNameOut());
+        String formTwoSubmissionReference = pack.getFormsJSon().get(1).getString(config.getSubmissionReferenceElementNameOut());
 
-
-        Assert.assertTrue(!packageSubmissionNumber.equals(null));
-        Assert.assertTrue(!formOneSubmissionNumber.equals(null));
-        Assert.assertTrue(!formTwoSubmissionNumber.equals(null));
-        Assert.assertTrue(formTwoSubmissionNumber.equals(packageSubmissionNumber));
+        Assert.assertTrue(formOneSubmissionReference.equals(formOnePackageIdentifier + "-" + formOneBarcode));
+        Assert.assertTrue(formTwoSubmissionReference.equals(formTwoPackageIdentifier + "-" + formTwoBarcode));
+        Assert.assertTrue(!formOneSubmissionReference.equals(formTwoSubmissionReference));
+        
+        String formOneBase64Xml = pack.getFormsJSon().get(0).getString(config.getXmlPropertyNameOut());
+        String formOneXml =  new String (Base64.decodeBase64(formOneBase64Xml));
+        
+        String formTwoBase64Xml = pack.getFormsJSon().get(1).getString(config.getXmlPropertyNameOut());
+        String formTwoXml =  new String (Base64.decodeBase64(formTwoBase64Xml));
+        
+        Assert.assertTrue(formOneXml.contains("<submissionReference>12345-J53W9DA1</submissionReference>"));
+        Assert.assertTrue(formTwoXml.contains("<submissionReference>12345-J53W9DA2</submissionReference>"));
     }
-
-    @Test
-    public void shouldAddSubmissionNumbersToForms() throws Exception {
-        JsonBuilder builder = getValidJsonBuilder();
-        String packageId = "12345";
-        String submissionNumber = builder.getSubmissionNumber(packageId);
-
-        DateFormat dateFormat = new SimpleDateFormat(FormServiceConstants.DATE_TIME_FORMAT_SUBMISSION, Locale.ENGLISH);
-        String format = dateFormat.format(new Date());
-
-        Assert.assertTrue(submissionNumber.equals(packageId + "-" + format));
-    }
-
 
     private FormDataMultiPart getValidMultiPart() throws IOException {
         FormDataMultiPart multi = new FormDataMultiPart();

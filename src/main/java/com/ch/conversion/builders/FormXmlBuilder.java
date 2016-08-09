@@ -77,7 +77,7 @@ public class FormXmlBuilder {
   }
 
   private String addFilingDetails(String xml) {
-    FilingDetailsTransform transform = new FilingDetailsTransform(config, xml, pack, meta);
+    FilingDetailsTransform transform = new FilingDetailsTransform(config, xml, pack);
     return transform.getXml();
   }
 
