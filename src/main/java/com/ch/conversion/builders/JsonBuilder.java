@@ -65,9 +65,8 @@ public class JsonBuilder {
     // 1. create list of transformed forms
     List<JSONObject> forms = new ArrayList<>();
 
-    // 2. Get the submission number for addition to all parts of the entity
-    String submissionNumber = getSubmissionNumber((String) formsPackage.getPackageMetaDataJson()
-      .get(config.getPackageIdentifierElementNameOut()));
+    // 2. Get the submission reference for addition to all parts of the entity
+    String packageIdentifier = formsPackage.getPackageMetaDataJson().getString(config.getPackageIdentifierElementNameOut());
 
     // 3. transform package meta data
     JSONObject packageMetaData = getTransformedPackageMetaData();
@@ -75,46 +74,36 @@ public class JsonBuilder {
     // 4. check the package meta data for auth credentials
     PresenterAuthRequest presenterAuthRequest = getAuthRequest(packageMetaData);
 
+    String presenterAccountNumber = null;    
     // 5. if there are credentials make call to presenter auth api
-    if (presenterAuthRequest == null) {
+    if (presenterAuthRequest != null) {
 
-      // 6. if there are no presenter credentials loop and transform without the account number
-      for (String formJson : formsPackage.getForms()) {
-        forms.add(getBuilderJson(formJson, null));
-      }
-    } else {
-
-      //7. Get the presenters account number
+      //a. Get the presenters account number
       PresenterAuthResponse presenterAuthResponse = presenterHelper.getPresenterResponse(
         presenterAuthRequest.getPresenterId(),
         presenterAuthRequest.getPresenterAuth());
 
-      //8. If no account number is returned from api, end submission with exception
-      if (presenterAuthResponse.getPresenterAccountNumber() == null) {
+      //b. If no account number is returned from api, end submission with exception
+      presenterAccountNumber = presenterAuthResponse.getPresenterAccountNumber();
+      if (presenterAccountNumber == null) {
         throw new PresenterAuthenticationException(presenterAuthRequest.getPresenterId(), presenterAuthRequest.getPresenterAuth());
       }
-
-      // 9. loop forms and transform
-      for (String formJson : formsPackage.getForms()) {
-        forms.add(getBuilderJson(formJson, presenterAuthResponse.getPresenterAccountNumber()));
-      }
+    }
+    
+    // 6. loop forms and transform
+    for (String formJson : formsPackage.getForms()) {
+      forms.add(getBuilderJson(formJson, presenterAccountNumber, packageIdentifier));
     }
 
-    //10. check the number of forms matches those prescribed in the package, if not throw an exception
+    // 7. check the number of forms matches those prescribed in the package, if not throw an exception
     int packageFormCount = (Integer) formsPackage.getPackageMetaDataJson().get(config.getPackageCountPropertyNameIn());
 
     if (forms.size() != packageFormCount) {
       throw new PackageContentsException(config.getPackageCountPropertyNameIn());
     }
 
-    //11. add submission number to package
-    JSONObject transformedPackageMetaData = addSubmissionNumberToPackage(packageMetaData, submissionNumber);
-
-    //12. add submission number to forms
-    List<JSONObject> transformedForms = addSubmissionNumberToForms(forms, submissionNumber);
-
-    // 13. return transformed package
-    return new FormsPackage(transformedPackageMetaData.toString(), getFormsAsString(transformedForms));
+    // 8. return transformed package
+    return new FormsPackage(packageMetaData.toString(), getFormsAsString(forms));
   }
 
   private JSONObject getTransformedPackageMetaData() {
@@ -130,12 +119,6 @@ public class JsonBuilder {
     return packageMetaData;
   }
 
-  protected String getSubmissionNumber(String packageId) {
-    DateFormat dateFormat = new SimpleDateFormat(FormServiceConstants.DATE_TIME_FORMAT_SUBMISSION, Locale.ENGLISH);
-    String format = dateFormat.format(new Date());
-    return packageId + "-" + format;
-  }
-
   protected PresenterAuthRequest getAuthRequest(JSONObject packageMetaData) {
     String presenterId, presenterAuth;
 
@@ -148,23 +131,10 @@ public class JsonBuilder {
     return new PresenterAuthRequest(presenterId, presenterAuth);
   }
 
-  protected JSONObject getBuilderJson(String json, String presenterAccountNumber) {
-    FormJsonBuilder builder = new FormJsonBuilder(config, formsPackage.getPackageMetaData(), json, presenterAccountNumber);
+  protected JSONObject getBuilderJson(String json, String presenterAccountNumber, String packageIdentifier) {
+    FormJsonBuilder builder = new FormJsonBuilder(config, formsPackage.getPackageMetaData(), json, 
+      presenterAccountNumber, packageIdentifier);
     return builder.getJson();
-  }
-
-  private JSONObject addSubmissionNumberToPackage(JSONObject object, String submissionNumber) {
-    object.put(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY, submissionNumber);
-    return object;
-  }
-
-  private List<JSONObject> addSubmissionNumberToForms(List<JSONObject> forms, String submissionNumber) {
-    List<JSONObject> formList = new ArrayList<>();
-    for (JSONObject form : forms) {
-      form.put(FormServiceConstants.PACKAGE_SUBMISSION_NUMBER_KEY, submissionNumber);
-      formList.add(form);
-    }
-    return formList;
   }
 
   private List<String> getFormsAsString(List<JSONObject> forms) {
