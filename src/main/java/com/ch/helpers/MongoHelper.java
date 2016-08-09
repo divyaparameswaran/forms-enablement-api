@@ -5,6 +5,7 @@ import com.ch.configuration.FormsServiceConfiguration;
 import com.ch.conversion.config.ITransformConfig;
 import com.ch.conversion.config.TransformConfig;
 import com.ch.exception.DatabaseException;
+import com.ch.exception.DuplicatePackageException;
 import com.ch.model.FormStatus;
 import com.ch.model.FormsPackage;
 import com.mongodb.MongoClient;
@@ -307,11 +308,18 @@ public final class MongoHelper {
 
     List<String> forms = transformedPackage.getForms();
 
-    // add package to db
+    // Get package metadata
     Document packageMetaDataDocument = Document.parse(transformedPackage.getPackageMetaData());
-    getPackagesCollection().insertOne(packageMetaDataDocument);
     String packageId = packageMetaDataDocument.getString(config.getPackageIdentifierElementNameOut());
-
+    
+    //Is there already a package with this identifier?
+    if (getPackageByPackageId(packageId) != null) {
+      throw new DuplicatePackageException(packageId);
+    }
+    
+    //Insert
+    getPackagesCollection().insertOne(packageMetaDataDocument);
+    
     if (getPackageByPackageId(packageId) != null) {
       // add each form to db
       for (String form : forms) {
