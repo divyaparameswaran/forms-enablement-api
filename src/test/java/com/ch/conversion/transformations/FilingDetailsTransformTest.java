@@ -30,15 +30,10 @@ public class FilingDetailsTransformTest extends TestHelper {
         String package_string = getStringFromFile(PACKAGE_JSON_PATH);
         JSONObject package_json = new JSONObject(package_string);
 
-        // meta json
-        String meta_string = getStringFromFile(META_PATH);
-        JSONObject meta_json = new JSONObject(meta_string);
-
-        FilingDetailsTransform transform = new FilingDetailsTransform(config, xml, package_json, meta_json);
+        FilingDetailsTransform transform = new FilingDetailsTransform(config, xml, package_json);
         String output = transform.getXml();
 
-        Assert.assertThat(output, CoreMatchers.containsString("<submissionReference>038-496949</submissionReference>"));
-        Assert.assertThat(output, CoreMatchers.containsString("<packageIdentifier>some identifier</packageIdentifier>"));
-        Assert.assertThat(output, CoreMatchers.containsString("<packageCount>3</packageCount>"));
+        Assert.assertThat(output, CoreMatchers.containsString("<packageIdentifier>12345</packageIdentifier>"));
+        Assert.assertThat(output, CoreMatchers.containsString("<packageCount>2</packageCount>"));
     }
 }

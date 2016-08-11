@@ -44,6 +44,14 @@ public class TransformConfig implements ITransformConfig {
     return "forms";
   }
 
+  public String getFormStatusPropertyNameOut() {
+    return "status";
+  }
+
+  public String getPackageDatePropertyNameOut() {
+    return "date";
+  }
+
   public String getFilingDetailsPropertyNameIn() {
     return "filingDetails";
   }
@@ -65,7 +73,7 @@ public class TransformConfig implements ITransformConfig {
   }
 
   public String getPackageIdentifierPropertyNameIn() {
-    return "id";
+    return "packageIdentifier";
   }
 
   public String getPackageIdentifierElementNameOut() {
@@ -117,7 +125,6 @@ public class TransformConfig implements ITransformConfig {
     return "version";
   }
 
-
   public String getSchemasLocation() {
     return "schemas";
   }
@@ -132,6 +139,7 @@ public class TransformConfig implements ITransformConfig {
 
     exceptions.add("/filingDetails/payment/paymentMethod");
     exceptions.add("/filingDetails/presenterDocumentReference");
+    exceptions.add("/filingDetails/submissionReference");
     exceptions.add("/filingDetails/presenterDetails/presenterEmailIn");
     exceptions.add("/filingDetails/presenterDetails/presenterEmailOut");
 

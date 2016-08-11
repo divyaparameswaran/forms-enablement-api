@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by Aaron.Witter on 09/03/2016.
  */
 public class CompaniesHouseConfiguration {
+
   @JsonProperty
   @NotEmpty
   private String apiKey;
@@ -14,7 +15,6 @@ public class CompaniesHouseConfiguration {
   @JsonProperty
   @NotEmpty
   private String chipsApiUrl;
-
 
   @JsonProperty
   @NotEmpty

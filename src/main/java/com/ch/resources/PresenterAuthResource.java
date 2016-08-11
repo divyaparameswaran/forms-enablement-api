@@ -4,9 +4,7 @@ import static com.ch.service.LoggingService.LoggingLevel.INFO;
 import static com.ch.service.LoggingService.tag;
 
 import com.ch.application.FormsServiceApplication;
-import com.ch.client.ClientHelper;
 import com.ch.client.PresenterHelper;
-import com.ch.configuration.CompaniesHouseConfiguration;
 import com.ch.model.PresenterAuthResponse;
 import com.ch.service.LoggingService;
 import com.codahale.metrics.Timer;
@@ -17,8 +15,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
