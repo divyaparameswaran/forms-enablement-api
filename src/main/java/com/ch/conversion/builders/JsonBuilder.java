@@ -88,6 +88,9 @@ public class JsonBuilder {
       if (presenterAccountNumber == null) {
         throw new PresenterAuthenticationException(presenterAuthRequest.getPresenterId(), presenterAuthRequest.getPresenterAuth());
       }
+      
+      //c. Remove the presenterAuth from the package meta data
+      packageMetaData.remove(config.getPresenterAuthPropertyNameIn());
     }
     
     // 6. loop forms and transform
@@ -123,11 +126,12 @@ public class JsonBuilder {
     String presenterId, presenterAuth;
 
     try {
-      presenterId = packageMetaData.getString("presenterId");
-      presenterAuth = packageMetaData.getString("presenterAuth");
+      presenterId = packageMetaData.getString(config.getPresenterIdPropertyNameIn());
+      presenterAuth = packageMetaData.getString(config.getPresenterAuthPropertyNameIn());
     } catch (JSONException e) {
       return null;
     }
+    
     return new PresenterAuthRequest(presenterId, presenterAuth);
   }
 

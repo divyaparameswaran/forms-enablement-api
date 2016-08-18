@@ -125,6 +125,14 @@ public class TransformConfig implements ITransformConfig {
     return "version";
   }
 
+  public String getPresenterIdPropertyNameIn() {
+    return "presenterId";
+  }
+  
+  public String getPresenterAuthPropertyNameIn() {
+    return "presenterAuth";
+  }
+
   public String getSchemasLocation() {
     return "schemas";
   }

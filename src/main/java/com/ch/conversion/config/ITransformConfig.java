@@ -68,6 +68,10 @@ public interface ITransformConfig {
   String getFormVersionPropertyNameIn();
 
   String getFormVersionAttributeNameOut();
+  
+  String getPresenterIdPropertyNameIn();
+  
+  String getPresenterAuthPropertyNameIn();
 
   String getSchemasLocation();
   

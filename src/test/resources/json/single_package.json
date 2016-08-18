@@ -1,4 +1,6 @@
 {
   "packageIdentifier": "54321",
-  "count": 1
+  "count": 1,
+  "presenterId" : "12345",
+  "presenterAuth" : "ssdfsdf"
 }

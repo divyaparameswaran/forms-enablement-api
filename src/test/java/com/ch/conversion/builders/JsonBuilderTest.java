@@ -112,7 +112,14 @@ public class JsonBuilderTest extends TestHelper {
         Assert.assertTrue(builder.getAuthRequest(object) instanceof PresenterAuthRequest);
     }
 
-
+    @Test(expected = JSONException.class)
+    public void shouldRemovePresenterAuth() throws IOException {
+        FormDataMultiPart multi = getValidMultiPart();
+        JsonBuilder builder = new JsonBuilder(config, multi, helper);
+        FormsPackage transformedPackage = builder.getTransformedPackage();
+        JSONObject packageMetadata = transformedPackage.getPackageMetaDataJson();
+        packageMetadata.getString(config.getPresenterAuthPropertyNameIn());
+    }
 
     private JsonBuilder getValidJsonBuilder() throws Exception {
         // valid package data
