@@ -13,7 +13,13 @@
                         <xs:element name="incorporationNumber" type="xs:string"/>
                         <xs:element name="corporateBodyName" type="xs:string"/>
                         <xs:element name="proposedCorporateBodyName" type="xs:string"/>
-                        <xs:element name="proposedNameEnding" type="xs:long"/>
+                        <xs:element name="proposedNameEnding">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:integer">
+                                    <xs:minInclusive value="1"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
                     </xs:choice>
                 </xs:extension>
             </xs:complexContent>
