@@ -15,7 +15,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dropwizard.version>0.9.1</dropwizard.version>
         <metrics.version>3.1.0</metrics.version>
-        <jersey.version>2.22.2</jersey.version>
+        <jersey.version>2.39.1</jersey.version>
         <junit.version>4.12</junit.version>
         <mainClass>com.ch.application.FormsServiceApplication</mainClass>
     </properties>
@@ -180,10 +180,8 @@
                 <configuration>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
                     <transformers>
-                        <transformer
-                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                        <transformer
-                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                             <mainClass>${mainClass}</mainClass>
                         </transformer>
                     </transformers>
